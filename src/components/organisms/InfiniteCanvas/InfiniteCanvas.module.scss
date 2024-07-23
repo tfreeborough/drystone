@@ -1,0 +1,6 @@
+.infiniteCanvas{
+	cursor: grab;
+	&.dragging{
+		cursor: grabbing;
+	}
+}

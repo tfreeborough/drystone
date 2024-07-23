@@ -1,146 +1,103 @@
 import React, {useRef, useEffect, useState, useCallback} from 'react';
-import useMount from "../../../hooks/useMount.ts";
+import { Stage, Layer, Rect } from 'react-konva';
+import {Application} from "../../../types/application.types.ts";
+import ApplicationEditorMenu from "./ApplicationEditorMenu/ApplicationEditorMenu.tsx";
+import css from './InfiniteCanvas.module.scss';
 
-const InfiniteCanvas = () => {
-  const canvasRef = useRef(null);
-  const [context, setContext] = useState(null);
-  const [isPanning, setIsPanning] = useState(false);
-  const [startPanPosition, setStartPanPosition] = useState({ x: 0, y: 0 });
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [targetZoom, setTargetZoom] = useState(1);
-  const animationRef = useRef(null);
+interface InfiniteCanvasProps {
+  application: Application
+}
 
-  const animate = useCallback(() => {
-    if (Math.abs(zoom - targetZoom) > 0.00001) {
-      setZoom(prevZoom => prevZoom + (targetZoom - prevZoom) * 0.4);
-      drawCanvas();
-      animationRef.current = requestAnimationFrame(animate);
-    } else {
-      setZoom(targetZoom);
-      drawCanvas();
-    }
-  }, [zoom, targetZoom]);
+const InfiniteCanvas = ({ application }: InfiniteCanvasProps) => {
+  const [menuPosition, setMenuPosition] = useState(null);
+  const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
+  const [scale, setScale] = useState(1);
+  const [dragging, setDragging] = useState(false);
+  const [stageSize, setStageSize] = useState({ width: 1, height: 1 });
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    animationRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationRef.current);
-  }, [animate]);
-
-  const drawCanvas = () => {
-    if (!context) return;
-
-    context.save();
-    context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-
-    // Apply transformations
-    context.translate(offset.x, offset.y);
-    context.scale(zoom, zoom);
-
-    // Draw grid
-    drawGrid();
-
-    // Your drawing logic here
-    // For example:
-    context.fillStyle = 'red';
-    context.fillRect(0, 0, 100, 100);
-
-    context.restore();
-  };
-
-  const drawGrid = () => {
-    if (!context) return;
-
-    const gridSize = 50; // Size of grid squares
-    const canvasWidth = canvasRef.current.width;
-    const canvasHeight = canvasRef.current.height;
-
-    // Calculate grid boundaries
-    const startX = Math.floor(-offset.x / zoom / gridSize) * gridSize;
-    const startY = Math.floor(-offset.y / zoom / gridSize) * gridSize;
-    const endX = Math.ceil((canvasWidth - offset.x) / zoom / gridSize) * gridSize;
-    const endY = Math.ceil((canvasHeight - offset.y) / zoom / gridSize) * gridSize;
-
-    context.beginPath();
-    context.strokeStyle = 'rgba(100, 100, 100, 0.3)'; // Light grey color
-    context.lineWidth = 0.5 / zoom; // Adjust line width based on zoom
-
-    // Draw vertical lines
-    for (let x = startX; x <= endX; x += gridSize) {
-      context.moveTo(x, startY);
-      context.lineTo(x, endY);
-    }
-
-    // Draw horizontal lines
-    for (let y = startY; y <= endY; y += gridSize) {
-      context.moveTo(startX, y);
-      context.lineTo(endX, y);
-    }
-
-    context.stroke();
-  };
-
-  const handleMouseDown = (e) => {
-    setIsPanning(true);
-    setStartPanPosition({ x: e.clientX - offset.x, y: e.clientY - offset.y });
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isPanning) return;
-
-    const newOffset = {
-      x: e.clientX - startPanPosition.x,
-      y: e.clientY - startPanPosition.y
+    const checkSize = () => {
+      if (containerRef.current) {
+        setStageSize({
+          width: containerRef.current.offsetWidth,
+          height: containerRef.current.offsetHeight,
+        });
+      }
     };
 
-    setOffset(newOffset);
-    drawCanvas();
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
+
+  const handleDragEnd = (e) => {
+    console.log(e.target.position());
+    setStagePos(e.target.position());
+    setDragging(false);
   };
 
-  const handleMouseUp = () => {
-    setIsPanning(false);
+  const handleDragStart = (e) => {
+    setDragging(true);
+  }
+
+  const handleMouseDown = (e) => {
+    setDragging(true);
+  }
+
+  const handleMouseUp = (e) => {
+    setDragging(false);
+  }
+
+  const handleWheel = (e) => {
+    e.evt.preventDefault();
+
+    const scaleBy = 1.1;
+    const stage = e.target.getStage();
+    const oldScale = stage.scaleX();
+    const mousePointTo = {
+      x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
+      y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale,
+    };
+
+    const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+    setScale(newScale);
+    setStagePos({
+      x: -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
+      y: -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale,
+    });
   };
 
-  const handleWheel = useCallback((e) => {
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  const handleContextMenu = (e) => {
+    e.evt.preventDefault();
+    setMenuPosition({ x: e.evt.clientX, y: e.evt.clientY });
+  };
 
-    const scale = 1 - e.deltaY * 0.001;
-    const newTargetZoom = Math.min(Math.max(0.1, targetZoom * scale), 10);
-
-    setOffset(prevOffset => ({
-      x: x - (x - prevOffset.x) * (newTargetZoom / zoom),
-      y: y - (y - prevOffset.y) * (newTargetZoom / zoom)
-    }));
-
-    setTargetZoom(newTargetZoom);
-  }, [targetZoom, zoom]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    setContext(ctx);
-
-    // Make it visually fill the positioned parent
-    canvas.style.width ='100%';
-    canvas.style.height='100%';
-    // ...then set the internal size to match
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-
-    // Initial drawing
-    drawCanvas();
-  }, [drawCanvas]);
+  const closeMenu = () => setMenuPosition(null);
 
   return (
-    <canvas
-      ref={canvasRef}
+    <div ref={containerRef} style={{ width: '100%', height: '100%' }} className={`${css.infiniteCanvas} ${dragging ? css.dragging : ''}`}>
+    <Stage
+      width={stageSize.width}
+      height={stageSize.height}
+      draggable
       onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
       onWheel={handleWheel}
-    />
+      scale={{ x: scale, y: scale }}
+      x={stagePos.x}
+      y={stagePos.y}
+      onContextMenu={handleContextMenu}
+    >
+      <Layer>
+        <Rect x={40} y={40} width={200} height={200} fill="red" />
+      </Layer>
+    </Stage>
+      {menuPosition && <ApplicationEditorMenu {...menuPosition} onClose={closeMenu} application={application} />}
+    </div>
   );
 };
 
