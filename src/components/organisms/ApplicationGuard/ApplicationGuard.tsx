@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import {useParams} from "wouter";
 import {AppContext} from "../../../stores/AppContext.ts";
 import NotFound from "../../pages/NotFound/NotFound.tsx";
+import {Application} from "../../../types/application.types.ts";
 
 
 function ApplicationGuard({ children }: PropsWithChildren): ReactElement {
@@ -13,10 +14,18 @@ function ApplicationGuard({ children }: PropsWithChildren): ReactElement {
     ApplicationStore
   } = useContext(AppContext);
 
+  function populateIfMissing(application: Application){
+    if(!application.scenes){
+      application.scenes = [];
+    }
+    return application;
+  }
+
   useEffect(() => {
     if(params.id){
-      const application = ApplicationStore.applications.find((a) => a.id === params.id);
+      let application = ApplicationStore.applications.find((a) => a.id === params.id);
       if(application){
+        application = populateIfMissing(application);
         ApplicationStore.setCurrentApplication(application);
       } else {
         setNotFound(true);

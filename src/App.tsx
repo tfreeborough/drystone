@@ -15,7 +15,7 @@ function App() {
         <Route path="/new-application" component={CreateApplication} />
         <Route path="/a/:id" nest>
           <ApplicationGuard>
-            <Route path="/" component={ApplicationEditor} />
+            <Route path="/" component={ApplicationEditor} nest/>
           </ApplicationGuard>
         </Route>
       </Switch>

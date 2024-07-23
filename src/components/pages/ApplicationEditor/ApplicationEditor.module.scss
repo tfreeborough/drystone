@@ -25,7 +25,7 @@
 		border-bottom: var(--border);
 
 		.block{
-			padding: var(--gap-sm);
+			padding: var(--gap-md);
 			font-size: var(--font-size-sm);
 
 			a{
@@ -35,6 +35,7 @@
 
 			.active{
 				color: var(--anchor-colour);
+				font-weight: bold;
 			}
 		}
 
@@ -52,7 +53,6 @@
 
 	.editor{
 		grid-area: editor;
-		padding: var(--gap-md);
 		background-color: var(--colour-charcoal-10);
 	}
 }

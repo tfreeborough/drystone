@@ -1,0 +1,15 @@
+.topper{
+	width: 100%;
+	background-color: var(--colour-charcoal-20);
+	margin: calc(-1 * #{var(--gap-md)});
+	margin-bottom: 0;
+	padding: 0.3rem var(--gap-md);
+	font-size: var(--font-size-xs);
+	text-transform: uppercase;
+	font-weight: bold;
+	box-sizing: border-box;
+
+	&.noNegativeMargin{
+		margin: 0;
+	}
+}

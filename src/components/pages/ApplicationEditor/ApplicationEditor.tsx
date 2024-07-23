@@ -5,7 +5,11 @@ import css from './ApplicationEditor.module.scss';
 import Card from "../../atoms/Card/Card.tsx";
 import Flex from "../../atoms/Flex/Flex.tsx";
 import {FlexAlign, FlexDirection, FlexGap, FlexJustify} from "../../atoms/Flex/Flex.types.ts";
-import {Link} from "wouter";
+import {Link, Route} from "wouter";
+import HierarchyRenderer from "../../organisms/HierarchyRenderer/HierarchyRenderer.tsx";
+import Topper from "../../atoms/Topper/Topper.tsx";
+import CanvasEditor from "../../organisms/CanvasEditor/CanvasEditor.tsx";
+import MetadataEditor from "../../organisms/MetadataEditor/MetadataEditor.tsx";
 
 
 function ApplicationEditor(): ReactElement{
@@ -31,15 +35,17 @@ function ApplicationEditor(): ReactElement{
           <Link to="~/" className={(active) => (active ? css.active : "")}>My Apps</Link>
         </Flex>
         <Flex className={css.block} flexDirection={FlexDirection.COLUMN} gap={FlexGap.SM}>
-          <Link to="/" className={(active) => (active ? css.active : "")}>{ application.name }</Link>
-          <Link to="/metadata">Edit Metadat 2</Link>
+          <Topper>Navigator</Topper>
+          <Link to="/" className={(active) => (active ? css.active : "")}>Scene Editor</Link>
+          <Link to="/metadata" className={(active) => (active ? css.active : "")}>Metadata</Link>
         </Flex>
       </Flex>
       <div className={css.hierarchy}>
-        Hierarchy
+        <HierarchyRenderer application={application} />
       </div>
       <div className={css.editor}>
-        Editor
+        <Route path="/" component={CanvasEditor} />
+        <Route path="/metadata" component={MetadataEditor} />
       </div>
     </Card>
   )

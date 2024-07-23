@@ -1,5 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {makePersistable} from "mobx-persist-store";
+import {Application} from "../types/application.types.ts";
 
 class ApplicationStore {
   public current: Application | null = null;
