@@ -1,0 +1,23 @@
+.button{
+	background-color: var(--colour-raspberry);
+	color: var(--colour-white);
+	outline: none;
+	border: none;
+	border-radius: var(--border-radius-sm);
+	padding: var(--gap-xs) var(--gap-sm);
+
+	&:hover{
+		cursor: pointer;
+		text-decoration: underline;
+		background-color: var(--colour-raspberry-80);
+	}
+
+	&:disabled{
+		background-color: var(--colour-raspberry-20);
+		cursor: no-drop;
+	}
+
+	&.fullWidth{
+		width: 100%;
+	}
+}

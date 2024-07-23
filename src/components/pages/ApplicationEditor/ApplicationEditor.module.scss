@@ -1,0 +1,58 @@
+.applicationEditor{
+	width: 98dvw;
+	height: 98dvh;
+	background-color: var(--colour-white);
+	box-sizing: border-box;
+	padding: 0;
+	display: grid;
+	grid-template-areas: "header header""menu editor""hierarchy editor";
+	grid-template-rows: auto auto 1fr;
+	grid-template-columns: auto 1fr;
+
+	.header{
+		grid-area: header;
+		padding: var(--gap-sm);
+		border-bottom: var(--border);
+
+		.metadata{
+
+		}
+	}
+
+	.menu{
+		grid-area: menu;
+		border-right: var(--border);
+		border-bottom: var(--border);
+
+		.block{
+			padding: var(--gap-sm);
+			font-size: var(--font-size-sm);
+
+			a{
+				text-decoration: none;
+				color: var(--text-colour);
+			}
+
+			.active{
+				color: var(--anchor-colour);
+			}
+		}
+
+		.block:not(:last-child){
+			border-bottom: var(--border);
+		}
+	}
+
+	.hierarchy{
+		grid-area: hierarchy;
+		padding: var(--gap-md);
+		border-right: var(--border);
+		width: 200px;
+	}
+
+	.editor{
+		grid-area: editor;
+		padding: var(--gap-md);
+		background-color: var(--colour-charcoal-10);
+	}
+}

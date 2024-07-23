@@ -1,0 +1,13 @@
+.textInput{
+	font-family: "EB Garamond", serif;
+
+	&.inline{
+		border: none;
+		font-weight: bold;
+		outline: none;
+		border-bottom: 1px solid var(--colour-charcoal-20);
+		display: inline-block;
+		min-width: 200px;
+		white-space: pre-wrap;
+	}
+}
