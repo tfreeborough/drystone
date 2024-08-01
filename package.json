@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tiptap/pm": "^2.5.8",
+    "@tiptap/react": "^2.5.8",
+    "@tiptap/starter-kit": "^2.5.8",
+    "framer-motion": "^11.3.21",
     "mobx": "^6.13.0",
     "mobx-persist-store": "^1.1.5",
     "mobx-react-lite": "^4.0.7",

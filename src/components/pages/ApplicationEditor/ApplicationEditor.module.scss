@@ -8,6 +8,7 @@
 	grid-template-areas: "header header""menu editor""hierarchy editor";
 	grid-template-rows: auto auto 1fr;
 	grid-template-columns: auto 1fr;
+	overflow: hidden;
 
 	.header{
 		grid-area: header;

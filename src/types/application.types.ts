@@ -1,3 +1,4 @@
+import {JSONContent} from "@tiptap/react";
 
 
 export interface Application {
@@ -10,11 +11,12 @@ export interface Application {
 export interface Scene {
   id: string,
   frames: Frame[]
+  position: { x: number, y: number }
 }
 
 export interface Frame {
   id: string,
-  nodes: Node[]
+  nodes: JSONContent,
 }
 
 export interface Node {

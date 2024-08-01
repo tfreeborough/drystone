@@ -1,0 +1,12 @@
+.contextEditor{
+	width: min(100%, 40dvw);
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: var(--colour-old-rose-10);
+	overflow: hidden;
+	box-shadow: var(--box-shadow);
+	padding: var(--gap-md);
+	box-sizing: border-box;
+}
