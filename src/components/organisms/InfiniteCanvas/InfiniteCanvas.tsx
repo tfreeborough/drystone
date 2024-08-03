@@ -11,15 +11,19 @@ interface InfiniteCanvasProps {
 }
 
 const InfiniteCanvas = ({ application }: InfiniteCanvasProps) => {
-  const [stagePos, setStagePos] = useState({ x: 0, y: 0 })
+  const [stagePos, setStagePos] = useState({ x: application.stagePosition?.x ?? 0, y: application.stagePosition?.y ?? 0 })
   const [menuPosition, setMenuPosition] = useState<Record<string, number>, null>(null);
   const [menuType, setMenuType] = useState("");
   const [menuContext, setMenuContext] = useState("");
 
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(application.stageScale ?? 1);
   const [dragging, setDragging] = useState(false);
   const [stageSize, setStageSize] = useState({ width: 1, height: 1 });
   const containerRef = useRef(null);
+
+  const {
+    ApplicationStore,
+  } = useContext(AppContext);
 
   useEffect(() => {
     const checkSize = () => {
@@ -38,7 +42,18 @@ const InfiniteCanvas = ({ application }: InfiniteCanvasProps) => {
 
   const handleDragEnd = (e) => {
     const newPos = e.target.position();
-    console.log(newPos)
+    if(e.target.attrs.id === "stage"){
+      const current = ApplicationStore.current;
+      if(current){
+        ApplicationStore.saveApplication({
+          ...current,
+          stagePosition: {
+            x: newPos.x,
+            y: newPos.y,
+          }
+        })
+      }
+    }
     setDragging(false);
   };
 
@@ -70,6 +85,14 @@ const InfiniteCanvas = ({ application }: InfiniteCanvasProps) => {
     };
 
     const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+    const current = ApplicationStore.current;
+    if(current){
+      ApplicationStore.saveApplication({
+        ...current,
+        stageScale: newScale
+      })
+    }
 
     setScale(newScale);
     setStagePos({
@@ -136,6 +159,7 @@ const InfiniteCanvas = ({ application }: InfiniteCanvasProps) => {
   return (
     <div ref={containerRef} style={{ width: '100%', height: '100%' }} className={`${css.infiniteCanvas} ${dragging ? css.dragging : ''}`}>
     <Stage
+      id="stage"
       width={stageSize.width}
       height={stageSize.height}
       draggable

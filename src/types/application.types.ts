@@ -5,7 +5,9 @@ export interface Application {
   id: string,
   name: string,
   description: string,
-  scenes: Scene[]
+  scenes: Scene[],
+  stagePosition?: { x: number, y: number },
+  stageScale?: number,
 }
 
 export interface Scene {
