@@ -25,6 +25,16 @@ const InfiniteCanvas = ({ application }: InfiniteCanvasProps) => {
     ApplicationStore,
   } = useContext(AppContext);
 
+  /**
+   * When we change apps, we need to make sure we reset the stage view to the current apps positions and scale
+   */
+  useEffect(() => {
+    if(ApplicationStore.current){
+      setStagePos({ x: application.stagePosition?.x ?? 0, y: application.stagePosition?.y ?? 0 });
+      setScale(application.stageScale ?? 1);
+    }
+  }, [ApplicationStore.current?.id]);
+
   useEffect(() => {
     const checkSize = () => {
       if (containerRef.current) {
