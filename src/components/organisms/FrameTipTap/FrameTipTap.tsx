@@ -23,6 +23,10 @@ function FrameTipTap({ frame, onUpdate }: FrameTipTapProps){
     onUpdate(editor?.getJSON() ?? [])
   }, [editor?.state.doc.content]);
 
+  useEffect(() => {
+    editor?.commands.setContent(frame.nodes);
+  }, [frame.id]);
+
   //console.log(editor?.getJSON());
 
   return (
