@@ -6,7 +6,7 @@ class ApplicationStore {
   public current: Application | null = null;
   public applications: Application[] = [];
 
-  public editorContext: Frame | null = null;
+  public editorContext: Frame | Scene | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -205,7 +205,7 @@ class ApplicationStore {
     return found;
   }
 
-  setEditorContext(context: Frame | null) {
+  setEditorContext(context: Frame | Scene | null) {
     this.editorContext = context;
   }
 

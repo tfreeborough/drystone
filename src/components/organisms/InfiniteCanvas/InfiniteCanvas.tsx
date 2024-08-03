@@ -1,5 +1,5 @@
-import React, {useRef, useEffect, useState, useCallback, useContext} from 'react';
-import {Stage, Layer, Rect, Text} from 'react-konva';
+import React, {useRef, useEffect, useState, useContext} from 'react';
+import {Stage, Layer, Rect} from 'react-konva';
 import {Application} from "../../../types/application.types.ts";
 import ApplicationEditorMenu from "./ApplicationEditorMenu/ApplicationEditorMenu.tsx";
 import css from './InfiniteCanvas.module.scss';
@@ -177,7 +177,7 @@ const InfiniteCanvas = ({ application }: InfiniteCanvasProps) => {
       scale={{ x: scale, y: scale }}
     >
       <Layer>
-        <Rect x={40} y={40} width={200} height={200} fill="red" />
+        <Rect x={40} y={40} width={20} height={20} fill="red" />
         {
           application.scenes.map((scene, i) => {
             return (

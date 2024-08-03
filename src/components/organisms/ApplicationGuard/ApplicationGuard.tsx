@@ -18,6 +18,21 @@ function ApplicationGuard({ children }: PropsWithChildren): ReactElement {
     if(!application.scenes){
       application.scenes = [];
     }
+    if(!application.type){
+      application.type = "application";
+    }
+    application.scenes.map((scene) => {
+      if(!scene.type){ scene.type = "scene"}
+      if(!scene.metadata){ scene.metadata = {}}
+
+      scene.frames.map((frame) => {
+        if(!frame.type){ frame.type = "frame"}
+
+        return frame;
+      })
+
+      return scene;
+    })
     return application;
   }
 

@@ -1,14 +1,18 @@
 import css from './TextInput.module.scss';
 import {ReactElement} from "react";
+import Muted from "../Muted/Muted.tsx";
+import Label from "../Label/Label.tsx";
 
 interface TextInputProps{
   className?: string,
   value: string,
   inline?: boolean,
   onChange: (value: string) => void,
+  label?: string,
+  fullWidth?: boolean,
 }
 
-function TextInput({ inline = false, value, onChange, className = '' }: TextInputProps): ReactElement{
+function TextInput({ inline = false, value, onChange, className = '', label, fullWidth = false }: TextInputProps): ReactElement{
 
   function handleChange(e){
     onChange(e.target.value);
@@ -35,8 +39,13 @@ function TextInput({ inline = false, value, onChange, className = '' }: TextInpu
     )
   }
   return (
-    <input className={`${css.textInput} ${className}`} type="text" value={value}
-           onChange={handleChange}/>
+    <>
+      { label && (
+        <Label>{ label }</Label>
+      )}
+      <input className={`${css.textInput} ${fullWidth ? css.fullWidth : ''} ${className}`} type="text" value={value}
+             onChange={handleChange}/>
+    </>
   )
 }
 

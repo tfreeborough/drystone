@@ -1,5 +1,5 @@
 import {ReactElement, useContext} from "react";
-import { observer } from "mobx-react-lite";
+import {observer} from "mobx-react-lite";
 import Flex from "../../atoms/Flex/Flex.tsx";
 import {FlexAlign, FlexDirection, FlexGap} from "../../atoms/Flex/Flex.types.ts";
 import Heading from "../../atoms/Heading/Heading.tsx";
@@ -21,13 +21,15 @@ function Landing(): ReactElement {
   return (
     <>
       { ApplicationStore.applications.length > 0 ? (
-        <>
+        <Flex flexDirection={FlexDirection.COLUMN} gap={FlexGap.MD} alignItems={FlexAlign.CENTER}>
           {ApplicationStore.applications.map((a) => {
             return (
               <Link key={a.id} to={`/a/${a.id}`}>{ a.name }</Link>
             )
           })}
-        </>
+          <hr />
+          <Button onClick={handleNavigateNewApplication}>Add another App</Button>
+        </Flex>
       ) : <Flex flexDirection={FlexDirection.COLUMN} alignItems={FlexAlign.CENTER} gap={FlexGap.MD}>
         <Heading>To get started, create a new application below.</Heading>
         <Button onClick={handleNavigateNewApplication}>Create Application</Button>

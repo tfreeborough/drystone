@@ -11,7 +11,6 @@ import Topper from "../../atoms/Topper/Topper.tsx";
 import CanvasEditor from "../../organisms/CanvasEditor/CanvasEditor.tsx";
 import MetadataEditor from "../../organisms/MetadataEditor/MetadataEditor.tsx";
 import ContextEditor from "../../organisms/ContextEditor/ContextEditor.tsx";
-import {AnimatePresence} from "framer-motion";
 
 
 function ApplicationEditor(): ReactElement{

@@ -9,6 +9,7 @@ import {FlexDirection, FlexGap} from "../../atoms/Flex/Flex.types.ts";
 import Button from "../../atoms/Button/Button.tsx";
 import {AppContext} from "../../../stores/AppContext.ts";
 import {useLocation} from "wouter";
+import {Application} from "../../../types/application.types.ts";
 
 function CreateApplication(): ReactElement {
   const [applicationName, setApplicationName] = useState("");
@@ -21,10 +22,12 @@ function CreateApplication(): ReactElement {
   } = useContext(AppContext);
 
   function handleCreateApplication(){
-    const application = {
+    const application: Application = {
+      type: "application",
       id: v4(),
       name: applicationName,
       description: applicationDescription,
+      scenes: []
     }
     ApplicationStore.setCurrentApplication(application);
     ApplicationStore.addApplication(application);

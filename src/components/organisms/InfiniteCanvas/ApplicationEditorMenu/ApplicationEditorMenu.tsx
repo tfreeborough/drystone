@@ -49,6 +49,12 @@ function ApplicationEditorMenu({ x, y, pointerX, pointerY, onClose, application,
     onClose();
   }
 
+  function handleEditScene() {
+    const scene = ApplicationStore.getScene(application.id, context);
+    ApplicationStore.setEditorContext(scene);
+    onClose();
+  }
+
   function handleRemoveFrame(){
     ApplicationStore.removeFrame(application.id, context);
     onClose();
@@ -57,6 +63,7 @@ function ApplicationEditorMenu({ x, y, pointerX, pointerY, onClose, application,
   function handleEditFrame(){
     const frame = ApplicationStore.getFrame(application.id, context);
     ApplicationStore.setEditorContext(frame);
+    onClose();
   }
 
   function renderMenu(){
@@ -70,6 +77,7 @@ function ApplicationEditorMenu({ x, y, pointerX, pointerY, onClose, application,
       case "scene":
         return (
           <>
+            <button onClick={handleEditScene}>Edit Scene Information</button>
             <button onClick={handleNewFrame}>New Frame</button>
             <button onClick={handleRemoveScene}>Remove scene</button>
           </>
