@@ -1,6 +1,6 @@
 .applicationEditor{
-	width: 98dvw;
-	height: 98dvh;
+	width: 100dvw;
+	height: 100dvh;
 	background-color: var(--colour-white);
 	box-sizing: border-box;
 	padding: 0;
@@ -12,7 +12,7 @@
 
 	.header{
 		grid-area: header;
-		padding: var(--gap-sm);
+		padding: var(--gap-xs) var(--gap-sm);
 		border-bottom: var(--border);
 
 		.metadata{

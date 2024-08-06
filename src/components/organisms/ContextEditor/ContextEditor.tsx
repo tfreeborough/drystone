@@ -25,6 +25,7 @@ function ContextEditor(){
 
 
   useClickOutsideRef(contextEditorRef, () => {
+    console.log('clicked outside');
     ApplicationStore.setEditorContext(null);
   })
 

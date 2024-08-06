@@ -1,8 +1,8 @@
 import {ReactElement, useContext} from "react";
-import Topper from "../../atoms/Topper/Topper.tsx";
 import css from './CanvasEditor.module.scss';
-import InfiniteCanvas from "../InfiniteCanvas/InfiniteCanvas.tsx";
 import {AppContext} from "../../../stores/AppContext.ts";
+import FlowCanvas from "../FlowCanvas/FlowCanvas.tsx";
+import {ReactFlowProvider} from "@xyflow/react";
 
 
 function CanvasEditor(): ReactElement{
@@ -16,7 +16,9 @@ function CanvasEditor(): ReactElement{
   }
   return (
     <div className={css.canvasEditor}>
-      <InfiniteCanvas application={application} />
+      <ReactFlowProvider>
+        <FlowCanvas />
+      </ReactFlowProvider>
     </div>
   )
 }

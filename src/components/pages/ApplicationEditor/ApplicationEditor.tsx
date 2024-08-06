@@ -53,7 +53,7 @@ function ApplicationEditor(): ReactElement{
         <Route path="/" component={CanvasEditor} />
         <Route path="/metadata" component={MetadataEditor} />
       </div>
-      <ContextEditor />
+
     </Card>
   )
 }
