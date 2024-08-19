@@ -2,12 +2,13 @@ import {PropsWithChildren, ReactElement} from "react";
 import css from './Button.module.scss';
 
 interface ButtonProps {
+  className?: string,
   onClick: () => void,
   disabled?: boolean,
   fullWidth?: boolean,
 }
 
-function Button({ children, onClick, disabled = false, fullWidth = false }: PropsWithChildren<ButtonProps>): ReactElement{
+function Button({ children, onClick, disabled = false, fullWidth = false, className = '' }: PropsWithChildren<ButtonProps>): ReactElement{
   function handleClick(){
     if(!disabled){
       onClick()
@@ -15,7 +16,7 @@ function Button({ children, onClick, disabled = false, fullWidth = false }: Prop
   }
 
   return (
-    <button onClick={handleClick} role="button" tabIndex={0} className={`${css.button} ${fullWidth ? css.fullWidth : ''}`} disabled={disabled}>
+    <button onClick={handleClick} role="button" tabIndex={0} className={`${css.button} ${fullWidth ? css.fullWidth : ''} ${className}`} disabled={disabled}>
       { children }
     </button>
   )

@@ -13,7 +13,6 @@ export interface Application {
 
 export interface SceneMetadata {
   note?: string,
-  canvasBackground?: string,
 }
 
 export interface Scene {
@@ -22,12 +21,20 @@ export interface Scene {
   metadata: SceneMetadata,
   frames: Frame[]
   position: { x: number, y: number }
+  choices: Choice[],
 }
 
 export interface Frame {
   id: string,
   type: "frame",
   nodes: JSONContent,
+}
+
+export interface Choice {
+  id: string,
+  type: "choice",
+  label: string,
+  target: string,
 }
 
 export interface Node {

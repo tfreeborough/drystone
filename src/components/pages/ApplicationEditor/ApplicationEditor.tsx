@@ -34,6 +34,7 @@ function ApplicationEditor(): ReactElement{
         <Flex class={css.metadata} gap={FlexGap.SM}>
           <span>{application.scenes.length} Scenes</span>
           <span>{frameCount} Frames</span>
+          <span>{ApplicationStore.totalChoicesForCurrent} Choices</span>
         </Flex>
       </Flex>
       <Flex className={css.menu} flexDirection={FlexDirection.COLUMN} alignItems={FlexAlign.STRETCH}>

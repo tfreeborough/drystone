@@ -1,9 +1,6 @@
 .contextEditor{
-	width: min(100%, 40dvw);
-	position: absolute;
-	right: 0;
-	top: 0;
-	bottom: 0;
+	width: 30dvw;
+	min-width: 800px;
 	background-color: var(--colour-old-rose-10);
 	overflow: hidden;
 	box-shadow: var(--box-shadow);

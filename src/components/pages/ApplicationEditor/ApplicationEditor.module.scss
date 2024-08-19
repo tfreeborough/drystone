@@ -50,6 +50,7 @@
 		padding: var(--gap-md);
 		border-right: var(--border);
 		width: 200px;
+		box-sizing: border-box;
 	}
 
 	.editor{

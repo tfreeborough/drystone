@@ -1,15 +1,18 @@
-import {makeAutoObservable} from "mobx";
+import {computed, makeAutoObservable} from "mobx";
 import {makePersistable} from "mobx-persist-store";
 import {Application, Frame, Scene} from "../types/application.types.ts";
+import {v4} from "uuid";
 
 class ApplicationStore {
   public current: Application | null = null;
   public applications: Application[] = [];
 
-  public editorContext: Frame | Scene | null = null;
+  public editorContext: Scene | null = null;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      totalChoiceForCurrent: computed,
+    });
 
     makePersistable(
       this,
@@ -84,6 +87,7 @@ class ApplicationStore {
           ...application.scenes.slice(0, sceneIndex),
           ...application.scenes.slice(sceneIndex+1)
         ]
+        this.cleanupDanglingChoices();
         this.saveApplication(application);
       }
     }
@@ -163,6 +167,42 @@ class ApplicationStore {
     }
   }
 
+  addChoice(id: string, source: string, destination: string, label: string){
+    const application = this.getApplication(id);
+    if(application){
+      const scene = application.scenes.find((s) => s.id === source);
+      if(scene){
+        const updatedScene: Scene = {
+          ...scene,
+          choices: [
+            ...scene.choices,
+            {
+              id: v4(),
+              type: "choice",
+              label,
+              target: destination,
+            }
+          ]
+        }
+        this.updateScene(application.id, updatedScene);
+      }
+    }
+  }
+
+  removeChoice(id: string, sceneId: string, choiceId: string){
+    const application = this.getApplication(id);
+    if(application){
+      const scene = application.scenes.find((s) => s.id === sceneId);
+      if(scene){
+        const updatedScene: Scene = {
+          ...scene,
+          choices: scene.choices.filter((c) => c.id !== choiceId),
+        };
+        this.updateScene(application.id, updatedScene);
+      }
+    }
+  }
+
 
   /**
    * Removes a frame and pushed it back into the application stack
@@ -205,8 +245,34 @@ class ApplicationStore {
     return found;
   }
 
-  setEditorContext(context: Frame | Scene | null) {
+  setEditorContext(context: Scene | null) {
     this.editorContext = context;
+  }
+
+  get totalChoicesForCurrent() {
+    const current = this.current;
+    if(current){
+      return current.scenes.reduce((total, scene) => total + scene.choices.length, 0);
+    }
+    return 0;
+  }
+
+  /**
+   * Loops over all scenes in the current application and finds all choices that no longer have a target and removes
+   * them.
+   */
+  cleanupDanglingChoices(){
+    const current = this.current;
+    if(current) {
+      current.scenes.forEach((scene) => {
+        scene.choices.forEach((choice) => {
+          const foundTarget = current.scenes.find((s) => s.id === choice.target);
+          if(!foundTarget){
+            this.removeChoice(current.id, scene.id, choice.id);
+          }
+        })
+      })
+    }
   }
 
 }

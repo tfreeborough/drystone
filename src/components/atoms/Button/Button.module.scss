@@ -1,4 +1,8 @@
 .button{
+	font-family: var(--font-family);
+	display: flex;
+	gap: var(--gap-xs);
+	align-items: center;
 	background-color: var(--colour-raspberry);
 	color: var(--colour-white);
 	outline: none;

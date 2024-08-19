@@ -5,6 +5,12 @@ import CreateApplication from "./components/pages/CreateApplication/CreateApplic
 import ApplicationEditor from './components/pages/ApplicationEditor/ApplicationEditor.tsx';
 import ApplicationGuard from "./components/organisms/ApplicationGuard/ApplicationGuard.tsx";
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+
+library.add(fas as any, fab as any);
+
 
 function App() {
   return (

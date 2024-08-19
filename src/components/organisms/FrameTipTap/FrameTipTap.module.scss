@@ -1,0 +1,22 @@
+.editor{
+	border: var(--border);
+	padding: var(--gap-sm);
+	background-color: var(--colour-white);
+	border-radius: var(--border-radius-md);
+
+	> div{
+		outline: none;
+
+		p:first-child{
+			margin-top: 0;
+		}
+
+		p:last-child{
+			margin-bottom: 0;
+		}
+	}
+
+	.floatingMenu{
+		border: var(--border);
+	}
+}

@@ -1,0 +1,10 @@
+.choice{
+	color: var(--colour-raspberry);
+	margin-bottom: var(--gap-xs);
+	font-weight: 500;
+
+	&:hover{
+		text-decoration: underline;
+		cursor: pointer;
+	}
+}

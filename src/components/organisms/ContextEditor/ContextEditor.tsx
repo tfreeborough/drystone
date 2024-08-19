@@ -1,14 +1,13 @@
 import { observer } from "mobx-react-lite";
-import {useContext, useRef} from "react";
+import {useContext, useRef, useState} from "react";
 
 import {AppContext} from "../../../stores/AppContext.ts";
 import {useClickOutsideRef} from "../../../hooks/useClickOutsideRef.ts";
 import {AnimatePresence, motion} from "framer-motion";
 import css from './ContextEditor.module.scss';
-import FrameTipTap from "../FrameTipTap/FrameTipTap.tsx";
 import {Frame, Scene} from "../../../types/application.types.ts";
-import {JSONContent} from "@tiptap/react";
 import SceneEditor from "../SceneEditor/SceneEditor.tsx";
+import FrameEditor from "../FrameEditor/FrameEditor.tsx";
 
 
 
@@ -16,6 +15,8 @@ function ContextEditor(){
   const {
     ApplicationStore
   } = useContext(AppContext);
+
+  const [selectedFrame, setSelectedFrame] = useState<Frame | null>(null);
 
   const contextEditorRef = useRef<HTMLDivElement | null>(null);
 
@@ -25,19 +26,10 @@ function ContextEditor(){
 
 
   useClickOutsideRef(contextEditorRef, () => {
-    console.log('clicked outside');
     ApplicationStore.setEditorContext(null);
   })
 
-  function handleUpdateFrame(content: JSONContent){
-    if(application && editorContext){
-      const updatedFrame: Frame = {
-        ...editorContext as Frame,
-        nodes: content,
-      }
-      ApplicationStore.updateFrame(application.id, updatedFrame);
-    }
-  }
+
 
   function handleUpdateScene(scene: Scene){
     if(application && editorContext){
@@ -46,16 +38,44 @@ function ContextEditor(){
     }
   }
 
+  function handleUpdateFrame(frame: Frame) {
+    if(application && editorContext){
+      const foundFrame = editorContext.frames.findIndex((f) => f.id === frame.id);
+      if(foundFrame > -1){
+        const newScene: Scene = {
+          ...editorContext,
+          frames: [
+            ...editorContext.frames.slice(0,foundFrame),
+            frame,
+            ...editorContext.frames.slice(foundFrame+1),
+          ]
+        }
+        handleUpdateScene(newScene);
+      }
+
+
+    }
+  }
+
+  function handleSelectFrame(frame: Frame | null){
+    setSelectedFrame(frame)
+  }
+
+  function handleClearFrame(){
+    setSelectedFrame(null);
+  }
+
   function renderContext(){
     if(ApplicationStore.editorContext){
-      switch (editorContext?.type) {
-        case "frame":
-          return <FrameTipTap frame={editorContext} onUpdate={handleUpdateFrame} />
-        case "scene":
-          return (
-            <SceneEditor scene={ApplicationStore.editorContext as Scene} onUpdate={handleUpdateScene} />
-          )
+      if(selectedFrame){
+        return <FrameEditor frame={selectedFrame} onUpdate={handleUpdateFrame} onBack={handleClearFrame} />
       }
+
+      return <SceneEditor
+        scene={ApplicationStore.editorContext as Scene}
+        onUpdate={handleUpdateScene}
+        onSelectFrame={handleSelectFrame}
+      />
     }
     return null;
   }

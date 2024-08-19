@@ -24,6 +24,7 @@ function ApplicationGuard({ children }: PropsWithChildren): ReactElement {
     application.scenes.map((scene) => {
       if(!scene.type){ scene.type = "scene"}
       if(!scene.metadata){ scene.metadata = {}}
+      if(!scene.choices){ scene.choices = []}
 
       scene.frames.map((frame) => {
         if(!frame.type){ frame.type = "frame"}

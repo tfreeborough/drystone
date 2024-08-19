@@ -1,3 +1,32 @@
 .sceneEditor{
+	.frames{
+		ul{
+			padding:0;
+		}
 
+		.frame{
+			border: var(--border);
+			padding: var(--gap-sm);
+			list-style-type: none;
+			background-color: var(--colour-white);
+		}
+
+		.addFrame{
+			padding: var(--gap-xs) var(--gap-sm);
+			list-style-type: none;
+			background-color: var(--colour-raspberry);
+			color: var(--colour-white);
+			cursor: pointer;
+			align-self: end;
+			border-radius: var(--border-radius-md);
+
+			&:hover{
+				background-color: var(--colour-raspberry-80);
+			}
+		}
+	}
+
+	.choices{
+		padding-top: var(--gap-md);
+	}
 }

@@ -1,8 +1,10 @@
-import {ReactElement, useContext} from "react";
+import React, {ReactElement, useContext} from "react";
 import css from './CanvasEditor.module.scss';
+import { observer } from "mobx-react-lite";
 import {AppContext} from "../../../stores/AppContext.ts";
 import FlowCanvas from "../FlowCanvas/FlowCanvas.tsx";
 import {ReactFlowProvider} from "@xyflow/react";
+import ContextEditor from "../ContextEditor/ContextEditor.tsx";
 
 
 function CanvasEditor(): ReactElement{
@@ -19,8 +21,13 @@ function CanvasEditor(): ReactElement{
       <ReactFlowProvider>
         <FlowCanvas />
       </ReactFlowProvider>
+      {
+        ApplicationStore.editorContext && (
+          <ContextEditor />
+        )
+      }
     </div>
   )
 }
 
-export default CanvasEditor;
+export default observer(CanvasEditor);

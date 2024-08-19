@@ -2,11 +2,10 @@ import {BubbleMenu, EditorContent, EditorProvider, FloatingMenu, JSONContent, us
 import StarterKit from '@tiptap/starter-kit'
 import {Frame} from "../../../types/application.types.ts";
 import {useEffect} from "react";
+import css from './FrameTipTap.module.scss';
 
 // define your extension array
 const extensions = [StarterKit]
-
-const content = '<p>Foo</p>'
 
 interface FrameTipTapProps {
   frame: Frame,
@@ -29,11 +28,38 @@ function FrameTipTap({ frame, onUpdate }: FrameTipTapProps){
 
   //console.log(editor?.getJSON());
 
+  if(!editor){
+    return <></>
+  }
+
   return (
     <>
-      <EditorContent editor={editor} />
-      <FloatingMenu editor={editor}>This is the floating menu</FloatingMenu>
-      <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu>
+      <EditorContent editor={editor} className={css.editor} />
+      <FloatingMenu editor={editor}>
+        <div className={css.floatingMenu}>
+          <button
+            onClick={() => editor?.chain().focus().toggleHeading({level: 1}).run()}
+            className={editor.isActive('heading', {level: 1}) ? 'is-active' : ''}
+          >
+            H1
+          </button>
+          <button
+            onClick={() => editor?.chain().focus().toggleHeading({level: 2}).run()}
+            className={editor.isActive('heading', {level: 2}) ? 'is-active' : ''}
+          >
+            H2
+          </button>
+          <button
+            onClick={() => editor?.chain().focus().toggleBulletList().run()}
+            className={editor.isActive('bulletList') ? 'is-active' : ''}
+          >
+            Bullet list
+          </button>
+        </div>
+      </FloatingMenu>
+      <BubbleMenu editor={editor}>
+
+      </BubbleMenu>
     </>
   )
 }
