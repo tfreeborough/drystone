@@ -10,7 +10,8 @@ import HierarchyRenderer from "../../organisms/HierarchyRenderer/HierarchyRender
 import Topper from "../../atoms/Topper/Topper.tsx";
 import CanvasEditor from "../../organisms/CanvasEditor/CanvasEditor.tsx";
 import MetadataEditor from "../../organisms/MetadataEditor/MetadataEditor.tsx";
-import ContextEditor from "../../organisms/ContextEditor/ContextEditor.tsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Muted from "../../atoms/Muted/Muted.tsx";
 
 
 function ApplicationEditor(): ReactElement{
@@ -48,8 +49,18 @@ function ApplicationEditor(): ReactElement{
         </Flex>
       </Flex>
       <div className={css.hierarchy}>
-        <HierarchyRenderer application={application} />
+        <Muted>Dev Note: Currently applications are stored locally, don't clear your browser cache as all data will get lost.</Muted>
+        {
+          /*
+          <HierarchyRenderer application={application} />
+           */
+        }
+
       </div>
+      <Flex className={css.links} flexDirection={FlexDirection.COLUMN} alignItems={FlexAlign.STRETCH} gap={FlexGap.SM}>
+        <Topper>Links</Topper>
+        <a className={css.link} href="https://github.com/tfreeborough/drystone" target="_blank"><FontAwesomeIcon icon={["fab","github"]} /> Drystone</a>
+      </Flex>
       <div className={css.editor}>
         <Route path="/" component={CanvasEditor} />
         <Route path="/metadata" component={MetadataEditor} />

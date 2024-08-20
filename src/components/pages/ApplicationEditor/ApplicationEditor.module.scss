@@ -5,9 +5,9 @@
 	box-sizing: border-box;
 	padding: 0;
 	display: grid;
-	grid-template-areas: "header header""menu editor""hierarchy editor";
-	grid-template-rows: auto auto 1fr;
-	grid-template-columns: auto 1fr;
+	grid-template-areas: "header header""menu editor""hierarchy editor""links editor";
+	grid-template-rows: auto auto 1fr auto;
+	grid-template-columns: 200px 1fr;
 	overflow: hidden;
 
 	.header{
@@ -51,6 +51,28 @@
 		border-right: var(--border);
 		width: 200px;
 		box-sizing: border-box;
+	}
+
+	.links{
+		grid-area:links;
+		font-size: var(--font-size-sm);
+		padding: var(--gap-sm);
+		box-sizing: border-box;
+
+		a{
+			color: var(--text-colour);
+			text-decoration: none;
+
+			&:hover{
+				opacity: 0.7;
+			}
+		}
+
+		.link{
+			display: flex;
+			gap: var(--gap-xs);
+			align-items: center;
+		}
 	}
 
 	.editor{
