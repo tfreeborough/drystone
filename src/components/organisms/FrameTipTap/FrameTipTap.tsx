@@ -1,4 +1,4 @@
-import {BubbleMenu, EditorContent, EditorProvider, FloatingMenu, JSONContent, useEditor} from "@tiptap/react";
+import {BubbleMenu, EditorContent, FloatingMenu, JSONContent, useEditor} from "@tiptap/react";
 import StarterKit from '@tiptap/starter-kit'
 import {Frame} from "../../../types/application.types.ts";
 import {useEffect} from "react";
@@ -58,7 +58,7 @@ function FrameTipTap({ frame, onUpdate }: FrameTipTapProps){
         </div>
       </FloatingMenu>
       <BubbleMenu editor={editor}>
-
+        <></>
       </BubbleMenu>
     </>
   )

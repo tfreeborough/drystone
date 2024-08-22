@@ -1,10 +1,16 @@
-import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
-import { observer } from "mobx-react-lite";
+import {useCallback, useContext, useEffect, useRef, useState} from 'react';
+import {observer} from "mobx-react-lite";
 import {
-  ReactFlow,
-  Controls,
+  applyEdgeChanges,
+  applyNodeChanges,
   Background,
-  applyNodeChanges, applyEdgeChanges, useReactFlow, Viewport, Node, Edge,
+  BackgroundVariant, Connection,
+  Controls,
+  Edge,
+  Node,
+  ReactFlow,
+  useReactFlow,
+  Viewport,
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
@@ -14,22 +20,21 @@ import SceneNode from "./Custom Nodes/SceneNode/SceneNode.tsx";
 import PanelContextMenu from "../PanelContextMenu/PanelContextMenu.tsx";
 import SceneContextMenu from "../SceneContextMenu/SceneContextMenu.tsx";
 import NewChoiceModal from "../NewChoiceModal/NewChoiceModal.tsx";
-import ApplicationStore from "../../../stores/ApplicationStore.ts";
 
 const nodeTypes: any = { scene: SceneNode }
 
-const isValidNumber = (num) => typeof num === 'number' && isFinite(num);
+const isValidNumber = (num: any) => typeof num === 'number' && isFinite(num);
 
 function FlowCanvas(){
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [menu, setMenu] = useState<null | any>(null);
   const [sceneMenu, setSceneMenu] = useState<null | any>(null);
-  const [choiceMenu, setChoiceMenu] = useState<null | any>(null);
+  const [, setChoiceMenu] = useState<null | any>(null);
   const [newChoiceModalOpen, setNewChoiceModalOpen] = useState(false);
-  const [pendingEdge, setPendingEdge] = useState(null);
+  const [pendingEdge, setPendingEdge] = useState<Connection | null>(null);
 
-  const panelRef = useRef(null);
+  const panelRef = useRef<any>();
   const reactFlowInstance = useReactFlow();
 
   const {
@@ -37,7 +42,7 @@ function FlowCanvas(){
   } = useContext(AppContext);
 
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => {
+    (changes: any) => setNodes((nds) => {
       nds.map((node) => {
         /**
          * Bug in v12 of react flow means we have to check these positions to guard against NaN values, unfortunately.
@@ -50,7 +55,7 @@ function FlowCanvas(){
     }),
     [setNodes],
   );
-  const onEdgesChange = useCallback((changes) => {
+  const onEdgesChange = useCallback((changes: any) => {
     setEdges((eds) =>
       applyEdgeChanges(changes, eds).filter(edge => {
         const sourceNode = reactFlowInstance.getNode(edge.source);
@@ -90,7 +95,8 @@ function FlowCanvas(){
     }
   }
 
-  function handleNodeDrag(e,node){
+  function handleNodeDrag(e: any,node: Node){
+    void e;
     const current = ApplicationStore.current;
 
     if(current){
@@ -104,7 +110,8 @@ function FlowCanvas(){
     }
   }
 
-  function handleNodeClicked(e,node) {
+  function handleNodeClicked(e: any, node: Node) {
+    void e;
     const current = ApplicationStore.current;
 
     if(current){
@@ -136,7 +143,7 @@ function FlowCanvas(){
           },
         }
       })
-      const edges = [];
+      const edges: Edge[] = [];
       current.scenes.forEach((scene) => {
         scene.choices.forEach((choice) => {
           edges.push({
@@ -163,69 +170,78 @@ function FlowCanvas(){
   }
 
   const onContextMenu = useCallback(
-    (event) => {
+    (event: any) => {
       // Prevent native context menu from showing
       event.preventDefault();
 
       // Calculate position of the context menu. We want to make sure it
       // doesn't get positioned off-screen.
-      const pane = panelRef.current.getBoundingClientRect();
-      const x = event.clientX - pane.left;
-      const y = event.clientY - pane.top;
+      const pane = panelRef?.current?.getBoundingClientRect();
+      if(pane){
+        const x = event.clientX - pane.left;
+        const y = event.clientY - pane.top;
 
-      setMenu({
-        top: y < pane.height - 200 ? y : null,
-        left: x < pane.width - 200 ? x : null,
-        right: x >= pane.width - 200 ? pane.width - x : null,
-        bottom: y >= pane.height - 200 ? pane.height - y : null,
-      });
-      setSceneMenu(null);
+        setMenu({
+          top: y < pane.height - 200 ? y : null,
+          left: x < pane.width - 200 ? x : null,
+          right: x >= pane.width - 200 ? pane.width - x : null,
+          bottom: y >= pane.height - 200 ? pane.height - y : null,
+        });
+        setSceneMenu(null);
+      }
+
     },
     [setMenu],
   );
 
   const onSceneContextMenu = useCallback(
-    (event, node) => {
+    (event: any, node: Node) => {
       event.preventDefault();
       event.stopPropagation();
       // Calculate position of the context menu. We want to make sure it
       // doesn't get positioned off-screen.
-      const pane = panelRef.current.getBoundingClientRect();
-      const x = event.clientX - pane.left;
-      const y = event.clientY - pane.top;
-      setMenu(null);
-      setSceneMenu({
-        id: node.id,
-        top: y < pane.height - 200 ? y : null,
-        left: x < pane.width - 200 ? x : null,
-      });
+      const pane = panelRef?.current?.getBoundingClientRect();
+      if(pane){
+        const x = event.clientX - pane.left;
+        const y = event.clientY - pane.top;
+        setMenu(null);
+        setSceneMenu({
+          id: node.id,
+          top: y < pane.height - 200 ? y : null,
+          left: x < pane.width - 200 ? x : null,
+        });
+      }
+
     },
     [setSceneMenu]
   );
 
   const closeSceneMenu = () => setSceneMenu(null);
 
-  const onConnect = useCallback((params) => {
+  const onConnect = useCallback((params: Connection) => {
     setPendingEdge(params);
     setNewChoiceModalOpen(true);
   }, []);
 
   const onChoiceContextMenu = useCallback(
-    (event, edge) => {
+    (event: any, edge: Edge) => {
       event.preventDefault();
       event.stopPropagation();
       // Calculate position of the context menu. We want to make sure it
       // doesn't get positioned off-screen.
       const pane = panelRef.current.getBoundingClientRect();
-      const x = event.clientX - pane.left;
-      const y = event.clientY - pane.top;
-      setMenu(null);
-      setSceneMenu(null);
-      setChoiceMenu({
-        id: edge.id,
-        top: y < pane.height - 200 ? y : null,
-        left: x < pane.width - 200 ? x : null,
-      });
+      if(pane){
+        const x = event.clientX - pane.left;
+        const y = event.clientY - pane.top;
+        setMenu(null);
+        setSceneMenu(null);
+        setChoiceMenu({
+          id: edge.id,
+          top: y < pane.height - 200 ? y : null,
+          left: x < pane.width - 200 ? x : null,
+        });
+      }
+
     },
     [setSceneMenu]
   );
@@ -269,7 +285,7 @@ function FlowCanvas(){
       ref={panelRef}
     >
       <Controls />
-      <Background variant="dots" gap={10} size={1} />
+      <Background variant={BackgroundVariant.Dots} gap={10} size={1} />
       {menu && <PanelContextMenu onClick={handlePaneClick} {...menu} />}
       {sceneMenu && (
         <SceneContextMenu

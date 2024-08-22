@@ -11,7 +11,7 @@ class ApplicationStore {
 
   constructor() {
     makeAutoObservable(this, {
-      totalChoiceForCurrent: computed,
+      totalChoicesForCurrent: computed,
     });
 
     makePersistable(

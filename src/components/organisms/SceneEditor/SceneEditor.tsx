@@ -33,7 +33,7 @@ interface SceneEditorProps {
 function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps){
   const { ApplicationStore } = useContext(AppContext);
 
-  function handleUpdateNote(value){
+  function handleUpdateNote(value: string){
     onUpdate({
       ...scene,
       metadata: {
@@ -43,7 +43,7 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps){
     })
   }
 
-  function handleUpdateFrameOrder(frames){
+  function handleUpdateFrameOrder(frames: Frame[]){
     onUpdate({
       ...scene,
       frames,

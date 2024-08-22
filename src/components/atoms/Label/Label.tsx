@@ -7,7 +7,7 @@ interface LabelProps {
 
 function Label({ children, className = '' }: PropsWithChildren<LabelProps>){
   return (
-    <div className={css.label}>{ children }</div>
+    <div className={`${css.label} ${className}`}>{ children }</div>
   )
 }
 

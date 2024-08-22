@@ -1,6 +1,5 @@
 import css from './TextInput.module.scss';
 import {ReactElement} from "react";
-import Muted from "../Muted/Muted.tsx";
 import Label from "../Label/Label.tsx";
 
 interface TextInputProps{
@@ -14,14 +13,14 @@ interface TextInputProps{
 
 function TextInput({ inline = false, value, onChange, className = '', label, fullWidth = false }: TextInputProps): ReactElement{
 
-  function handleChange(e){
+  function handleChange(e: any){
     onChange(e.target.value);
   }
-  function handleBlur(e) {
+  function handleBlur(e: any) {
     onChange(e.target.innerText);
   }
 
-  function handleInput(e) {
+  function handleInput(e: any) {
     onChange(e.target.innerText);
   }
 

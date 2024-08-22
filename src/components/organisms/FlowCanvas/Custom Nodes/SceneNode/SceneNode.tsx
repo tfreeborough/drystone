@@ -1,4 +1,4 @@
-import {useCallback, useContext} from 'react';
+import {useContext} from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { observer } from "mobx-react-lite";
 import css from './SceneNode.module.scss';

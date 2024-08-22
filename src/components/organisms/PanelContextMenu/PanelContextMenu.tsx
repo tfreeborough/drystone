@@ -1,9 +1,16 @@
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import { v4 } from 'uuid';
 import css from './PanelContextMenu.module.scss';
 import {Scene} from "../../../types/application.types.ts";
 import {AppContext} from "../../../stores/AppContext.ts";
 import {useReactFlow, Viewport} from "@xyflow/react";
+
+interface PanelContextMenuProps {
+  top: number,
+  left: number,
+  right: number,
+  bottom: number,
+}
 
 function PanelContextMenu({
   top,
@@ -11,14 +18,14 @@ function PanelContextMenu({
   right,
   bottom,
   ...props
-}) {
+}: PanelContextMenuProps) {
   const {
     ApplicationStore,
   } = useContext(AppContext);
 
   const reactFlowInstance = useReactFlow();
 
-  function createScene(event){
+  function createScene(event: any){
     event.preventDefault();
     const currentApplication = ApplicationStore.current;
 

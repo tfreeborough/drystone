@@ -6,7 +6,6 @@ import Card from "../../atoms/Card/Card.tsx";
 import Flex from "../../atoms/Flex/Flex.tsx";
 import {FlexAlign, FlexDirection, FlexGap, FlexJustify} from "../../atoms/Flex/Flex.types.ts";
 import {Link, Route} from "wouter";
-import HierarchyRenderer from "../../organisms/HierarchyRenderer/HierarchyRenderer.tsx";
 import Topper from "../../atoms/Topper/Topper.tsx";
 import CanvasEditor from "../../organisms/CanvasEditor/CanvasEditor.tsx";
 import MetadataEditor from "../../organisms/MetadataEditor/MetadataEditor.tsx";
@@ -32,7 +31,7 @@ function ApplicationEditor(): ReactElement{
     <Card className={css.applicationEditor}>
       <Flex className={css.header} justifyContent={FlexJustify.SPACE_BETWEEN}>
         <span>{ application.name }</span>
-        <Flex class={css.metadata} gap={FlexGap.SM}>
+        <Flex className={css.metadata} gap={FlexGap.SM}>
           <span>{application.scenes.length} Scenes</span>
           <span>{frameCount} Frames</span>
           <span>{ApplicationStore.totalChoicesForCurrent} Choices</span>
