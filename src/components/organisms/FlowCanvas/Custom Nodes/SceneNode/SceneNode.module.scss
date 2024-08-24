@@ -6,6 +6,7 @@
 	min-width: 150px;
 	width: max-content;
 	max-width: 300px;
+	box-sizing: border-box;
 
 	&.selected{
 		border-color: var(--colour-raspberry);
