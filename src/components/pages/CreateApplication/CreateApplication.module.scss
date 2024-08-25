@@ -2,4 +2,13 @@
 	width: min(95dvw, 500px);
 	box-sizing: border-box;
 	margin: auto;
+
+	.author{
+		width: 100%;
+		margin-top: var(--gap-md);
+
+		> div{
+			flex-grow: 1;
+		}
+	}
 }

@@ -1,3 +1,10 @@
 .metadataEditor{
+	.cardWrapper{
+		padding: var(--gap-md);
+
+		.card{
+			width: min(600px, 100%);
+		}
+	}
 
 }

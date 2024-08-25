@@ -1,0 +1,14 @@
+.exportManager{
+	.wrapper{
+		margin: var(--gap-sm);
+		width: min(100%, 500px);
+
+		.export{
+			height: 100%;
+			border:1px dashed var(--colour-charcoal-50);
+			padding: var(--gap-md);
+			box-sizing: border-box;
+			border-radius: var(--border-radius-md);
+		}
+	}
+}
