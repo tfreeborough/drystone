@@ -1,4 +1,4 @@
-![Drystone](https://github.com/tfreeborough/drystone/blob/master/public/icon.png?raw=true)
+![Drystone](https://github.com/tfreeborough/drystone/blob/master/editor/public/icon.png?raw=true)
 
  [🔗 Live Editor](https://editor.drystone.studio)
  ---
