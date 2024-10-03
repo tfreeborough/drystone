@@ -9,7 +9,7 @@ import { observer } from 'mobx-react-lite';
 import { useParams } from 'wouter';
 import { AppContext } from '../../../stores/AppContext.ts';
 import NotFound from '../../pages/NotFound/NotFound.tsx';
-import { Application } from '../../../types/application.types.ts';
+import { Application } from 'drystone';
 
 function ApplicationGuard({ children }: PropsWithChildren): ReactElement {
   const params = useParams();

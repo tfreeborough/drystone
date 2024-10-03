@@ -33,7 +33,7 @@ function ExportManager() {
       // Add image
       const imageResponse = await fetch('https://picsum.photos/536/354');
       const imageBlob = await imageResponse.blob();
-      await zip.add('logo.png', new BlobReader(imageBlob));
+      await zip.add('assets/logo.png', new BlobReader(imageBlob));
 
       // Close the writer and get the zip file as a blob
       await zip.close();

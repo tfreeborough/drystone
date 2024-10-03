@@ -1,11 +1,6 @@
 import { computed, makeAutoObservable } from 'mobx';
 import { makePersistable } from 'mobx-persist-store';
-import {
-  Application,
-  ApplicationAuthor,
-  Frame,
-  Scene,
-} from '../types/application.types.ts';
+import { Application, ApplicationAuthor, Frame, Scene } from 'drystone';
 import { v4 } from 'uuid';
 
 class ApplicationStore {
@@ -291,6 +286,19 @@ class ApplicationStore {
     const application = this.getApplication(id);
     if (application) {
       application.author = author;
+      this.saveApplication(application);
+    }
+  }
+
+  /**
+   * Updates the entrypoint in the application, which is effectively the first page a player will land on.
+   * @param id
+   * @param sceneId
+   */
+  updateEntrypoint(id: string, sceneId: string) {
+    const application = this.getApplication(id);
+    if (application) {
+      application.entrypoint = sceneId;
       this.saveApplication(application);
     }
   }

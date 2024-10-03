@@ -13,7 +13,7 @@ import {
 import Button from '../../atoms/Button/Button.tsx';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { useLocation } from 'wouter';
-import { Application } from '../../../types/application.types.ts';
+import { Application } from 'drystone';
 
 function CreateApplication(): ReactElement {
   const [applicationName, setApplicationName] = useState('');

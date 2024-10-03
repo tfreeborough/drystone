@@ -1,15 +1,15 @@
-import {useContext} from 'react';
+import { useContext } from 'react';
 import { v4 } from 'uuid';
 import css from './PanelContextMenu.module.scss';
-import {Scene} from "../../../types/application.types.ts";
-import {AppContext} from "../../../stores/AppContext.ts";
-import {useReactFlow, Viewport} from "@xyflow/react";
+import { Scene } from 'drystone';
+import { AppContext } from '../../../stores/AppContext.ts';
+import { useReactFlow, Viewport } from '@xyflow/react';
 
 interface PanelContextMenuProps {
-  top: number,
-  left: number,
-  right: number,
-  bottom: number,
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
 }
 
 function PanelContextMenu({
@@ -19,35 +19,36 @@ function PanelContextMenu({
   bottom,
   ...props
 }: PanelContextMenuProps) {
-  const {
-    ApplicationStore,
-  } = useContext(AppContext);
+  const { ApplicationStore } = useContext(AppContext);
 
   const reactFlowInstance = useReactFlow();
 
-  function createScene(event: any){
+  function createScene(event: any) {
     event.preventDefault();
     const currentApplication = ApplicationStore.current;
 
-    if(currentApplication){
-      const { zoom, x: panX, y: panY }: Viewport = reactFlowInstance.getViewport();
+    if (currentApplication) {
+      const {
+        zoom,
+        x: panX,
+        y: panY,
+      }: Viewport = reactFlowInstance.getViewport();
       const sceneId = v4();
       const newScene: Scene = {
         id: sceneId,
-        type: "scene",
+        type: 'scene',
         metadata: {
           note: `New scene: ${sceneId}`,
         },
         frames: [],
         position: {
-          x: ((-1 * panX) + left) / zoom,
-          y: ((-1 * panY) + top) / zoom,
+          x: (-1 * panX + left) / zoom,
+          y: (-1 * panY + top) / zoom,
         },
-        choices: []
-      }
+        choices: [],
+      };
       ApplicationStore.addScene(currentApplication.id, newScene);
     }
-
   }
 
   return (
