@@ -1,0 +1,17 @@
+.applicationLoader{
+	.box{
+		border: 2px dashed var(--colour-charcoal-90);
+		padding: var(--gap-lg);
+		position: relative;
+
+		.input{
+			position: absolute;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			opacity: 0;
+			cursor: pointer;
+		}
+	}
+}

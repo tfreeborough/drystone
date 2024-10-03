@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+:root{
+    font-size: 20px;
+
+    --colour-white: #FFFFFF;
+
+    --colour-charcoal-10: #e6e6e6;
+    --colour-charcoal-20: #cdcdce;
+    --colour-charcoal-30: #b5b5b5;
+    --colour-charcoal-40: #9c9c9c;
+    --colour-charcoal-50: #838384;
+    --colour-charcoal-60: #6a6a6b;
+    --colour-charcoal-70: #515152;
+    --colour-charcoal-80: #393939;
+    --colour-charcoal-90: #202021;
+    --colour-charcoal: #070708;
+
+    --colour-old-rose-10: #f8f3f3;
+    --colour-old-rose-20: #f1e6e7;
+    --colour-old-rose-30: #eadadc;
+    --colour-old-rose-40: #e3cdd0;
+    --colour-old-rose-50: #dcc1c4;
+    --colour-old-rose-60: #d5b5b8;
+    --colour-old-rose-70: #cea8ac;
+    --colour-old-rose-80: #c79ca1;
+    --colour-old-rose-90: #c08f95;
+    --colour-old-rose: #b98389;
+
+    --colour-raspberry-10: #fbeaee;
+    --colour-raspberry-20: #f8d4dd;
+    --colour-raspberry-30: #f4bfcc;
+    --colour-raspberry-40: #f1a9bb;
+    --colour-raspberry-50: #ed94aa;
+    --colour-raspberry-60: #e97f99;
+    --colour-raspberry-70: #e66988;
+    --colour-raspberry-80: #e25477;
+    --colour-raspberry-90: #df3e66;
+    --colour-raspberry: #db2955;
+
+    --text-colour: var(--colour-white);
+    --anchor-colour: var(--colour-raspberry);
+
+    --gap-xs: 0.5rem;
+    --gap-sm: 0.75rem;
+    --gap-md: 1rem;
+    --gap-lg: 2rem;
+    --gap-xl: 4rem;
+
+    --font-size-xs: 0.7rem;
+    --font-size-sm: 0.8rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.4rem;
+
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.3rem;
+
+    --box-shadow: 0.05rem 0.05rem 0.2rem var(--colour-charcoal-30);
+
+    --border: 1px solid var(--colour-charcoal-20);
+
+    --font-family: "EB Garamond", serif;
+}
+
+
+body,html,#root{
+    min-height: 100dvh;
+    min-width: 100dvw;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-colour);
+    background-color: var(--colour-charcoal);
+    font-family: "EB Garamond", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+a{
+    color: var(--anchor-colour);
+}
