@@ -92,7 +92,7 @@ function MetadataEditor(): ReactElement {
                   current.entrypoint ? current.entrypoint : current.scenes[0].id
                 }
                 values={current.scenes.map(s => {
-                  return { text: s.metadata.note, value: s.id };
+                  return { text: s.metadata.note ?? '', value: s.id };
                 })}
                 onSelect={option => {
                   handleUpdateEntrypoint(option);

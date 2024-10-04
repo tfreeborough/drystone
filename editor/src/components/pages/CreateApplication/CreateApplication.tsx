@@ -36,6 +36,7 @@ function CreateApplication(): ReactElement {
         name: authorName,
         link: authorLink,
       },
+      entrypoint: '',
     };
     ApplicationStore.setCurrentApplication(application);
     ApplicationStore.addApplication(application);

@@ -17,7 +17,7 @@ function SelectInput({
   label,
   fullWidth,
 }: SelectInputProps) {
-  function handleSelect(event) {
+  function handleSelect(event: any) {
     const option = values.find(v => v.value === event.target.value);
     if (option) {
       onSelect(option);
