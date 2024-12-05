@@ -1,22 +1,19 @@
-import { Asset as AssetType } from 'drystone';
+import { Asset as AssetType } from "drystone";
 import ImageAsset from "../ImageAsset/ImageAsset.tsx";
 
 interface AssetProps {
-  asset: AssetType
+  asset: AssetType;
 }
 
-function Asset({ asset }: AssetProps){
-
-  function render(){
+function Asset({ asset }: AssetProps) {
+  function render() {
     switch (asset.type) {
-      case 'png':
-        return <ImageAsset asset={asset} />
+      case "png":
+        return <ImageAsset asset={asset} />;
     }
   }
 
-  return (
-    <>{ render() }</>
-  )
+  return <>{render()}</>;
 }
 
 export default Asset;

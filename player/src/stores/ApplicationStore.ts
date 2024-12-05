@@ -1,8 +1,6 @@
-import {makeAutoObservable} from "mobx";
-import {makePersistable} from "mobx-persist-store";
-import {Application, Asset} from 'drystone';
-import {blobToBase64} from "../utils/blobToBase64.ts";
-import {base64toBlob} from "../utils/base64ToBlob.ts";
+import { makeAutoObservable } from "mobx";
+import { makePersistable } from "mobx-persist-store";
+import { Application, Asset } from "@shared/types";
 
 class ApplicationStore {
   application: Application | null = null;
@@ -11,11 +9,17 @@ class ApplicationStore {
   constructor() {
     makeAutoObservable(this);
 
-    makePersistable(
+    void makePersistable(
       this,
       {
-        name: 'ApplicationStore',
-        properties: [],
+        name: "ApplicationStore",
+        properties: [
+          {
+            key: "application",
+            serialize: (value) => JSON.stringify(value),
+            deserialize: (value) => JSON.parse(value),
+          },
+        ],
         storage: window.localStorage,
         removeOnExpiration: true,
       },
@@ -23,16 +27,14 @@ class ApplicationStore {
     );
   }
 
-  public setApplication(app: Application | null){
+  public setApplication(app: Application | null) {
     this.application = app;
   }
 
-  public setAssets(assets: Asset[]){
+  public setAssets(assets: Asset[]) {
     this.assets = assets;
   }
-
 }
 
 const singleton = new ApplicationStore();
 export default singleton;
-

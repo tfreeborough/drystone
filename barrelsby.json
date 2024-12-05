@@ -1,0 +1,10 @@
+{
+  "directory": ["./shared/types", "./shared/functions"],
+  "delete": true,
+  "exclude": "\\.d\\.ts$",
+  "structure": "flat",
+  "noHeader": true,
+  "singleQuotes": true,
+  "name": "index",
+  "mode": "replace"
+}

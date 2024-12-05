@@ -1,5 +1,5 @@
-import {makeAutoObservable} from "mobx";
-import {makePersistable} from "mobx-persist-store";
+import { makeAutoObservable } from 'mobx';
+import { makePersistable } from 'mobx-persist-store';
 
 class DrystoneStore {
   public test = 'foo';
@@ -18,9 +18,7 @@ class DrystoneStore {
       { delay: 200, fireImmediately: false },
     );
   }
-
 }
 
 const singleton = new DrystoneStore();
 export default singleton;
-

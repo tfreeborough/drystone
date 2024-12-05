@@ -1,9 +1,9 @@
 import React from 'react';
 const useDragPosition = () => {
-  const [
-    dragPosition,
-    setDragPosition
-  ] = React.useState<{ x: null | number, y: null | number}>({ x: null, y: null });
+  const [dragPosition, setDragPosition] = React.useState<{
+    x: null | number;
+    y: null | number;
+  }>({ x: null, y: null });
   React.useEffect(() => {
     const updateDragPosition = (ev: DragEvent) => {
       setDragPosition({ x: ev.clientX, y: ev.clientY });

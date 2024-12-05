@@ -1,10 +1,11 @@
-import {useCallback, useContext, useEffect, useRef, useState} from 'react';
-import {observer} from "mobx-react-lite";
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { observer } from 'mobx-react-lite';
 import {
   applyEdgeChanges,
   applyNodeChanges,
   Background,
-  BackgroundVariant, Connection,
+  BackgroundVariant,
+  Connection,
   Controls,
   Edge,
   Node,
@@ -14,18 +15,18 @@ import {
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
-import {AppContext} from "../../../stores/AppContext.ts";
+import { AppContext } from '../../../stores/AppContext.ts';
 import css from './FlowCanvas.module.scss';
-import SceneNode from "./Custom Nodes/SceneNode/SceneNode.tsx";
-import PanelContextMenu from "../PanelContextMenu/PanelContextMenu.tsx";
-import SceneContextMenu from "../SceneContextMenu/SceneContextMenu.tsx";
-import NewChoiceModal from "../NewChoiceModal/NewChoiceModal.tsx";
+import SceneNode from './Custom Nodes/SceneNode/SceneNode.tsx';
+import PanelContextMenu from '../PanelContextMenu/PanelContextMenu.tsx';
+import SceneContextMenu from '../SceneContextMenu/SceneContextMenu.tsx';
+import NewChoiceModal from '../NewChoiceModal/NewChoiceModal.tsx';
 
-const nodeTypes: any = { scene: SceneNode }
+const nodeTypes: any = { scene: SceneNode };
 
 const isValidNumber = (num: any) => typeof num === 'number' && isFinite(num);
 
-function FlowCanvas(){
+function FlowCanvas() {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [menu, setMenu] = useState<null | any>(null);
@@ -37,74 +38,76 @@ function FlowCanvas(){
   const panelRef = useRef<any>();
   const reactFlowInstance = useReactFlow();
 
-  const {
-    ApplicationStore,
-  } = useContext(AppContext);
+  const { ApplicationStore } = useContext(AppContext);
 
   const onNodesChange = useCallback(
-    (changes: any) => setNodes((nds) => {
-      nds.map((node) => {
-        /**
-         * Bug in v12 of react flow means we have to check these positions to guard against NaN values, unfortunately.
-         */
-        if(!isNaN(node.position.x) && !isNaN(node.position.y)){
-          return node;
-        }
-      })
-      return applyNodeChanges(changes, nds)
-    }),
+    (changes: any) =>
+      setNodes(nds => {
+        nds.map(node => {
+          /**
+           * Bug in v12 of react flow means we have to check these positions to guard against NaN values, unfortunately.
+           */
+          if (!isNaN(node.position.x) && !isNaN(node.position.y)) {
+            return node;
+          }
+        });
+        return applyNodeChanges(changes, nds);
+      }),
     [setNodes],
   );
-  const onEdgesChange = useCallback((changes: any) => {
-    setEdges((eds) =>
-      applyEdgeChanges(changes, eds).filter(edge => {
-        const sourceNode = reactFlowInstance.getNode(edge.source);
-        const targetNode = reactFlowInstance.getNode(edge.target);
-        return (
-          sourceNode &&
-          targetNode &&
-          isValidNumber(sourceNode.position.x) &&
-          isValidNumber(sourceNode.position.y) &&
-          isValidNumber(targetNode.position.x) &&
-          isValidNumber(targetNode.position.y)
-        );
-      })
-    );
-  }, [reactFlowInstance.getNode]);
+  const onEdgesChange = useCallback(
+    (changes: any) => {
+      setEdges(eds =>
+        applyEdgeChanges(changes, eds).filter(edge => {
+          const sourceNode = reactFlowInstance.getNode(edge.source);
+          const targetNode = reactFlowInstance.getNode(edge.target);
+          return (
+            sourceNode &&
+            targetNode &&
+            isValidNumber(sourceNode.position.x) &&
+            isValidNumber(sourceNode.position.y) &&
+            isValidNumber(targetNode.position.x) &&
+            isValidNumber(targetNode.position.y)
+          );
+        }),
+      );
+    },
+    [reactFlowInstance.getNode],
+  );
 
-  function handleMove(){
+  function handleMove() {
     const viewport = reactFlowInstance.getViewport();
     const current = ApplicationStore.current;
-    if(current && !isNaN(viewport.x) && !isNaN(viewport.y)){
+    if (current && !isNaN(viewport.x) && !isNaN(viewport.y)) {
       ApplicationStore.saveApplication({
         ...current,
         stageScale: viewport.zoom,
-        stagePosition: { x: Math.floor(viewport.x), y: Math.floor(viewport.y) }
-      })
+        stagePosition: { x: Math.floor(viewport.x), y: Math.floor(viewport.y) },
+      });
     }
   }
 
-  function handleInit(){
+  function handleInit() {
     const current = ApplicationStore.current;
-    if(current){
+    if (current) {
       reactFlowInstance.setViewport({
         x: current.stagePosition?.x ?? 0,
         y: current.stagePosition?.y ?? 0,
-        zoom: current?.stageScale
+        zoom: current?.stageScale,
       } as Viewport);
     }
   }
 
-  function handleNodeDrag(e: any,node: Node){
+  function handleNodeDrag(e: any, node: Node) {
     void e;
     const current = ApplicationStore.current;
 
-    if(current){
+    if (current) {
       const scene = ApplicationStore.getScene(current.id, node.id);
-      if(scene && !isNaN(node.position.x) && !isNaN(node.position.y)){
+      if (scene && !isNaN(node.position.x) && !isNaN(node.position.y)) {
         ApplicationStore.updateScene(current.id, {
           ...scene,
-          position: { x: node.position.x, y: node.position.y }
+          position: { x: node.position.x, y: node.position.y },
         });
       }
     }
@@ -114,26 +117,25 @@ function FlowCanvas(){
     void e;
     const current = ApplicationStore.current;
 
-    if(current){
+    if (current) {
       const scene = ApplicationStore.getScene(current.id, node.id);
-      if(scene){
+      if (scene) {
         ApplicationStore.setEditorContext(scene);
       }
     }
-
   }
 
-  function handlePaneClick(){
+  function handlePaneClick() {
     ApplicationStore.setEditorContext(null);
     setSceneMenu(null);
     setMenu(null);
   }
 
-  function reRenderNodes(){
+  function reRenderNodes() {
     const current = ApplicationStore.current;
-    if(current){
-      const nodes = current.scenes.map((scene) => {
-        return  {
+    if (current) {
+      const nodes = current.scenes.map(scene => {
+        return {
           id: scene.id,
           type: 'scene',
           position: scene.position,
@@ -141,32 +143,31 @@ function FlowCanvas(){
             label: scene.metadata.note || scene.id,
             scene,
           },
-        }
-      })
+        };
+      });
       const edges: Edge[] = [];
-      current.scenes.forEach((scene) => {
-        scene.choices.forEach((choice) => {
+      current.scenes.forEach(scene => {
+        scene.choices.forEach(choice => {
           edges.push({
             id: choice.id,
             source: scene.id,
             target: choice.target,
-            label: choice.label
+            label: choice.label,
           });
-        })
-      })
+        });
+      });
       setNodes(nodes);
       setEdges(edges);
     }
   }
 
-  function handleDeleteChoice(edges: Edge[]){
+  function handleDeleteChoice(edges: Edge[]) {
     const application = ApplicationStore.current;
-    if(application){
-      edges.forEach((edge) => {
+    if (application) {
+      edges.forEach(edge => {
         ApplicationStore.removeChoice(application.id, edge.source, edge.id);
-      })
+      });
     }
-
   }
 
   const onContextMenu = useCallback(
@@ -177,7 +178,7 @@ function FlowCanvas(){
       // Calculate position of the context menu. We want to make sure it
       // doesn't get positioned off-screen.
       const pane = panelRef?.current?.getBoundingClientRect();
-      if(pane){
+      if (pane) {
         const x = event.clientX - pane.left;
         const y = event.clientY - pane.top;
 
@@ -189,7 +190,6 @@ function FlowCanvas(){
         });
         setSceneMenu(null);
       }
-
     },
     [setMenu],
   );
@@ -201,7 +201,7 @@ function FlowCanvas(){
       // Calculate position of the context menu. We want to make sure it
       // doesn't get positioned off-screen.
       const pane = panelRef?.current?.getBoundingClientRect();
-      if(pane){
+      if (pane) {
         const x = event.clientX - pane.left;
         const y = event.clientY - pane.top;
         setMenu(null);
@@ -211,9 +211,8 @@ function FlowCanvas(){
           left: x < pane.width - 200 ? x : null,
         });
       }
-
     },
-    [setSceneMenu]
+    [setSceneMenu],
   );
 
   const closeSceneMenu = () => setSceneMenu(null);
@@ -230,7 +229,7 @@ function FlowCanvas(){
       // Calculate position of the context menu. We want to make sure it
       // doesn't get positioned off-screen.
       const pane = panelRef.current.getBoundingClientRect();
-      if(pane){
+      if (pane) {
         const x = event.clientX - pane.left;
         const y = event.clientY - pane.top;
         setMenu(null);
@@ -241,29 +240,26 @@ function FlowCanvas(){
           left: x < pane.width - 200 ? x : null,
         });
       }
-
     },
-    [setSceneMenu]
+    [setSceneMenu],
   );
-
-
 
   /**
    * When the context, current application or scene count is changed, re-render all nodes
    */
   useEffect(() => {
-    reRenderNodes()
+    reRenderNodes();
   }, [
     ApplicationStore.editorContext,
     ApplicationStore.current?.scenes.length,
-    ApplicationStore.totalChoicesForCurrent
+    ApplicationStore.totalChoicesForCurrent,
   ]);
 
   return (
     <ReactFlow
       nodeTypes={nodeTypes}
       className={css.flowCanvas}
-      snapGrid={[5,5]}
+      snapGrid={[5, 5]}
       maxZoom={4}
       minZoom={0.5}
       snapToGrid
@@ -301,7 +297,7 @@ function FlowCanvas(){
         edgeInfo={pendingEdge}
       />
     </ReactFlow>
-  )
+  );
 }
 
 export default observer(FlowCanvas);

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 /**
  * This is a pseudo hook that is designed to navigate around the react-hooks/exhaustive-deps rules in eslint without the need to

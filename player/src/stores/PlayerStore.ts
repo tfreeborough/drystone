@@ -1,6 +1,7 @@
-import {makeAutoObservable} from "mobx";
-import {makePersistable} from "mobx-persist-store";
-import { PlayerState } from 'drystone';
+import { makeAutoObservable } from "mobx";
+import { makePersistable } from "mobx-persist-store";
+import { PlayerState } from "drystone";
+import { SerializableProperty } from "mobx-persist-store/lib/esm2017/serializableProperty";
 
 class PlayerStore {
   state: PlayerState | null = null;
@@ -9,11 +10,22 @@ class PlayerStore {
   constructor() {
     makeAutoObservable(this);
 
-    makePersistable(
+    void makePersistable(
       this,
       {
-        name: 'PlayerStore',
-        properties: ['savedStates'],
+        name: "PlayerStore",
+        properties: [
+          {
+            key: "savedStates",
+            serialize: (value) => value,
+            deserialize: (value) => value,
+          },
+          {
+            key: "state",
+            serialize: (value) => JSON.stringify(value),
+            deserialize: (value) => JSON.parse(value),
+          },
+        ] satisfies SerializableProperty<PlayerStore, keyof PlayerStore>[],
         storage: window.localStorage,
         removeOnExpiration: true,
       },
@@ -21,22 +33,20 @@ class PlayerStore {
     );
   }
 
-  startGame(){
-    if(this.state){
+  startGame() {
+    if (this.state) {
       this.state.started = true;
     }
   }
 
-  initializeGameState(entrypoint: string){
+  initializeGameState(entrypoint: string) {
     this.state = {
       started: false,
       position: entrypoint,
       history: [],
-    }
+    };
   }
-
 }
 
 const singleton = new PlayerStore();
 export default singleton;
-

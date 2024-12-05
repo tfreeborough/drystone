@@ -1,15 +1,21 @@
-import {PropsWithChildren} from "react";
+import { PropsWithChildren } from "react";
 import { motion } from "framer-motion";
 
 interface FadeInProps {
-  delay?: number,
-  duration?: number,
-  onComplete?: () => void,
-  className?: string,
+  delay?: number;
+  duration?: number;
+  onComplete?: () => void;
+  className?: string;
 }
-function FadeIn({ children, delay = 0, duration = 1, onComplete, className = '' }: PropsWithChildren<FadeInProps>){
-  function handleCompleteAnimation(){
-    if(onComplete){
+function FadeIn({
+  children,
+  delay = 0,
+  duration = 1,
+  onComplete,
+  className = "",
+}: PropsWithChildren<FadeInProps>) {
+  function handleCompleteAnimation() {
+    if (onComplete) {
       onComplete();
     }
   }
@@ -28,9 +34,9 @@ function FadeIn({ children, delay = 0, duration = 1, onComplete, className = '' 
       }}
       onAnimationComplete={handleCompleteAnimation}
     >
-      { children }
+      {children}
     </motion.div>
-  )
+  );
 }
 
 export default FadeIn;
