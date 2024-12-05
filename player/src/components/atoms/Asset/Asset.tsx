@@ -1,4 +1,4 @@
-import { Asset as AssetType } from "drystone";
+import { Asset as AssetType } from "@shared/types";
 import ImageAsset from "../ImageAsset/ImageAsset.tsx";
 
 interface AssetProps {

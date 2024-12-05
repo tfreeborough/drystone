@@ -20,7 +20,12 @@
     "react-dom": "^18.3.1",
     "react-error-boundary": "^4.1.2",
     "vite-plugin-svgr": "^4.3.0",
-    "wouter": "^3.3.5"
+    "wouter": "^3.3.5",
+    "@tiptap/pm": "^2.5.8",
+    "@tiptap/react": "^2.5.8",
+    "@tiptap/starter-kit": "^2.5.8",
+    "@zip.js/zip.js": "^2.7.52",
+    "react-effect-typewriter": "^1.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

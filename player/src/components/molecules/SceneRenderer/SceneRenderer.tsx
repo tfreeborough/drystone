@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { AppContext } from "../../../stores/AppContext.ts";
+import { Scene } from "../../organisms/Scene/Scene.tsx";
 
 export const SceneRenderer = observer(() => {
   const { PlayerStore, ApplicationStore } = useContext(AppContext);
@@ -14,9 +15,9 @@ export const SceneRenderer = observer(() => {
 
   const scene = ApplicationStore.getScene(position);
 
-  if (scene) {
+  if (!scene) {
     throw new Error(`Scene not found ${position}`);
   }
 
-  return <></>;
+  return <Scene scene={scene} />;
 });

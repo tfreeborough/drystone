@@ -25,7 +25,9 @@
       "@shared/components": ["./shared/components"],
       "@shared/components/*": ["./shared/components/*"],
       "@shared/styles": ["./shared/styles"],
-      "@shared/styles/*": ["./shared/styles/*"]
+      "@shared/styles/*": ["./shared/styles/*"],
+      "@shared/animations": ["./shared/animations"],
+      "@shared/animations/*": ["./shared/animations/*"]
     }
   }
 }

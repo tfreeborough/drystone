@@ -1,5 +1,5 @@
 {
-  "directory": ["./shared/types", "./shared/functions", "./shared/components"],
+  "directory": ["./shared/types", "./shared/functions", "./shared/components", "./shared/animations"],
   "delete": true,
   "exclude": "\\.d\\.ts$",
   "structure": "flat",

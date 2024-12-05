@@ -1,5 +1,5 @@
-import { Asset } from "drystone";
 import { useEffect, useState } from "react";
+import { Asset } from "@shared/types";
 
 interface ImageAssetProps {
   asset: Asset;

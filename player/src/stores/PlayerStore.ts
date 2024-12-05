@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { makePersistable } from "mobx-persist-store";
-import { PlayerState } from "drystone";
 import { SerializableProperty } from "mobx-persist-store/lib/esm2017/serializableProperty";
+import { PlayerState } from "@shared/types";
 
 class PlayerStore {
   state: PlayerState | null = null;
