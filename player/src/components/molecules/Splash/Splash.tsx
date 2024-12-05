@@ -3,9 +3,10 @@ import Flex from "../../atoms/Flex/Flex.tsx";
 import css from './Splash.module.scss';
 import {FlexAlign, FlexDirection, FlexGap, FlexJustify} from "../../atoms/Flex/Flex.types.ts";
 import {Container, Paragraph} from 'react-effect-typewriter';
-import {useState} from "react";
+import {useContext, useState} from "react";
 import FadeIn from "../../animations/FadeIn/FadeIn.tsx";
 import Button from "../../atoms/Button/Button.tsx";
+import {AppContext} from "../../../stores/AppContext.ts";
 
 interface SplashProps {
   application: Application,
@@ -16,16 +17,17 @@ function Splash({ application }: SplashProps){
   const [showDescription, setShowDescription] = useState(false);
   const [showAuthor, setShowAuthor] = useState(false);
 
+  const {
+    PlayerStore,
+  } = useContext(AppContext)
+
   function handleFinishType(){
     setShowButton(true);
-  }
-
-  function handleShowAuthor(){
     setShowAuthor(true);
   }
 
   function handleStart(){
-
+    PlayerStore.startGame();
   }
 
   return (
@@ -47,7 +49,7 @@ function Splash({ application }: SplashProps){
         }
         {
           showButton && (
-            <FadeIn duration={3} delay={2} onComplete={handleShowAuthor}>
+            <FadeIn duration={3} delay={2}>
               <Button onClick={handleStart}>Begin</Button>
             </FadeIn>
           )
@@ -55,7 +57,7 @@ function Splash({ application }: SplashProps){
       </div>
       {
         showAuthor && (
-          <FadeIn className={css.author} duration={2}>
+          <FadeIn className={css.author} duration={3} delay={2}>
             <span>Created by</span>&nbsp;
             <a href={application.author.link} target="_blank">{ application.author.name }</a>
           </FadeIn>
