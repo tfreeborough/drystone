@@ -14,6 +14,9 @@ export default defineConfig(() => {
         sourcemap: true, // Required for Sentry source maps
       },
       plugins: [],
+      server: {
+        port: 5300,
+      },
     }),
   );
 });

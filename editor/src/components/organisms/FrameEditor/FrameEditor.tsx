@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { JSONContent } from '@tiptap/react';
-import { Frame } from 'drystone';
+import { Frame } from '@shared/types';
 import css from './FrameEditor.module.scss';
 import Heading from '../../atoms/Heading/Heading.tsx';
 import Flex from '../../atoms/Flex/Flex.tsx';

@@ -1,4 +1,4 @@
-import { SelectOption } from 'drystone';
+import { SelectOption } from '@shared/types';
 import Label from '../Label/Label.tsx';
 import css from './SelectInput.module.scss';
 

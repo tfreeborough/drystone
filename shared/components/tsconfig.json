@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.shared.json",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.scss"
+  ],
+  "files": [
+    "./scss.d.ts"  // Add this type declaration file
+  ]
+}

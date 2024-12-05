@@ -1,17 +1,10 @@
-import { Application } from "drystone";
-import Flex from "../../atoms/Flex/Flex.tsx";
 import css from "./Splash.module.scss";
-import {
-  FlexAlign,
-  FlexDirection,
-  FlexGap,
-  FlexJustify,
-} from "../../atoms/Flex/Flex.types.ts";
 import { Container, Paragraph } from "react-effect-typewriter";
 import { useContext, useState } from "react";
 import FadeIn from "../../animations/FadeIn/FadeIn.tsx";
-import Button from "../../atoms/Button/Button.tsx";
 import { AppContext } from "../../../stores/AppContext.ts";
+import { Align, Application, FlexDirection, Gap } from "@shared/types";
+import { Flex, Button } from "@shared/components";
 
 interface SplashProps {
   application: Application;
@@ -37,8 +30,8 @@ function Splash({ application }: SplashProps) {
     <Flex
       className={css.splash}
       flexDirection={FlexDirection.COLUMN}
-      gap={FlexGap.LG}
-      alignItems={FlexAlign.CENTER}
+      gap={Gap.LG}
+      alignItems={Align.CENTER}
     >
       <div className={css.blurb}>
         <FadeIn onComplete={() => setShowDescription(true)} duration={3}>

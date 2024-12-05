@@ -1,4 +1,4 @@
-import { Choice as ChoiceType } from 'drystone';
+import { Choice as ChoiceType } from '@shared/types';
 import css from './Choice.module.scss';
 
 interface ChoiceProps {

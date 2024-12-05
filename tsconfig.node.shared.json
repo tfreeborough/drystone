@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "ES2022",
+    "incremental": true,
     "lib": ["ES2023"],
     "module": "ESNext",
     "skipLibCheck": true,
@@ -14,12 +15,15 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
     "paths": {
       "@shared/types": ["./shared/types"],
       "@shared/types/*": ["./shared/types/*"],
       "@shared/functions": ["./shared/functions"],
-      "@shared/functions/*": ["./shared/functions/*"]
+      "@shared/functions/*": ["./shared/functions/*"],
+      "@shared/components": ["./shared/components"],
+      "@shared/components/*": ["./shared/components/*"],
+      "@shared/styles": ["./shared/styles"],
+      "@shared/styles/*": ["./shared/styles/*"]
     }
   }
 }

@@ -15,6 +15,8 @@ export default (appPath: string) =>
       alias: {
         "@shared/types": resolve(__dirname, "./shared/types"),
         "@shared/functions": resolve(__dirname, "./shared/functions"),
+        "@shared/components": resolve(__dirname, "./shared/components"),
+        "@shared/styles": resolve(__dirname, "./shared/styles"),
       },
     },
     css: {

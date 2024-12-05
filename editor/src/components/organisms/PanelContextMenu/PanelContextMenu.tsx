@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { v4 } from 'uuid';
 import css from './PanelContextMenu.module.scss';
-import { Scene } from 'drystone';
+import { Scene } from '@shared/types';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { useReactFlow, Viewport } from '@xyflow/react';
 

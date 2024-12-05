@@ -3,14 +3,14 @@ export enum FlexDirection {
   COLUMN = "COLUMN",
 }
 
-export enum FlexAlign {
+export enum Align {
   START = "START",
   END = "END",
   CENTER = "CENTER",
   STRETCH = "STRETCH",
 }
 
-export enum FlexJustify {
+export enum Justify {
   START = "START",
   END = "END",
   CENTER = "CENTER",
@@ -20,7 +20,7 @@ export enum FlexJustify {
   SPACE_AROUND = "SPACE_AROUND",
 }
 
-export enum FlexGap {
+export enum Gap {
   NONE = "NONE",
   XS = "XS",
   SM = "SM",

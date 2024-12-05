@@ -1,6 +1,6 @@
 import { computed, makeAutoObservable } from 'mobx';
 import { makePersistable } from 'mobx-persist-store';
-import { Application, ApplicationAuthor, Frame, Scene } from 'drystone';
+import { Application, ApplicationAuthor, Frame, Scene } from '@shared/types';
 import { v4 } from 'uuid';
 
 class ApplicationStore {

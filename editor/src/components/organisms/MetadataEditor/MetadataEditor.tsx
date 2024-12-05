@@ -7,7 +7,7 @@ import Flex from '../../atoms/Flex/Flex.tsx';
 import Heading from '../../atoms/Heading/Heading.tsx';
 import { AppContext } from '../../../stores/AppContext.ts';
 import TextInput from '../../atoms/TextInput/TextInput.tsx';
-import { SelectOption } from 'drystone';
+import { SelectOption } from '@shared/types';
 import {
   FlexAlign,
   FlexDirection,

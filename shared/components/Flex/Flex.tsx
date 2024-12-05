@@ -1,26 +1,21 @@
 import { PropsWithChildren, ReactElement } from "react";
 import css from "./Flex.module.scss";
-import {
-  FlexAlign,
-  FlexDirection,
-  FlexGap,
-  FlexJustify,
-} from "./Flex.types.ts";
+import { Align, FlexDirection, Gap, Justify } from "@shared/types";
 interface FlexProps {
   className?: string;
   flexDirection?: FlexDirection;
-  alignItems?: FlexAlign;
-  justifyContent?: FlexJustify;
-  gap?: FlexGap;
+  alignItems?: Align;
+  justifyContent?: Justify;
+  gap?: Gap;
 }
 
-function Flex({
+export function Flex({
   children,
   className,
   flexDirection = FlexDirection.ROW,
-  alignItems = FlexAlign.START,
-  justifyContent = FlexJustify.START,
-  gap = FlexGap.NONE,
+  alignItems = Align.START,
+  justifyContent = Justify.START,
+  gap = Gap.NONE,
 }: PropsWithChildren<FlexProps>): ReactElement {
   return (
     <div
@@ -30,5 +25,3 @@ function Flex({
     </div>
   );
 }
-
-export default Flex;

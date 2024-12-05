@@ -16,12 +16,16 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
+    "incremental": true,
     "paths": {
       "@shared/types": ["./shared/types"],
       "@shared/types/*": ["./shared/types/*"],
       "@shared/functions": ["./shared/functions"],
-      "@shared/functions/*": ["./shared/functions/*"]
+      "@shared/functions/*": ["./shared/functions/*"],
+      "@shared/components": ["./shared/components"],
+      "@shared/components/*": ["./shared/components/*"],
+      "@shared/styles": ["./shared/styles"],
+      "@shared/styles/*": ["./shared/styles/*"]
     }
   }
 }

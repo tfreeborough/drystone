@@ -4,9 +4,10 @@ import { useContext } from "react";
 import { Application } from "@shared/types";
 import { AppContext } from "../../../stores/AppContext.ts";
 import Splash from "../../molecules/Splash/Splash.tsx";
-import Flex from "../../atoms/Flex/Flex.tsx";
-import { FlexAlign, FlexJustify } from "../../atoms/Flex/Flex.types.ts";
+import { Flex, RenderingErrorBoundary } from "@shared/components";
+import { Align, Justify } from "@shared/types";
 import { SceneRenderer } from "../../molecules/SceneRenderer/SceneRenderer.tsx";
+import { ErrorBoundary } from "react-error-boundary";
 
 interface PlayerProps {
   application: Application;
@@ -15,14 +16,24 @@ interface PlayerProps {
 function Player({ application }: PlayerProps) {
   const { PlayerStore } = useContext(AppContext);
 
+  function handleFatalError(error: Error) {
+    console.log(error);
+    // logCustomEvent('application:fatal-error', { error: error.message });
+  }
+
   return (
     <Flex
       className={css.player}
-      alignItems={FlexAlign.CENTER}
-      justifyContent={FlexJustify.CENTER}
+      alignItems={Align.CENTER}
+      justifyContent={Justify.CENTER}
     >
       {PlayerStore.state?.started ? (
-        <SceneRenderer />
+        <ErrorBoundary
+          fallbackRender={RenderingErrorBoundary}
+          onError={handleFatalError}
+        >
+          <SceneRenderer />
+        </ErrorBoundary>
       ) : (
         <Splash application={application} />
       )}

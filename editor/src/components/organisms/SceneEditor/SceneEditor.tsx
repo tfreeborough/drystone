@@ -10,7 +10,7 @@ import HeadingNode from '@tiptap/extension-heading';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
 
-import { Choice as ChoiceType, Frame, Scene } from 'drystone';
+import { Choice as ChoiceType, Frame, Scene } from '@shared/types';
 import TextInput from '../../atoms/TextInput/TextInput.tsx';
 
 import css from './SceneEditor.module.scss';

@@ -5,7 +5,7 @@ import { AppContext } from '../../../stores/AppContext.ts';
 import { useClickOutsideRef } from '../../../hooks/useClickOutsideRef.ts';
 import { AnimatePresence, motion } from 'framer-motion';
 import css from './ContextEditor.module.scss';
-import { Frame, Scene } from 'drystone';
+import { Frame, Scene } from '@shared/types';
 import SceneEditor from '../SceneEditor/SceneEditor.tsx';
 import FrameEditor from '../FrameEditor/FrameEditor.tsx';
 

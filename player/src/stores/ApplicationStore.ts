@@ -34,6 +34,12 @@ class ApplicationStore {
   public setAssets(assets: Asset[]) {
     this.assets = assets;
   }
+
+  public getScene(id: string) {
+    if (!this.application) return null;
+    const found = this.application.scenes.find((s) => s.id === id);
+    return found ?? null;
+  }
 }
 
 const singleton = new ApplicationStore();

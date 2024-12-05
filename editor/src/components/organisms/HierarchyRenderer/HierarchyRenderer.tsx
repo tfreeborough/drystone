@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { observer } from 'mobx-react-lite';
 import css from './HierarchyRenderer.module.scss';
-import { Application } from 'drystone';
+import { Application } from '@shared/types';
 import Muted from '../../atoms/Muted/Muted.tsx';
 import Topper from '../../atoms/Topper/Topper.tsx';
 

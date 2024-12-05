@@ -7,7 +7,7 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-function Button({
+export function Button({
   children,
   className = "",
   onClick,
@@ -28,5 +28,3 @@ function Button({
     </button>
   );
 }
-
-export default Button;

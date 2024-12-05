@@ -6,7 +6,7 @@ import {
   useEditor,
 } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { Frame } from 'drystone';
+import { Frame } from '@shared/types';
 import { useEffect } from 'react';
 import css from './FrameTipTap.module.scss';
 

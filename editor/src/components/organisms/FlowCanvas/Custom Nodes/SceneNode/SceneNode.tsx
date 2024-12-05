@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { observer } from 'mobx-react-lite';
 import css from './SceneNode.module.scss';
-import { Scene } from 'drystone';
+import { Scene } from '@shared/types';
 import Muted from '../../../../atoms/Muted/Muted.tsx';
 import { AppContext } from '../../../../../stores/AppContext.ts';
 
