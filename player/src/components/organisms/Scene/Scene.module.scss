@@ -1,3 +1,19 @@
 .scene{
   width: min(100%, 40rem);
+  align-self: start;
+  padding-top: 5rem;
+
+  .frameBreak{
+    width: 100%;
+  }
+
+  .next{
+    color: var(--anchor-colour);
+
+    &:hover{
+      cursor: pointer;
+      text-decoration: underline;
+      color: var(--anchor-colour-hover);
+    }
+  }
 }

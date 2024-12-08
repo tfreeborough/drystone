@@ -1,7 +1,7 @@
 import css from "./Splash.module.scss";
 import { Container, Paragraph } from "react-effect-typewriter";
 import { useContext, useState } from "react";
-import FadeIn from "../../animations/FadeIn/FadeIn.tsx";
+import { FadeIn } from "@shared/animations";
 import { AppContext } from "../../../stores/AppContext.ts";
 import { Align, Application, FlexDirection, Gap } from "@shared/types";
 import { Flex, Button } from "@shared/components";
@@ -33,12 +33,19 @@ function Splash({ application }: SplashProps) {
       gap={Gap.LG}
       alignItems={Align.CENTER}
     >
-      <div className={css.blurb}>
-        <FadeIn onComplete={() => setShowDescription(true)} duration={3}>
+      <Flex
+        className={css.blurb}
+        flexDirection={FlexDirection.COLUMN}
+        gap={Gap.MD}
+      >
+        <FadeIn
+          onAnimationComplete={() => setShowDescription(true)}
+          duration={3}
+        >
           <h1>{application.name}</h1>
         </FadeIn>
         {showDescription && (
-          <FadeIn duration={4}>
+          <FadeIn duration={1}>
             <div className={css.description}>
               <Container>
                 <Paragraph typingSpeed={40} onEnd={handleFinishType}>
@@ -49,11 +56,11 @@ function Splash({ application }: SplashProps) {
           </FadeIn>
         )}
         {showButton && (
-          <FadeIn duration={3} delay={2}>
+          <FadeIn duration={1} delay={2}>
             <Button onClick={handleStart}>Begin</Button>
           </FadeIn>
         )}
-      </div>
+      </Flex>
       {showAuthor && (
         <FadeIn className={css.author} duration={3} delay={2}>
           <span>Created by</span>&nbsp;

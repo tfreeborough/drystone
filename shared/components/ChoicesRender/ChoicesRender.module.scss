@@ -1,0 +1,20 @@
+.choicesRender{
+  .choice{
+    color: var(--anchor-colour);
+
+    &:hover{
+      cursor: pointer;
+      text-decoration: underline;
+      color: var(--anchor-colour-hover);
+    }
+
+    &.invalid{
+      color: var(--colour-charcoal-60);
+
+      &:hover{
+        text-decoration: none;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

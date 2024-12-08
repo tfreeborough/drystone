@@ -2,6 +2,9 @@
 
 :root{
   --anchor-colour: var(--colour-raspberry-40);
+  --anchor-colour-hover: var(--colour-raspberry-20);
+
+  --border-color: var(--colour-charcoal-80);
 }
 
 body,
@@ -23,4 +26,8 @@ html,
 
 a {
   color: var(--anchor-colour);
+}
+
+h1{
+  font-size: var(--font-size-xl);
 }

@@ -5,6 +5,10 @@
   .blurb {
     width: min(500px, 100%);
 
+    h1{
+      font-size: var(--font-size-xl);
+    }
+
     .description {
       width: 100%;
     }

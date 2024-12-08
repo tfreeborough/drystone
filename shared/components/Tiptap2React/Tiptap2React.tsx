@@ -1,14 +1,29 @@
 import { JSONContent } from "@tiptap/react";
-import { Container } from "react-effect-typewriter";
 import css from "./Tiptap2React.module.scss";
 import { FadeIn } from "../../animations";
 
-const renderNode = (node: JSONContent, index: number) => {
-  const fadeDelay = 0.5;
+const renderNode = (
+  node: JSONContent,
+  index: number,
+  lastNode: boolean = false,
+  onAnimationComplete?: () => void,
+) => {
+  function handleAnimationEnd() {
+    if (lastNode && onAnimationComplete) {
+      onAnimationComplete();
+    }
+  }
+
+  const fadeDelay = 0.8;
+
   switch (node.type) {
     case "paragraph":
       return (
-        <FadeIn key={index} delay={index * fadeDelay}>
+        <FadeIn
+          key={index}
+          delay={index * fadeDelay}
+          onAnimationComplete={handleAnimationEnd}
+        >
           <p className={css.paragraph}>
             {node.content?.map((child, i) => renderNode(child, i))}
           </p>
@@ -17,7 +32,11 @@ const renderNode = (node: JSONContent, index: number) => {
     case "heading":
       const Tag = `h${node.attrs?.level}` as keyof JSX.IntrinsicElements;
       return (
-        <FadeIn key={index} delay={index * fadeDelay}>
+        <FadeIn
+          key={index}
+          delay={index * fadeDelay}
+          onAnimationComplete={handleAnimationEnd}
+        >
           <Tag className={`${css.heading}`}>
             {node.content?.map((child, i) => renderNode(child, i))}
           </Tag>
@@ -42,13 +61,21 @@ const renderNode = (node: JSONContent, index: number) => {
       );
     case "bulletList":
       return (
-        <FadeIn key={index} delay={index * fadeDelay}>
+        <FadeIn
+          key={index}
+          delay={index * fadeDelay}
+          onAnimationComplete={handleAnimationEnd}
+        >
           <ul>{node.content?.map((child, i) => renderNode(child, i))}</ul>
         </FadeIn>
       );
     case "orderedList":
       return (
-        <FadeIn key={index} delay={index * fadeDelay}>
+        <FadeIn
+          key={index}
+          delay={index * fadeDelay}
+          onAnimationComplete={handleAnimationEnd}
+        >
           <ol>{node.content?.map((child, i) => renderNode(child, i))}</ol>
         </FadeIn>
       );
@@ -79,21 +106,29 @@ const renderNode = (node: JSONContent, index: number) => {
 
 interface Tiptap2ReactProps {
   nodes: JSONContent;
+  onAnimationComplete?: () => void;
 }
 
-export function Tiptap2React({ nodes }: Tiptap2ReactProps) {
+export function Tiptap2React({
+  nodes,
+  onAnimationComplete,
+}: Tiptap2ReactProps) {
+  function handleAnimationEnd() {
+    if (onAnimationComplete) {
+      onAnimationComplete();
+    }
+  }
+
   if (nodes.content && nodes.content.length > 0) {
+    const content = nodes.content;
     return (
       <div>
-        <Container typingSpeed={20}>
-          {nodes.content.map((node, index) => renderNode(node, index))}
-        </Container>
+        {content.map((node, index) => {
+          const isLastNode = index + 1 === content.length;
+          return renderNode(node, index, isLastNode, handleAnimationEnd);
+        })}
       </div>
     );
   }
-  return (
-    <div>
-      <Container enableLogs>{renderNode(nodes, 0)}</Container>
-    </div>
-  );
+  return <div>{renderNode(nodes, 0)}</div>;
 }

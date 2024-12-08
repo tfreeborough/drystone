@@ -7,7 +7,7 @@ export const SceneRenderer = observer(() => {
   const { PlayerStore, ApplicationStore } = useContext(AppContext);
 
   const position = PlayerStore.state?.position;
-  console.log(position);
+  //console.log(position);
 
   if (!position) {
     return null;
@@ -18,6 +18,8 @@ export const SceneRenderer = observer(() => {
   if (!scene) {
     throw new Error(`Scene not found ${position}`);
   }
+
+  //console.log("Current scene", toJS(scene));
 
   return <Scene scene={scene} />;
 });

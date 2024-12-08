@@ -43,8 +43,26 @@ class PlayerStore {
     this.state = {
       started: false,
       position: entrypoint,
-      history: [],
+      history: [entrypoint],
     };
+  }
+
+  navigateToScene(sceneId: string) {
+    if (this.state) {
+      this.state.position = sceneId;
+      this.state.history = [...this.state.history, sceneId];
+    }
+  }
+
+  goBackInHistory(steps: number = 1) {
+    if (this.state) {
+      const newHistory = this.state.history.slice(0, -1 * steps);
+      const lastElement = newHistory.at(-1);
+      if (lastElement) {
+        this.state.history = newHistory;
+        this.state.position = lastElement;
+      }
+    }
   }
 }
 
