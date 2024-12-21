@@ -18,6 +18,7 @@ export default (appPath: string) =>
         "@shared/components": resolve(__dirname, "./shared/components"),
         "@shared/styles": resolve(__dirname, "./shared/styles"),
         "@shared/animations": resolve(__dirname, "./shared/animations"),
+        "@shared/hooks": resolve(__dirname, "./shared/hooks"),
       },
     },
     css: {

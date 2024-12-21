@@ -50,7 +50,6 @@ function ApplicationLoader() {
       ApplicationStore.setApplication(appDataJson);
       ApplicationStore.setAssets(assets);
       PlayerStore.initializeGameState(appDataJson.entrypoint);
-      document.title = appDataJson.name;
     } catch (error) {
       setLoadingError(getErrorMessage(error));
     } finally {

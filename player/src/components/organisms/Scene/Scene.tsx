@@ -14,6 +14,7 @@ import { observer } from "mobx-react-lite";
 import { AppContext } from "../../../stores/AppContext.ts";
 import { AnimatePresence } from "framer-motion";
 import { SceneUnderConstruction } from "../../molecules/SceneUnderConstruction/SceneUnderConstruction.tsx";
+import { ApplicationEnding } from "../../molecules/ApplicationEnding/ApplicationEnding.tsx";
 
 interface SceneProps {
   scene: SceneType;
@@ -62,8 +63,9 @@ export const Scene = observer(({ scene }: SceneProps) => {
 
   function handleNextFrame() {
     if (renderedFrames) {
+      const latestFrame = renderedFrames[renderedFrames.length - 1];
       const currentIndex = scene.frames.findIndex(
-        (frame) => frame.id === frame.id,
+        (f) => f.id === latestFrame.id,
       );
       if (currentIndex > -1) {
         const nextFrame = scene.frames[currentIndex + 1];
@@ -92,6 +94,7 @@ export const Scene = observer(({ scene }: SceneProps) => {
   }
 
   const isLastFrame = renderedFrames.length === scene.frames.length;
+  const isEnd = scene.choices.length === 0;
 
   return (
     <div className={css.scene}>
@@ -106,7 +109,6 @@ export const Scene = observer(({ scene }: SceneProps) => {
                 />
               </Fragment>
             ))}
-
             {animationsCompleted && (
               <>
                 <FadeIn duration={2}>
@@ -123,6 +125,7 @@ export const Scene = observer(({ scene }: SceneProps) => {
                 </FadeIn>
               </>
             )}
+            {isEnd && <ApplicationEnding />}
           </Flex>
         </FadeIn>
       </AnimatePresence>

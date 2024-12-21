@@ -25,7 +25,9 @@
       "@shared/styles": ["./shared/styles"],
       "@shared/styles/*": ["./shared/styles/*"],
       "@shared/animations": ["./shared/animations"],
-      "@shared/animations/*": ["./shared/animations/*"]
+      "@shared/animations/*": ["./shared/animations/*"],
+      "@shared/hooks": ["./shared/hooks"],
+      "@shared/hooks/*": ["./shared/hooks/*"]
     }
   }
 }

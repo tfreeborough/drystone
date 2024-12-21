@@ -1,0 +1,10 @@
+.applicationEnding {
+  border-top: 1px solid var(--border-color);
+  width: 100%;
+  padding-top: var(--gap-md);
+
+  .heading{
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+  }
+}
