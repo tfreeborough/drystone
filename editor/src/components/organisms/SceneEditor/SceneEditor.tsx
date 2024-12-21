@@ -27,6 +27,7 @@ import Button from '../../atoms/Button/Button.tsx';
 import Choice from '../../atoms/Choice/Choice.tsx';
 import { useContext } from 'react';
 import { AppContext } from '../../../stores/AppContext.ts';
+import { Tiptap2React } from '@shared/components';
 
 interface SceneEditorProps {
   scene: Scene;
@@ -120,17 +121,8 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
                   onClick={() => handleSelectFrame(frame)}
                 >
                   <Muted>Frame {i + 1}</Muted>
-                  <div>
-                    {frame.nodes &&
-                      generateText(frame.nodes, [
-                        Document,
-                        Paragraph,
-                        HeadingNode,
-                        BulletList,
-                        ListItem,
-                        Text,
-                        HardBreak,
-                      ])}
+                  <div className={css.nodes}>
+                    {frame.nodes && <Tiptap2React nodes={frame.nodes} />}
                   </div>
                 </Reorder.Item>
               );

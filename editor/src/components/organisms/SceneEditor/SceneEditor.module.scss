@@ -9,6 +9,12 @@
       padding: var(--gap-sm);
       list-style-type: none;
       background-color: var(--colour-white);
+
+      .nodes{
+        p:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
 
     .addFrame {
