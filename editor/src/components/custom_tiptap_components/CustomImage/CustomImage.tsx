@@ -14,9 +14,7 @@ export const CustomImage = Node.create({
   name: 'customImage',
   group: 'block',
   atom: true,
-  selectable: true, // Makes it selectable
-  draggable: true, // Optional: makes it draggable
-  inline: false, // Ensures it's treated as a block element
+  selectable: true,
 
   addAttributes() {
     return {
@@ -26,13 +24,6 @@ export const CustomImage = Node.create({
       applicationId: {
         default: null,
       },
-    };
-  },
-
-  addKeyboardShortcuts() {
-    return {
-      ArrowUp: () => this.editor?.commands.focus('before' as any),
-      ArrowDown: () => this.editor?.commands.focus('after' as any),
     };
   },
 

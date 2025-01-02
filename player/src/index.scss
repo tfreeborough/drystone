@@ -31,3 +31,9 @@ a {
 h1{
   font-size: var(--font-size-xl);
 }
+
+ul{
+  margin-left: var(--gap-sm);
+  list-style-type: disc;
+  padding-left: var(--gap-sm);
+}
