@@ -15,8 +15,9 @@
     background: var(--colour-white);
     padding: var(--gap-md);
     z-index: 1000;
-    border: var(--border);
     border-radius: var(--border-radius-md);
     box-sizing: border-box;
+    height: auto;
+    width: min(400px, 100%);
   }
 }

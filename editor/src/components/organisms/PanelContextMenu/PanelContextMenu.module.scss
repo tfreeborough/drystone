@@ -2,6 +2,8 @@
   background: var(--colour-white);
   box-shadow: var(--box-shadow);
   border: var(--border);
+  padding: var(--gap-sm);
+  border-radius: var(--border-radius-md);
   position: absolute;
   z-index: 10;
 }

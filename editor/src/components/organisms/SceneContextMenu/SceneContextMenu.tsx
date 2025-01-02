@@ -2,6 +2,8 @@ import css from './SceneContextMenu.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { AppContext } from '../../../stores/AppContext.ts';
+import { Button, Flex } from '@shared/components';
+import { Gap } from '@shared/types';
 
 interface SceneContextMenuProps {
   id: string;
@@ -28,8 +30,10 @@ function SceneContextMenu({ top, left, onClose, id }: SceneContextMenuProps) {
         left,
       }}
     >
-      <button onClick={handleDelete}>Delete Scene</button>
-      <button onClick={onClose}>Close</button>
+      <Flex gap={Gap.SM}>
+        <Button onClick={handleDelete}>Delete Scene</Button>
+        <Button onClick={onClose}>Close</Button>
+      </Flex>
     </div>
   );
 }

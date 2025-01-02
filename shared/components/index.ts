@@ -1,5 +1,7 @@
 export * from './Button/Button';
 export * from './ChoicesRender/ChoicesRender';
+export * from './CustomImage/CustomImage';
 export * from './Flex/Flex';
+export * from './IconButton/IconButton';
 export * from './RenderingErrorBoundary/RenderingErrorBoundary';
 export * from './Tiptap2React/Tiptap2React';

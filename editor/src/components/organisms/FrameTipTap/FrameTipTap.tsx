@@ -7,18 +7,28 @@ import {
 } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Frame } from '@shared/types';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import css from './FrameTipTap.module.scss';
+import { ImageUploadButton } from '../../atoms/ImageUploadButton/ImageUploadButton.tsx';
+import { ImageManager } from '../ImageManager/ImageManager.tsx';
+import { StoredImage } from '../../../services/ImageDBService.ts';
+import { AppContext } from '../../../stores/AppContext.ts';
+import { observer } from 'mobx-react-lite';
+import { CustomImage } from '../../custom_tiptap_components/CustomImage/CustomImage.tsx';
+import { Flex, IconButton } from '@shared/components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // define your extension array
-const extensions = [StarterKit];
+const extensions = [StarterKit, CustomImage];
 
 interface FrameTipTapProps {
   frame: Frame;
   onUpdate: (content: JSONContent) => void;
 }
 
-function FrameTipTap({ frame, onUpdate }: FrameTipTapProps) {
+export const FrameTipTap = observer(({ frame, onUpdate }: FrameTipTapProps) => {
+  const { DrystoneStore } = useContext(AppContext);
+
   const editor = useEditor({
     extensions,
     content: frame.nodes,
@@ -32,6 +42,13 @@ function FrameTipTap({ frame, onUpdate }: FrameTipTapProps) {
     editor?.commands.setContent(frame.nodes);
   }, [frame.id]);
 
+  const handleImageSelect = (image: StoredImage) => {
+    if (editor) {
+      // @ts-ignore
+      editor.chain().focus().insertImage(image.id).run();
+    }
+  };
+
   //console.log(editor?.getJSON());
 
   if (!editor) {
@@ -43,39 +60,37 @@ function FrameTipTap({ frame, onUpdate }: FrameTipTapProps) {
       <EditorContent editor={editor} className={css.editor} />
       <FloatingMenu editor={editor}>
         <div className={css.floatingMenu}>
-          <button
-            onClick={() =>
-              editor?.chain().focus().toggleHeading({ level: 1 }).run()
-            }
-            className={
-              editor.isActive('heading', { level: 1 }) ? 'is-active' : ''
-            }
-          >
-            H1
-          </button>
-          <button
-            onClick={() =>
-              editor?.chain().focus().toggleHeading({ level: 2 }).run()
-            }
-            className={
-              editor.isActive('heading', { level: 2 }) ? 'is-active' : ''
-            }
-          >
-            H2
-          </button>
-          <button
-            onClick={() => editor?.chain().focus().toggleBulletList().run()}
-            className={editor.isActive('bulletList') ? 'is-active' : ''}
-          >
-            Bullet list
-          </button>
+          <Flex className={css.flex}>
+            <IconButton
+              onClick={() =>
+                editor?.chain().focus().toggleHeading({ level: 1 }).run()
+              }
+              isActive={editor.isActive('heading', { level: 1 })}
+            >
+              <FontAwesomeIcon icon={['fas', 'heading']} />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                editor?.chain().focus().toggleHeading({ level: 2 }).run()
+              }
+              isActive={editor.isActive('heading', { level: 2 })}
+            >
+              <FontAwesomeIcon icon={['fas', 'heading']} />2
+            </IconButton>
+            <IconButton
+              onClick={() => editor?.chain().focus().toggleBulletList().run()}
+              isActive={editor.isActive('bulletList')}
+            >
+              <FontAwesomeIcon icon={['fas', 'list']} />
+            </IconButton>
+            <ImageUploadButton />
+          </Flex>
         </div>
       </FloatingMenu>
-      <BubbleMenu editor={editor}>
-        <></>
-      </BubbleMenu>
+      <BubbleMenu editor={editor}>&nbsp;</BubbleMenu>
+      {DrystoneStore.imageManagerOpen && (
+        <ImageManager onImageSelect={handleImageSelect} />
+      )}
     </>
   );
-}
-
-export default FrameTipTap;
+});

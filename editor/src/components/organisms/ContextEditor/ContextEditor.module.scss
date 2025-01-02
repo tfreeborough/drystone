@@ -2,7 +2,7 @@
   width: 30dvw;
   min-width: 800px;
   background-color: var(--colour-old-rose-10);
-  overflow: hidden;
+  overflow-y: auto;
   box-shadow: var(--box-shadow);
   padding: var(--gap-md);
   box-sizing: border-box;

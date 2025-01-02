@@ -4,6 +4,7 @@ import css from './PanelContextMenu.module.scss';
 import { Scene } from '@shared/types';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { useReactFlow, Viewport } from '@xyflow/react';
+import { Button } from '@shared/components';
 
 interface PanelContextMenuProps {
   top: number;
@@ -47,6 +48,17 @@ function PanelContextMenu({
         },
         choices: [],
       };
+      /**
+       * If this is the first scene, we should also set the entrypoint of the app to this one otherwise if a user exports
+       * the app there will be nice entrypoint and it will break;
+       */
+      if (currentApplication.scenes.length === 0) {
+        ApplicationStore.updateEntrypoint(currentApplication.id, sceneId);
+      }
+
+      /**
+       * Add the scene.
+       */
       ApplicationStore.addScene(currentApplication.id, newScene);
     }
   }
@@ -57,7 +69,7 @@ function PanelContextMenu({
       className={css.panelContextMenu}
       {...props}
     >
-      <button onClick={createScene}>Create new Scene</button>
+      <Button onClick={createScene}>Create new Scene</Button>
     </div>
   );
 }

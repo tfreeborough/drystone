@@ -114,7 +114,10 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
                 >
                   <Muted>Frame {i + 1}</Muted>
                   <div className={css.nodes}>
-                    {frame.nodes && <Tiptap2React nodes={frame.nodes} />}
+                    {frame.nodes && (
+                      <Tiptap2React nodes={frame.nodes} fadeDelay={0.1} />
+                    )}
+                    <div className={css.whiteFade}></div>
                   </div>
                 </Reorder.Item>
               );

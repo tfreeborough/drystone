@@ -1,4 +1,4 @@
-import FrameTipTap from '../FrameTipTap/FrameTipTap.tsx';
+import { FrameTipTap } from '../FrameTipTap/FrameTipTap.tsx';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { AppContext } from '../../../stores/AppContext.ts';

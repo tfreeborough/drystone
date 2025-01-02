@@ -1,0 +1,9 @@
+.missingImage{
+  border: 1px dashed var(--colour-charcoal-30);
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-sm);
+  color: var(--colour-charcoal-30);
+}

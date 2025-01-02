@@ -1,6 +1,8 @@
 .sceneContextMenu {
   background: var(--colour-white);
   box-shadow: var(--box-shadow);
+  padding: var(--gap-sm);
+  border-radius: var(--border-radius-md);
   border: var(--border);
   position: absolute;
   z-index: 10;

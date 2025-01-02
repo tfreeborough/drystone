@@ -1,0 +1,25 @@
+.iconButton{
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  background-color: var(--colour-old-rose-20);
+  border:1px solid var(--colour-old-rose-40);
+  justify-content: center;
+  align-items: center;
+
+  &:hover{
+    background-color: var(--colour-old-rose-10);
+    cursor: pointer;
+  }
+
+  &.isActive{
+    background-color: var(--colour-old-rose-40);
+
+    &:hover{
+      background-color: var(--colour-old-rose-30);
+      cursor: pointer;
+    }
+  }
+
+
+}

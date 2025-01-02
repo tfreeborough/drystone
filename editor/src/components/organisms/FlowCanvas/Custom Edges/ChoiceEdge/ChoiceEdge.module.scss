@@ -1,0 +1,30 @@
+.choiceEdge{
+  background-color: var(--colour-old-rose-20);
+  box-shadow: var(--box-shadow);
+  padding: var(--gap-xs) var(--gap-sm);
+  border-radius: var(--border-radius-sm);
+  width: 140px;
+  font-size: var(--font-size-2xs);
+  text-align: center;
+  pointer-events: all;
+  box-sizing: border-box;
+
+  .delete{
+    position: absolute;
+    left: calc(100% + 0.25rem);
+    top: 0;
+    width: fit-content;
+    word-break: keep-all;
+    white-space: pre;
+    font-size: var(--font-size-xs);
+    color: red;
+    font-weight: bold;
+    font-family: monospace;
+    cursor: pointer;
+    pointer-events: all;
+
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+}

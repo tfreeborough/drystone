@@ -1,20 +1,22 @@
 import { JSONContent } from "@tiptap/react";
 import css from "./Tiptap2React.module.scss";
 import { FadeIn } from "../../animations";
+import { CustomImage } from "../CustomImage/CustomImage";
+
+const FADE_DELAY = 0.8;
 
 const renderNode = (
   node: JSONContent,
   index: number,
   lastNode: boolean = false,
   onAnimationComplete?: () => void,
+  fadeDelay: number = FADE_DELAY,
 ) => {
   function handleAnimationEnd() {
     if (lastNode && onAnimationComplete) {
       onAnimationComplete();
     }
   }
-
-  const fadeDelay = 0.8;
 
   switch (node.type) {
     case "paragraph":
@@ -99,6 +101,16 @@ const renderNode = (
       );
     case "hardBreak":
       return <br key={index} />;
+    case "customImage":
+      return (
+        <FadeIn
+          key={index}
+          delay={index * fadeDelay}
+          onAnimationComplete={handleAnimationEnd}
+        >
+          <CustomImage key={index} node={node} />
+        </FadeIn>
+      );
     default:
       return null;
   }
@@ -107,11 +119,13 @@ const renderNode = (
 interface Tiptap2ReactProps {
   nodes: JSONContent;
   onAnimationComplete?: () => void;
+  fadeDelay?: number;
 }
 
 export function Tiptap2React({
   nodes,
   onAnimationComplete,
+  fadeDelay = FADE_DELAY,
 }: Tiptap2ReactProps) {
   function handleAnimationEnd() {
     if (onAnimationComplete) {
@@ -125,7 +139,13 @@ export function Tiptap2React({
       <div>
         {content.map((node, index) => {
           const isLastNode = index + 1 === content.length;
-          return renderNode(node, index, isLastNode, handleAnimationEnd);
+          return renderNode(
+            node,
+            index,
+            isLastNode,
+            handleAnimationEnd,
+            fadeDelay,
+          );
         })}
       </div>
     );

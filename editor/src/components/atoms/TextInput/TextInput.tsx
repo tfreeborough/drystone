@@ -9,6 +9,8 @@ interface TextInputProps {
   onChange: (value: string) => void;
   label?: string;
   fullWidth?: boolean;
+  autoFocus?: boolean;
+  placeholder?: string;
 }
 
 function TextInput({
@@ -18,6 +20,8 @@ function TextInput({
   className = '',
   label,
   fullWidth = false,
+  autoFocus = false,
+  placeholder,
 }: TextInputProps): ReactElement {
   function handleChange(e: any) {
     onChange(e.target.value);
@@ -45,8 +49,10 @@ function TextInput({
     <>
       {label && <Label>{label}</Label>}
       <input
-        className={`${css.textInput} ${fullWidth ? css.fullWidth : ''} ${className}`}
+        autoFocus={autoFocus}
+        className={`${css.textInput} ${fullWidth ? css.fullWidth : ''} ${css.block} ${className}`}
         type="text"
+        placeholder={placeholder}
         value={value}
         onChange={handleChange}
       />

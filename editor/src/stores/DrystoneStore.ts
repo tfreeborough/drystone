@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { makePersistable } from 'mobx-persist-store';
 
 class DrystoneStore {
+  public imageManagerOpen = false;
   public test = 'foo';
   constructor() {
     makeAutoObservable(this);
@@ -17,6 +18,14 @@ class DrystoneStore {
       },
       { delay: 200, fireImmediately: false },
     );
+  }
+
+  openImageManager() {
+    this.imageManagerOpen = true;
+  }
+
+  closeImageManager() {
+    this.imageManagerOpen = false;
   }
 }
 

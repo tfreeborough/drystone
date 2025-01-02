@@ -8,6 +8,7 @@ import {
   Connection,
   Controls,
   Edge,
+  EdgeTypes,
   Node,
   ReactFlow,
   useReactFlow,
@@ -21,9 +22,12 @@ import SceneNode from './Custom Nodes/SceneNode/SceneNode.tsx';
 import PanelContextMenu from '../PanelContextMenu/PanelContextMenu.tsx';
 import SceneContextMenu from '../SceneContextMenu/SceneContextMenu.tsx';
 import NewChoiceModal from '../NewChoiceModal/NewChoiceModal.tsx';
+import { ChoiceEdge } from './Custom Edges/ChoiceEdge/ChoiceEdge.tsx';
 
 const nodeTypes: any = { scene: SceneNode };
-
+const edgeTypes: EdgeTypes = {
+  choice: ChoiceEdge,
+};
 const isValidNumber = (num: any) => typeof num === 'number' && isFinite(num);
 
 function FlowCanvas() {
@@ -153,6 +157,12 @@ function FlowCanvas() {
             source: scene.id,
             target: choice.target,
             label: choice.label,
+            data: {
+              label: choice.label,
+              scene: scene.id,
+              application: current.id,
+            },
+            type: 'choice',
           });
         });
       });
@@ -258,6 +268,7 @@ function FlowCanvas() {
   return (
     <ReactFlow
       nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
       className={css.flowCanvas}
       snapGrid={[5, 5]}
       maxZoom={4}

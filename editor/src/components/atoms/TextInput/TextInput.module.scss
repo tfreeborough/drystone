@@ -1,6 +1,7 @@
 .textInput {
   font-family: 'EB Garamond', serif;
 
+
   &.inline {
     border: none;
     font-weight: bold;
@@ -9,6 +10,10 @@
     display: inline-block;
     min-width: 200px;
     white-space: pre-wrap;
+  }
+
+  &.block{
+    height: 1.5rem;
   }
 
   &.fullWidth {

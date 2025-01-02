@@ -21,16 +21,27 @@ function SceneNode({ data, id }: SceneNodePropsType) {
   const context = ApplicationStore.editorContext;
   const selected = context?.id === id;
 
+  const handleSize = '0.5rem';
+
   return (
     <>
-      <Handle type="target" position={Position.Top} />
+      <Handle
+        type="target"
+        position={Position.Top}
+        style={{ width: handleSize, height: handleSize }}
+      />
       <div className={`${css.sceneNode} ${selected ? css.selected : ''}`}>
         <div className={css.note}>{data.label}</div>
         <div className={css.metadata}>
           <Muted>{data.scene.frames.length} Pages</Muted>
         </div>
       </div>
-      <Handle type="source" position={Position.Bottom} id="a" />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        id="a"
+        style={{ width: handleSize, height: handleSize }}
+      />
     </>
   );
 }

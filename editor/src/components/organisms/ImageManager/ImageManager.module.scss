@@ -1,0 +1,69 @@
+.imageManager{
+  background-color: rgba(0,0,0,0.4);
+  position: fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+
+  .modal{
+    width: min(600px, 100%);
+
+    .input{
+      input{
+        width: 100%;
+        box-sizing: border-box;
+        border: var(--border);
+        padding: var(--gap-xs) var(--gap-sm);
+        border-radius: var(--border-radius-sm);
+      }
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--gap-sm);
+
+      .image{
+        display: grid;
+        height: 200px;
+        border: var(--border);
+        padding: var(--gap-xs);
+        gap: var(--gap-sm);
+        box-sizing: border-box;
+        grid-template-rows: auto 1fr;
+        align-content: space-between;
+        position: relative;
+
+        img{
+          width: 3rem;
+          display: block;
+          border: var(--border);
+        }
+
+        .info{
+          align-self: end;
+          font-size: var(--font-size-sm);
+
+          .delete{
+            position: absolute;
+            color: var(--colour-charcoal-30);
+            top: var(--gap-xs);
+            right: var(--gap-xs);
+          }
+        }
+
+        &:hover{
+          background-color: var(--colour-charcoal-10);
+        }
+      }
+    }
+
+  }
+
+
+}
