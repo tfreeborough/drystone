@@ -39,7 +39,9 @@ export const FrameTipTap = observer(({ frame, onUpdate }: FrameTipTapProps) => {
   }, [editor?.state.doc.content]);
 
   useEffect(() => {
-    editor?.commands.setContent(frame.nodes);
+    setTimeout(() => {
+      editor?.commands.setContent(frame.nodes);
+    });
   }, [frame.id]);
 
   const handleImageSelect = (image: StoredImage) => {

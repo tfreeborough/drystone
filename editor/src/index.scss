@@ -28,3 +28,21 @@ html,
 a {
   color: var(--anchor-colour);
 }
+
+
+.ProseMirror-selectednode{
+  animation: glow 2s infinite;
+}
+@keyframes rotate {
+  0% { clip-path: inset(0 0 95% 0); }
+  25% { clip-path: inset(0 0 0 95%); }
+  50% { clip-path: inset(95% 0 0 0); }
+  75% { clip-path: inset(0 95% 0 0); }
+  100% { clip-path: inset(0 0 95% 0); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 0 0 var(--colour-raspberry) }
+  50% { box-shadow: 0 0 0 3px var(--colour-raspberry); }
+  100% { box-shadow: 0 0 0 0 var(--colour-raspberry); }
+}

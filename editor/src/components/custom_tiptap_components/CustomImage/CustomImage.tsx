@@ -14,11 +14,9 @@ const ImageComponent = ({ node }: any) => {
   useEffect(() => {
     setImageError(null);
     const loadImage = async () => {
-      const image = await ImageDBService.getImage(node.attrs.imageId).catch(
-        err => {
-          setImageError(err);
-        },
-      );
+      const image = await ImageDBService.getImage(node.attrs.id).catch(err => {
+        setImageError(err);
+      });
       if (image) {
         setImageData(image.data);
       } else {
@@ -26,7 +24,9 @@ const ImageComponent = ({ node }: any) => {
       }
     };
     void loadImage();
-  }, [node.attrs.imageId]);
+  }, [node.attrs.id]);
+
+  console.log(node.attrs);
 
   if (!imageData)
     return (
@@ -55,12 +55,22 @@ export const CustomImage = Node.create({
   name: 'customImage',
   group: 'block',
   atom: true,
+  selectable: true, // Makes it selectable
+  draggable: true, // Optional: makes it draggable
+  inline: false, // Ensures it's treated as a block element
 
   addAttributes() {
     return {
-      imageId: {
+      id: {
         default: null,
       },
+    };
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      ArrowUp: () => this.editor?.commands.focus('before'),
+      ArrowDown: () => this.editor?.commands.focus('after'),
     };
   },
 
@@ -75,7 +85,10 @@ export const CustomImage = Node.create({
   renderHTML({ HTMLAttributes }) {
     return [
       'img',
-      { ...HTMLAttributes, 'data-image-id': HTMLAttributes.imageId },
+      {
+        ...HTMLAttributes,
+        'data-image-id': HTMLAttributes.id,
+      },
     ];
   },
 
@@ -86,11 +99,11 @@ export const CustomImage = Node.create({
   addCommands(): any {
     return {
       insertImage:
-        (imageId: string) =>
+        (id: string) =>
         ({ commands }: any) => {
           return commands.insertContent({
             type: this.name,
-            attrs: { imageId },
+            attrs: { id },
           });
         },
     };

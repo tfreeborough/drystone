@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import { AppContext } from '../../../stores/AppContext.ts';
 import { useClickOutsideRef } from '../../../hooks/useClickOutsideRef.ts';
@@ -8,6 +8,7 @@ import css from './ContextEditor.module.scss';
 import { Frame, Scene } from '@shared/types';
 import SceneEditor from '../SceneEditor/SceneEditor.tsx';
 import FrameEditor from '../FrameEditor/FrameEditor.tsx';
+import { toJS } from 'mobx';
 
 function ContextEditor() {
   const { ApplicationStore } = useContext(AppContext);
@@ -19,8 +20,18 @@ function ContextEditor() {
   const editorContext = ApplicationStore.editorContext;
   const application = ApplicationStore.current;
 
+  useEffect(() => {
+    const foundFrame = editorContext.frames.find(
+      frame => frame.id === selectedFrame?.id,
+    );
+    if (!foundFrame) {
+      setSelectedFrame(null);
+    }
+  }, [editorContext]);
+
   useClickOutsideRef(contextEditorRef, () => {
     ApplicationStore.setEditorContext(null);
+    setSelectedFrame(null);
   });
 
   function handleUpdateScene(scene: Scene) {
