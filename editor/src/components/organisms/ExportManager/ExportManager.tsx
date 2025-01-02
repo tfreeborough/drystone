@@ -5,16 +5,11 @@ import Heading from '../../atoms/Heading/Heading.tsx';
 import Topper from '../../atoms/Topper/Topper.tsx';
 import Card from '../../atoms/Card/Card.tsx';
 import css from './ExportManager.module.scss';
-import Flex from '../../atoms/Flex/Flex.tsx';
-import {
-  FlexAlign,
-  FlexGap,
-  FlexJustify,
-} from '../../atoms/Flex/Flex.types.ts';
-import Button from '../../atoms/Button/Button.tsx';
+import { Button, Flex } from '@shared/components';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { useContext } from 'react';
 import { AssetDB } from '@shared/services';
+import { Align, Gap, Justify } from '@shared/types';
 
 function ExportManager() {
   const { ApplicationStore } = useContext(AppContext);
@@ -56,7 +51,7 @@ function ExportManager() {
   return (
     <div className={css.exportManager}>
       <Topper noNegativeMargin>Export Application</Topper>
-      <Flex gap={FlexGap.NONE} alignItems={FlexAlign.STRETCH}>
+      <Flex gap={Gap.NONE} alignItems={Align.STRETCH}>
         <Card className={css.wrapper}>
           <Heading>Export Information</Heading>
           <p>
@@ -76,8 +71,8 @@ function ExportManager() {
         <Card className={css.wrapper}>
           <Flex
             className={css.export}
-            alignItems={FlexAlign.CENTER}
-            justifyContent={FlexJustify.CENTER}
+            alignItems={Align.CENTER}
+            justifyContent={Justify.CENTER}
           >
             <Button onClick={handleExport}>Export to Zip</Button>
           </Flex>

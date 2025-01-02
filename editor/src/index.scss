@@ -1,5 +1,5 @@
 :root {
-  --text-colour: var(--colour-charcoal);
+  --text-colour: var(--colour-gray-100);
 }
 
 body,
@@ -14,9 +14,9 @@ html,
   color: var(--text-colour);
   background: radial-gradient(
     circle at bottom right,
-    var(--colour-old-rose),
-    var(--colour-old-rose-40),
-    var(--colour-old-rose-10),
+    var(--colour-secondary-70),
+    var(--colour-secondary-80),
+    var(--colour-secondary-90),
     var(--colour-white)
   );
   font-family: 'EB Garamond', serif;
@@ -27,6 +27,10 @@ html,
 
 a {
   color: var(--anchor-colour);
+
+  &:hover{
+    color: var(--anchor-colour-hover);
+  }
 }
 
 
@@ -42,7 +46,7 @@ a {
 }
 
 @keyframes glow {
-  0% { box-shadow: 0 0 0 0 var(--colour-raspberry) }
-  50% { box-shadow: 0 0 0 3px var(--colour-raspberry); }
-  100% { box-shadow: 0 0 0 0 var(--colour-raspberry); }
+  0% { box-shadow: 0 0 0 0 var(--colour-primary) }
+  50% { box-shadow: 0 0 0 3px var(--colour-primary); }
+  100% { box-shadow: 0 0 0 0 var(--colour-primary); }
 }

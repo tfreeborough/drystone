@@ -1,7 +1,7 @@
 .button {
   outline: none;
-  background-color: var(--colour-old-rose-40);
-  color: var(--colour-charcoal);
+  background-color: var(--colour-primary);
+  color: var(--colour-primary-90);
   border: none;
   border-radius: var(--border-radius-sm);
   padding: var(--gap-xs) var(--gap-md);
@@ -12,13 +12,13 @@
 
   &:hover {
     cursor: pointer;
-    background-color: var(--colour-old-rose-20);
-    color: var(--colour-charcoal-60);
+    background-color: var(--colour-primary-10);
+    color: var(--colour-primary-90);
   }
 
   &.disabled {
-    background-color: var(--colour-charcoal-80);
+    background-color: var(--colour-gray-90);
     cursor: default;
-    color: var(--colour-charcoal-60);
+    color: var(--colour-gray-60);
   }
 }

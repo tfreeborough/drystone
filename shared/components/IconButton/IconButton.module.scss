@@ -2,21 +2,21 @@
   width: 2rem;
   height: 2rem;
   display: flex;
-  background-color: var(--colour-old-rose-20);
-  border:1px solid var(--colour-old-rose-40);
+  background-color: var(--colour-secondary-80);
+  border:1px solid var(--colour-secondary-60);
   justify-content: center;
   align-items: center;
 
   &:hover{
-    background-color: var(--colour-old-rose-10);
+    background-color: var(--colour-secondary-90);
     cursor: pointer;
   }
 
   &.isActive{
-    background-color: var(--colour-old-rose-40);
+    background-color: var(--colour-secondary-60);
 
     &:hover{
-      background-color: var(--colour-old-rose-30);
+      background-color: var(--colour-secondary-70);
       cursor: pointer;
     }
   }

@@ -4,16 +4,11 @@ import { observer } from 'mobx-react-lite';
 import css from './CreateApplication.module.scss';
 import Card from '../../atoms/Card/Card.tsx';
 import TextInput from '../../atoms/TextInput/TextInput.tsx';
-import Flex from '../../atoms/Flex/Flex.tsx';
-import {
-  FlexDirection,
-  FlexGap,
-  FlexJustify,
-} from '../../atoms/Flex/Flex.types.ts';
-import Button from '../../atoms/Button/Button.tsx';
+import { Flex } from '@shared/components';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { useLocation } from 'wouter';
-import { Application } from '@shared/types';
+import { Application, FlexDirection, Gap, Justify } from '@shared/types';
+import { Button } from '@shared/components';
 
 function CreateApplication(): ReactElement {
   const [applicationName, setApplicationName] = useState('');
@@ -45,7 +40,7 @@ function CreateApplication(): ReactElement {
 
   return (
     <Card className={css.createApplication}>
-      <Flex flexDirection={FlexDirection.COLUMN} gap={FlexGap.MD}>
+      <Flex flexDirection={FlexDirection.COLUMN} gap={Gap.MD}>
         <div>
           My new application is called{' '}
           <TextInput
@@ -65,8 +60,8 @@ function CreateApplication(): ReactElement {
         </div>
         <Flex
           className={css.author}
-          gap={FlexGap.SM}
-          justifyContent={FlexJustify.SPACE_BETWEEN}
+          gap={Gap.SM}
+          justifyContent={Justify.SPACE_BETWEEN}
         >
           <div>
             <TextInput

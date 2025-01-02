@@ -3,15 +3,10 @@ import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { JSONContent } from '@tiptap/react';
-import { Frame } from '@shared/types';
+import { Align, FlexDirection, Frame, Gap } from '@shared/types';
 import css from './FrameEditor.module.scss';
 import Heading from '../../atoms/Heading/Heading.tsx';
-import Flex from '../../atoms/Flex/Flex.tsx';
-import {
-  FlexAlign,
-  FlexDirection,
-  FlexGap,
-} from '../../atoms/Flex/Flex.types.ts';
+import { Flex } from '@shared/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface FrameEditorProps {
@@ -47,8 +42,8 @@ function FrameEditor({ frame, onUpdate, onBack }: FrameEditorProps) {
   return (
     <Flex
       flexDirection={FlexDirection.COLUMN}
-      alignItems={FlexAlign.STRETCH}
-      gap={FlexGap.MD}
+      alignItems={Align.STRETCH}
+      gap={Gap.MD}
       className={css.frameEditor}
     >
       <div className={css.back} onClick={handleGoBack}>

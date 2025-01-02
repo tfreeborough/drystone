@@ -2,24 +2,25 @@ import { observer } from 'mobx-react-lite';
 import { v4 } from 'uuid';
 import { Reorder } from 'framer-motion';
 
-import { Choice as ChoiceType, Frame, Scene } from '@shared/types';
+import {
+  Align,
+  Choice as ChoiceType,
+  FlexDirection,
+  Frame,
+  Gap,
+  Justify,
+  Scene,
+} from '@shared/types';
 import TextInput from '../../atoms/TextInput/TextInput.tsx';
 
 import css from './SceneEditor.module.scss';
 import Heading from '../../atoms/Heading/Heading.tsx';
-import Flex from '../../atoms/Flex/Flex.tsx';
-import {
-  FlexAlign,
-  FlexDirection,
-  FlexGap,
-} from '../../atoms/Flex/Flex.types.ts';
 import Muted from '../../atoms/Muted/Muted.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from '../../atoms/Button/Button.tsx';
 import Choice from '../../atoms/Choice/Choice.tsx';
 import { useContext } from 'react';
 import { AppContext } from '../../../stores/AppContext.ts';
-import { Tiptap2React } from '@shared/components';
+import { Button, Tiptap2React, Flex, DeleteIcon } from '@shared/components';
 
 interface SceneEditorProps {
   scene: Scene;
@@ -81,6 +82,20 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
     });
   }
 
+  function handleDeleteFrame(frameId: string) {
+    const frameIndex = scene.frames.findIndex(frame => frame.id === frameId);
+    console.log(frameIndex);
+    if (frameIndex > -1) {
+      onUpdate({
+        ...scene,
+        frames: [
+          ...scene.frames.slice(0, frameIndex),
+          ...scene.frames.slice(frameIndex + 1),
+        ],
+      });
+    }
+  }
+
   return (
     <div className={css.sceneEditor}>
       <Heading>Scene Editor</Heading>
@@ -101,8 +116,8 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
         >
           <Flex
             flexDirection={FlexDirection.COLUMN}
-            gap={FlexGap.SM}
-            alignItems={FlexAlign.STRETCH}
+            gap={Gap.SM}
+            alignItems={Align.STRETCH}
           >
             {scene.frames.map((frame, i) => {
               return (
@@ -110,10 +125,16 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
                   className={css.frame}
                   key={frame.id}
                   value={frame}
-                  onClick={() => handleSelectFrame(frame)}
                 >
-                  <Muted>Frame {i + 1}</Muted>
-                  <div className={css.nodes}>
+                  <Flex justifyContent={Justify.SPACE_BETWEEN}>
+                    <Muted>Frame {i + 1}</Muted>
+                    <DeleteIcon onClick={() => handleDeleteFrame(frame.id)} />
+                  </Flex>
+
+                  <div
+                    className={css.nodes}
+                    onClick={() => handleSelectFrame(frame)}
+                  >
                     {frame.nodes && (
                       <Tiptap2React nodes={frame.nodes} fadeDelay={0.1} />
                     )}

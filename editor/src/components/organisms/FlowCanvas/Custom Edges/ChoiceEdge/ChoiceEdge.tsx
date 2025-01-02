@@ -9,6 +9,7 @@ import {
 import css from './ChoiceEdge.module.scss';
 import { AppContext } from '../../../../../stores/AppContext.ts';
 import { observer } from 'mobx-react-lite';
+import { DeleteIcon } from '@shared/components';
 
 export const ChoiceEdge: FC<
   EdgeProps<Edge<{ label: string; scene: string; application: string }>>
@@ -56,13 +57,10 @@ export const ChoiceEdge: FC<
             }}
           >
             {label}
-
-            <div
+            <DeleteIcon
               className={css.delete}
-              onClick={evt => handleDeleteChoice(evt, id)}
-            >
-              X
-            </div>
+              onClick={(evt: any) => handleDeleteChoice(evt, id)}
+            />
           </div>
         </EdgeLabelRenderer>
       </>

@@ -1,5 +1,5 @@
 .choiceEdge{
-  background-color: var(--colour-old-rose-20);
+  background-color: var(--colour-secondary-80);
   box-shadow: var(--box-shadow);
   padding: var(--gap-xs) var(--gap-sm);
   border-radius: var(--border-radius-sm);
@@ -14,17 +14,7 @@
     left: calc(100% + 0.25rem);
     top: 0;
     width: fit-content;
-    word-break: keep-all;
-    white-space: pre;
-    font-size: var(--font-size-xs);
-    color: red;
-    font-weight: bold;
-    font-family: monospace;
     cursor: pointer;
     pointer-events: all;
-
-    &:hover{
-      text-decoration: underline;
-    }
   }
 }

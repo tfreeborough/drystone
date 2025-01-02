@@ -1,10 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
 
 :root{
-  --anchor-colour: var(--colour-raspberry-40);
-  --anchor-colour-hover: var(--colour-raspberry-20);
-
-  --border-color: var(--colour-charcoal-80);
+  --anchor-colour: var(--colour-secondary);
+  --anchor-colour-hover: var(--colour-secondary-20);
 }
 
 body,
@@ -17,7 +15,7 @@ html,
   align-items: center;
   justify-content: center;
   color: var(--text-colour);
-  background-color: var(--colour-charcoal);
+  background-color: var(--colour-primary-90);
   font-family: "EB Garamond", serif;
   font-optical-sizing: auto;
   font-weight: 400;

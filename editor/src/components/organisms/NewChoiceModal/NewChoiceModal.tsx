@@ -1,16 +1,10 @@
 import { useContext, useState } from 'react';
 import css from './NewChoiceModal.module.scss';
-import {
-  FlexAlign,
-  FlexDirection,
-  FlexGap,
-  FlexJustify,
-} from '../../atoms/Flex/Flex.types.ts';
-import Flex from '../../atoms/Flex/Flex.tsx';
 import TextInput from '../../atoms/TextInput/TextInput.tsx';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { Connection } from '@xyflow/react';
-import { Button } from '@shared/components';
+import { Button, Flex } from '@shared/components';
+import { Align, FlexDirection, Gap, Justify } from '@shared/types';
 
 interface NewChoiceModalProps {
   isOpen: boolean;
@@ -43,8 +37,8 @@ const NewChoiceModal = ({ isOpen, onClose, edgeInfo }: NewChoiceModalProps) => {
     <div className={css.backdrop}>
       <Flex
         className={css.card}
-        gap={FlexGap.XS}
-        alignItems={FlexAlign.STRETCH}
+        gap={Gap.XS}
+        alignItems={Align.STRETCH}
         flexDirection={FlexDirection.COLUMN}
       >
         <TextInput
@@ -54,7 +48,7 @@ const NewChoiceModal = ({ isOpen, onClose, edgeInfo }: NewChoiceModalProps) => {
           value={label}
           onChange={value => setLabel(value)}
         />
-        <Flex gap={FlexGap.SM} justifyContent={FlexJustify.SPACE_BETWEEN}>
+        <Flex gap={Gap.SM} justifyContent={Justify.SPACE_BETWEEN}>
           <Button onClick={handleSubmit}>Create link</Button>
           <Button onClick={onClose}>Cancel</Button>
         </Flex>

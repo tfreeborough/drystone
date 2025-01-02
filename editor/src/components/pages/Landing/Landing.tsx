@@ -1,15 +1,10 @@
 import { ReactElement, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import Flex from '../../atoms/Flex/Flex.tsx';
-import {
-  FlexAlign,
-  FlexDirection,
-  FlexGap,
-} from '../../atoms/Flex/Flex.types.ts';
 import Heading from '../../atoms/Heading/Heading.tsx';
-import Button from '../../atoms/Button/Button.tsx';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { Link, useLocation } from 'wouter';
+import { Button, Flex } from '@shared/components';
+import { Align, FlexDirection, Gap } from '@shared/types';
 
 function Landing(): ReactElement {
   const { ApplicationStore } = useContext(AppContext);
@@ -25,8 +20,8 @@ function Landing(): ReactElement {
       {ApplicationStore.applications.length > 0 ? (
         <Flex
           flexDirection={FlexDirection.COLUMN}
-          gap={FlexGap.MD}
-          alignItems={FlexAlign.CENTER}
+          gap={Gap.MD}
+          alignItems={Align.CENTER}
         >
           {ApplicationStore.applications.map(a => {
             return (
@@ -43,8 +38,8 @@ function Landing(): ReactElement {
       ) : (
         <Flex
           flexDirection={FlexDirection.COLUMN}
-          alignItems={FlexAlign.CENTER}
-          gap={FlexGap.MD}
+          alignItems={Align.CENTER}
+          gap={Gap.MD}
         >
           <Heading>To get started, create a new application below.</Heading>
           <Button onClick={handleNavigateNewApplication}>

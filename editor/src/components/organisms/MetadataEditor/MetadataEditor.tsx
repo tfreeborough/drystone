@@ -3,16 +3,11 @@ import { observer } from 'mobx-react-lite';
 import Topper from '../../atoms/Topper/Topper.tsx';
 import css from './MetadataEditor.module.scss';
 import Card from '../../atoms/Card/Card.tsx';
-import Flex from '../../atoms/Flex/Flex.tsx';
+import { Flex } from '@shared/components';
 import Heading from '../../atoms/Heading/Heading.tsx';
 import { AppContext } from '../../../stores/AppContext.ts';
 import TextInput from '../../atoms/TextInput/TextInput.tsx';
-import { SelectOption } from '@shared/types';
-import {
-  FlexAlign,
-  FlexDirection,
-  FlexGap,
-} from '../../atoms/Flex/Flex.types.ts';
+import { Align, FlexDirection, Gap, SelectOption } from '@shared/types';
 import SelectInput from '../../atoms/SelectInput/SelectInput.tsx';
 
 function MetadataEditor(): ReactElement {
@@ -51,12 +46,12 @@ function MetadataEditor(): ReactElement {
   return (
     <div className={css.metadataEditor}>
       <Topper noNegativeMargin>Metadata</Topper>
-      <Flex className={css.cardWrapper} gap={FlexGap.MD}>
+      <Flex className={css.cardWrapper} gap={Gap.MD}>
         <Card className={css.card}>
           <Flex
             flexDirection={FlexDirection.COLUMN}
-            gap={FlexGap.SM}
-            alignItems={FlexAlign.STRETCH}
+            gap={Gap.SM}
+            alignItems={Align.STRETCH}
           >
             <Heading>Author Information</Heading>
             <div>
@@ -80,8 +75,8 @@ function MetadataEditor(): ReactElement {
         <Card className={css.card}>
           <Flex
             flexDirection={FlexDirection.COLUMN}
-            gap={FlexGap.SM}
-            alignItems={FlexAlign.STRETCH}
+            gap={Gap.SM}
+            alignItems={Align.STRETCH}
           >
             <Heading>Entrypoint</Heading>
             <div>

@@ -32,18 +32,11 @@
       }
     }
 
-    .addFrame {
-      padding: var(--gap-xs) var(--gap-sm);
-      list-style-type: none;
-      background-color: var(--colour-raspberry);
-      color: var(--colour-white);
-      cursor: pointer;
+    .addFrame{
       align-self: end;
-      border-radius: var(--border-radius-md);
-
-      &:hover {
-        background-color: var(--colour-raspberry-80);
-      }
+      gap: var(--gap-xs);
+      display: flex;
+      align-items: center;
     }
   }
 

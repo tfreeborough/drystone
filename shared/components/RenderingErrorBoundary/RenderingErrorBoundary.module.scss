@@ -1,7 +1,7 @@
 .renderingErrorBoundary {
   width: min(100%, 20rem);
   color: white;
-  background-color: var(--colour-charcoal-90);
+  background-color: var(--colour-gray-10);
   padding: var(--gap-md);
   border-radius: var(--border-radius-md);
 
@@ -11,7 +11,7 @@
   }
 
   .error{
-    background-color: var(--colour-charcoal-80);
+    background-color: var(--colour-gray-20);
     border-radius: var(--border-radius-md);
     padding: var(--gap-sm);
     font-style: italic;

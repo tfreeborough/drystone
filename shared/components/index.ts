@@ -2,6 +2,7 @@ export * from './Button/Button';
 export * from './ChoicesRender/ChoicesRender';
 export * from './CustomImage/CustomImage';
 export * from './CustomImageLoader/CustomImageLoader';
+export * from './DeleteIcon/DeleteIcon';
 export * from './Flex/Flex';
 export * from './IconButton/IconButton';
 export * from './RenderingErrorBoundary/RenderingErrorBoundary';

@@ -15,9 +15,9 @@
   }
 
   .author {
-    border: 1px solid var(--colour-charcoal-80);
+    border: var(--border);
     border-radius: var(--border-radius-sm);
-    color: var(--colour-charcoal-40);
+    color: var(--colour-gray-30);
     padding: var(--gap-md);
     box-sizing: border-box;
     width: min(500px, 100%);
