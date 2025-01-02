@@ -38,7 +38,7 @@ function FrameEditor({ frame, onUpdate, onBack }: FrameEditorProps) {
     onBack();
   }
 
-  if (!editorContext) {
+  if (!editorContext || !application) {
     return <></>;
   }
 
@@ -55,7 +55,11 @@ function FrameEditor({ frame, onUpdate, onBack }: FrameEditorProps) {
         <FontAwesomeIcon icon="chevron-left" /> Back
       </div>
       <Heading>Edit Frame #{frameNumber + 1}</Heading>
-      <FrameTipTap frame={frame} onUpdate={handleUpdateFrame} />
+      <FrameTipTap
+        frame={frame}
+        onUpdate={handleUpdateFrame}
+        application={application}
+      />
     </Flex>
   );
 }

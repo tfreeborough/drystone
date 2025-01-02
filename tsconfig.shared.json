@@ -29,7 +29,9 @@
       "@shared/animations": ["./shared/animations"],
       "@shared/animations/*": ["./shared/animations/*"],
       "@shared/hooks": ["./shared/hooks"],
-      "@shared/hooks/*": ["./shared/hooks/*"]
+      "@shared/hooks/*": ["./shared/hooks/*"],
+      "@shared/services": ["./shared/services"],
+      "@shared/services/*": ["./shared/services/*"]
     }
   }
 }

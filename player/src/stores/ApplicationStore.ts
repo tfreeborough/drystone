@@ -1,10 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { makePersistable } from "mobx-persist-store";
-import { Application, Asset } from "@shared/types";
+import { Application } from "@shared/types";
 
 class ApplicationStore {
   application: Application | null = null;
-  assets: Asset[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -28,11 +27,8 @@ class ApplicationStore {
   }
 
   public setApplication(app: Application | null) {
+    console.log("setting application", app);
     this.application = app;
-  }
-
-  public setAssets(assets: Asset[]) {
-    this.assets = assets;
   }
 
   public getScene(id: string) {

@@ -8,7 +8,6 @@ import css from './ContextEditor.module.scss';
 import { Frame, Scene } from '@shared/types';
 import SceneEditor from '../SceneEditor/SceneEditor.tsx';
 import FrameEditor from '../FrameEditor/FrameEditor.tsx';
-import { toJS } from 'mobx';
 
 function ContextEditor() {
   const { ApplicationStore } = useContext(AppContext);
@@ -21,11 +20,13 @@ function ContextEditor() {
   const application = ApplicationStore.current;
 
   useEffect(() => {
-    const foundFrame = editorContext.frames.find(
-      frame => frame.id === selectedFrame?.id,
-    );
-    if (!foundFrame) {
-      setSelectedFrame(null);
+    if (editorContext) {
+      const foundFrame = editorContext.frames.find(
+        frame => frame.id === selectedFrame?.id,
+      );
+      if (!foundFrame) {
+        setSelectedFrame(null);
+      }
     }
   }, [editorContext]);
 

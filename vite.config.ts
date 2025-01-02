@@ -19,6 +19,7 @@ export default (appPath: string) =>
         "@shared/styles": resolve(__dirname, "./shared/styles"),
         "@shared/animations": resolve(__dirname, "./shared/animations"),
         "@shared/hooks": resolve(__dirname, "./shared/hooks"),
+        "@shared/services": resolve(__dirname, "./shared/services"),
       },
     },
     css: {

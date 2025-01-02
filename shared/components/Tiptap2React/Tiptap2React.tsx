@@ -1,7 +1,7 @@
 import { JSONContent } from "@tiptap/react";
 import css from "./Tiptap2React.module.scss";
 import { FadeIn } from "../../animations";
-import { CustomImage } from "../CustomImage/CustomImage";
+import { CustomImageLoader } from "../CustomImageLoader/CustomImageLoader";
 
 const FADE_DELAY = 0.8;
 
@@ -108,7 +108,7 @@ const renderNode = (
           delay={index * fadeDelay}
           onAnimationComplete={handleAnimationEnd}
         >
-          <CustomImage key={index} node={node} />
+          <CustomImageLoader key={index} node={node} />
         </FadeIn>
       );
     default:

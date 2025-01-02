@@ -14,7 +14,7 @@ import {
 import Button from '../../atoms/Button/Button.tsx';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { useContext } from 'react';
-import { ImageDBService } from '../../../services/ImageDBService.ts';
+import { AssetDB } from '@shared/services';
 
 function ExportManager() {
   const { ApplicationStore } = useContext(AppContext);
@@ -31,21 +31,11 @@ function ExportManager() {
       });
       await zip.add('app-data.json', new BlobReader(jsonBlob));
 
-      const images = await ImageDBService.getAllImages();
+      const images = await AssetDB.getAllAssetsForApplication(current.id);
 
       // Add each image to the zip file
       for (const image of images) {
-        // Convert base64 to blob
-        const base64Response = await fetch(image.data);
-        const imageBlob = await base64Response.blob();
-
-        // Add to zip with the image's ID as filename
-        // Use the original file extension if available
-        const extension = image.fileType.split('/')[1] || 'png';
-        await zip.add(
-          `assets/${image.id}.${extension}`,
-          new BlobReader(imageBlob),
-        );
+        await zip.add(`assets/${image.id}.jpeg`, new BlobReader(image.data));
       }
 
       // Close the writer and get the zip file as a blob

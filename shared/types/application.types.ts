@@ -63,4 +63,5 @@ export interface Asset {
   id: string;
   type: string;
   data: Blob;
+  applicationId: string;
 }

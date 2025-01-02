@@ -1,8 +1,4 @@
 import { useState, useEffect, useContext, useRef } from 'react';
-import {
-  ImageDBService,
-  StoredImage,
-} from '../../../services/ImageDBService.ts';
 
 import css from './ImageManager.module.scss';
 import Card from '../../atoms/Card/Card.tsx';
@@ -10,20 +6,25 @@ import { FadeInWithScale } from '@shared/animations';
 import { useClickOutsideRef } from '../../../hooks/useClickOutsideRef.ts';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { Flex } from '@shared/components';
-import { Align, FlexDirection, Gap } from '@shared/types';
-import Muted from '../../atoms/Muted/Muted.tsx';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Align, Application, Asset, FlexDirection, Gap } from '@shared/types';
+import { AssetDB } from '@shared/services';
+import { v4 as uuidv4 } from 'uuid';
+import { base64ToBlob } from '@shared/functions';
 
 interface ImageManagerProps {
-  onImageSelect: (storedImage: StoredImage) => void;
+  onImageSelect: (storedImage: Asset) => void;
+  application: Application;
 }
 
-export const ImageManager = ({ onImageSelect }: ImageManagerProps) => {
+export const ImageManager = ({
+  onImageSelect,
+  application,
+}: ImageManagerProps) => {
   const { DrystoneStore } = useContext(AppContext);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const [images, setImages] = useState<StoredImage[]>([]);
+  const [images, setImages] = useState<Asset[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export const ImageManager = ({ onImageSelect }: ImageManagerProps) => {
   }, []);
 
   const loadImages = async () => {
-    const allImages = await ImageDBService.getAllImages();
+    const allImages = await AssetDB.getAllAssetsForApplication(application.id);
     setImages(allImages);
   };
 
@@ -74,12 +75,14 @@ export const ImageManager = ({ onImageSelect }: ImageManagerProps) => {
         // Convert to base64 with quality reduction (0.7 = 70% quality)
         const optimizedBase64 = canvas.toDataURL('image/jpeg', 0.7);
 
-        // Convert base64 back to file
-        const optimizedFile = await fetch(optimizedBase64)
-          .then(res => res.blob())
-          .then(blob => new File([blob], file.name, { type: 'image/jpeg' }));
-
-        await ImageDBService.saveImage(optimizedFile, optimizedBase64);
+        const asset: Asset = {
+          id: uuidv4(),
+          type: 'image/jpeg',
+          data: base64ToBlob(optimizedBase64),
+          applicationId: application.id,
+        };
+        await AssetDB.saveAsset(asset);
+        // await ImageDBService.saveImage(optimizedFile, optimizedBase64);
         loadImages();
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
@@ -112,32 +115,17 @@ export const ImageManager = ({ onImageSelect }: ImageManagerProps) => {
                 />
               </div>
               <div className={css.gallery}>
-                {images.map(image => (
-                  <div
-                    className={css.image}
-                    key={image.id}
-                    onClick={() => onImageSelect(image)}
-                  >
-                    <img src={image.data} alt={image.fileName} />
-                    <Flex
-                      className={css.info}
-                      flexDirection={FlexDirection.COLUMN}
-                      alignItems={Align.STRETCH}
-                      gap={Gap.XS}
+                {images.map(image => {
+                  return (
+                    <div
+                      className={css.image}
+                      key={image.id}
+                      onClick={() => onImageSelect(image)}
                     >
-                      <span>{image.fileName}</span>
-                      <Muted>({(image.fileSize / 1024).toFixed(2)} KB)</Muted>
-                      <FontAwesomeIcon
-                        className={css.delete}
-                        icon={['fas', 'xmark']}
-                        onClick={async () => {
-                          await ImageDBService.deleteImage(image.id);
-                          void loadImages();
-                        }}
-                      />
-                    </Flex>
-                  </div>
-                ))}
+                      <img src={URL.createObjectURL(image.data)} />
+                    </div>
+                  );
+                })}
               </div>
             </Flex>
           </Card>

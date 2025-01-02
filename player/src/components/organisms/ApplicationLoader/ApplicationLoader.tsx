@@ -5,6 +5,7 @@ import { AppContext } from "../../../stores/AppContext.ts";
 import { observer } from "mobx-react-lite";
 import { Asset } from "@shared/types";
 import { getErrorMessage } from "@shared/functions";
+import { AssetDB } from "@shared/services";
 
 function ApplicationLoader() {
   const { ApplicationStore, PlayerStore } = useContext(AppContext);
@@ -21,24 +22,38 @@ function ApplicationLoader() {
       const applicationData = entries.find(
         (e) => e.filename === "app-data.json",
       );
+
       if (!applicationData || !applicationData.getData) {
         throw new Error("No app-data.json file found in uploaded .zip");
       }
 
       const textWriter = new TextWriter();
-      const blobWriter = new BlobWriter();
-
       const appDataRaw = await applicationData.getData(textWriter);
       const appDataJson = JSON.parse(appDataRaw);
 
-      const assets: Asset[] = [];
+      // Process assets directly here
       for (const entry of entries) {
         const path = entry.filename.split("/");
         if (path[0] === "assets" && entry.getData) {
           const name = path.pop();
-          const data = await entry.getData(blobWriter);
-          if (name) {
-            assets.push({ id: name, type: `${name.split(".").pop()}`, data });
+
+          try {
+            // Create new BlobWriter for each asset
+            const blobWriter = new BlobWriter("application/octet-stream");
+            const data = await entry.getData(blobWriter);
+
+            if (name) {
+              const asset: Asset = {
+                id: name.replace(".jpeg", ""),
+                type: `${name.split(".").pop()}`,
+                data,
+                applicationId: appDataJson.id,
+              };
+              await AssetDB.saveAsset(asset);
+            }
+          } catch (error) {
+            console.error("Error processing asset:", entry.filename, error);
+            throw error;
           }
         }
       }
@@ -46,11 +61,10 @@ function ApplicationLoader() {
       if (!appDataJson.entrypoint) {
         throw new Error("This application has no entrypoint.");
       }
-
       ApplicationStore.setApplication(appDataJson);
-      ApplicationStore.setAssets(assets);
       PlayerStore.initializeGameState(appDataJson.entrypoint);
     } catch (error) {
+      console.error("Error:", error);
       setLoadingError(getErrorMessage(error));
     } finally {
       await reader.close();
