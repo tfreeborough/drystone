@@ -13,6 +13,7 @@ interface SceneDataType {
   label: string;
   scene: Scene;
   incomingConnections: Choice[];
+  incomingScenes: Scene[];
   connectedScenes: Scene[];
 }
 
@@ -26,7 +27,7 @@ function SceneNode({ data, id }: SceneNodePropsType) {
 
   const minWidth = Math.max(
     150, // default minimum width
-    (data.incomingConnections?.length || 1) * 120,
+    (data.incomingConnections?.length || 1) * 130 - 90,
   );
 
   const padding = 10;
@@ -61,11 +62,28 @@ function SceneNode({ data, id }: SceneNodePropsType) {
     return 0;
   });
 
+  const incomingScenes = data.incomingScenes;
+
+  const sortedIncomingConnections = data.incomingConnections
+    .slice()
+    .sort((a, b) => {
+      const aScene = incomingScenes.find(s =>
+        s.choices.some(c => c.id === a.id),
+      );
+      const bScene = incomingScenes.find(s =>
+        s.choices.some(c => c.id === b.id),
+      );
+      if (aScene && bScene) {
+        return aScene.position.x - bScene.position.x;
+      }
+      return 0;
+    });
+
   return (
     <>
       {data.incomingConnections?.length > 0 ? (
         // Existing incoming connection handles
-        data.incomingConnections.map((connection, index) => (
+        sortedIncomingConnections.map((connection, index) => (
           <Handle
             key={connection.id}
             type="target"

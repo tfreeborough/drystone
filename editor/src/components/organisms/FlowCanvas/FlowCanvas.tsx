@@ -144,6 +144,16 @@ function FlowCanvas() {
         const incomingConnections = current.scenes.flatMap(s =>
           s.choices.filter(choice => choice.target === scene.id),
         );
+        const connectedScenes = scene.choices.map(choice =>
+          current.scenes.find(s => s.id === choice.target),
+        );
+        const incomingScenes = current.scenes.filter(scene =>
+          scene.choices.some(choice =>
+            incomingConnections.some(c => c.id === choice.id),
+          ),
+        );
+
+        console.log(incomingScenes);
         return {
           id: scene.id,
           type: 'scene',
@@ -152,9 +162,8 @@ function FlowCanvas() {
             label: scene.metadata.note || scene.id,
             scene,
             incomingConnections,
-            connectedScenes: scene.choices.map(choice =>
-              current.scenes.find(s => s.id === choice.target),
-            ),
+            connectedScenes,
+            incomingScenes,
           },
         };
       });

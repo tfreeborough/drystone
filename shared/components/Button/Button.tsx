@@ -23,6 +23,7 @@ export function Button({
     <button
       className={`${css.button} ${className} ${disabled ? css.disabled : ""}`}
       onClick={handleClick}
+      tabIndex={0}
     >
       {children}
     </button>
