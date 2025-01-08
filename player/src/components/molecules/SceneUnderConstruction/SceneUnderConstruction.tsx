@@ -20,7 +20,10 @@ export const SceneUnderConstruction = observer(() => {
       alignItems={Align.START}
     >
       <h1>🚧 Under Construction 🚧</h1>
-      <p>Looks like you've made a choice that isn't quite finished off yet.</p>
+      <p>
+        Looks like you've made it to a part of this app that isn't quite
+        finished off yet.
+      </p>
       <Button onClick={handleGoBack}>Go back</Button>
     </Flex>
   );

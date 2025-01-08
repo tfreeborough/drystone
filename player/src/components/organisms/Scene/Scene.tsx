@@ -94,7 +94,11 @@ export const Scene = observer(({ scene }: SceneProps) => {
   }
 
   const isLastFrame = renderedFrames.length === scene.frames.length;
-  const isEnd = scene.choices.length === 0;
+  /**
+   * The scene needs to have no choices and be at the last frame, otherwise we'll render the ending
+   * before we're supposed to.
+   */
+  const isEnd = isLastFrame && scene.choices.length === 0;
 
   return (
     <div className={css.scene}>
