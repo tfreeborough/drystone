@@ -69,9 +69,9 @@ export const ChoiceEdge: FC<
             viewBox="0 0 10 10"
             refX="10"
             refY="5"
-            markerWidth="4"
-            markerHeight="4"
-            orient="auto-start-reverse"
+            markerWidth="2.5"
+            markerHeight="2.5"
+            orient={90}
           >
             <path d="M 0 0 L 10 5 L 0 10 z" fill="#858f64" />
           </marker>
@@ -98,7 +98,7 @@ export const ChoiceEdge: FC<
             style={{
               position: 'absolute',
               left: targetX,
-              top: targetY,
+              top: targetY - 8,
               transform: 'translate(-50%, calc(-100% - 5px))',
             }}
           >

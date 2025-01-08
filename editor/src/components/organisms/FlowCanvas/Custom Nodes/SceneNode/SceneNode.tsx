@@ -13,6 +13,7 @@ interface SceneDataType {
   label: string;
   scene: Scene;
   incomingConnections: Choice[];
+  connectedScenes: Scene[];
 }
 
 function SceneNode({ data, id }: SceneNodePropsType) {
@@ -48,6 +49,17 @@ function SceneNode({ data, id }: SceneNodePropsType) {
   };
 
   const isEnding = data.scene.choices.length === 0;
+
+  const connectedScenes = data.connectedScenes;
+
+  const sortedChoices = data.scene.choices.slice().sort((a, b) => {
+    const aScene = connectedScenes.find(s => s.id === a.target);
+    const bScene = connectedScenes.find(s => s.id === b.target);
+    if (aScene && bScene) {
+      return aScene.position.x - bScene.position.x;
+    }
+    return 0;
+  });
 
   return (
     <>
@@ -94,7 +106,7 @@ function SceneNode({ data, id }: SceneNodePropsType) {
         <div className={css.metadata}>{data.scene.frames.length} Frames</div>
       </div>
       {data.scene.choices.length > 0 ? (
-        data.scene.choices.map((choice, index) => (
+        sortedChoices.map((choice, index) => (
           <Handle
             key={choice.id}
             type="source"

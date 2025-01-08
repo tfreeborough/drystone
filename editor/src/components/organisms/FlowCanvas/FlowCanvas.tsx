@@ -103,6 +103,7 @@ function FlowCanvas() {
   }
 
   function handleNodeDrag(e: any, node: Node) {
+    console.log('node drag end');
     void e;
     const current = ApplicationStore.current;
 
@@ -113,6 +114,7 @@ function FlowCanvas() {
           ...scene,
           position: { x: node.position.x, y: node.position.y },
         });
+        reRenderNodes();
       }
     }
   }
@@ -150,6 +152,9 @@ function FlowCanvas() {
             label: scene.metadata.note || scene.id,
             scene,
             incomingConnections,
+            connectedScenes: scene.choices.map(choice =>
+              current.scenes.find(s => s.id === choice.target),
+            ),
           },
         };
       });
@@ -289,7 +294,7 @@ function FlowCanvas() {
       onInit={handleInit}
       defaultEdgeOptions={{ animated: true }}
       onNodeClick={handleNodeClicked}
-      onNodeDrag={handleNodeDrag}
+      onNodeDragStop={handleNodeDrag}
       onEdgesDelete={handleDeleteChoice}
       onPaneClick={handlePaneClick}
       onContextMenu={onContextMenu}
