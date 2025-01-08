@@ -61,12 +61,16 @@ function Splash({ application }: SplashProps) {
           </FadeIn>
         )}
       </Flex>
-      {showAuthor && (
+      {showAuthor && application.author.name.length > 0 && (
         <FadeIn className={css.author} duration={3} delay={2}>
           <span>Created by</span>&nbsp;
-          <a href={application.author.link} target="_blank">
-            {application.author.name}
-          </a>
+          {application.author.link.length > 0 ? (
+            <a href={application.author.link} target="_blank">
+              {application.author.name}
+            </a>
+          ) : (
+            <>{application.author.name}</>
+          )}
         </FadeIn>
       )}
     </Flex>
