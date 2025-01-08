@@ -103,7 +103,6 @@ function FlowCanvas() {
   }
 
   function handleNodeDrag(e: any, node: Node) {
-    console.log('node drag end');
     void e;
     const current = ApplicationStore.current;
 
@@ -153,7 +152,6 @@ function FlowCanvas() {
           ),
         );
 
-        console.log(incomingScenes);
         return {
           id: scene.id,
           type: 'scene',
