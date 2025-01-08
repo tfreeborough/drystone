@@ -1,10 +1,10 @@
 import { type FC, useContext } from 'react';
 import {
-  getBezierPath,
   EdgeLabelRenderer,
   BaseEdge,
   type EdgeProps,
   type Edge,
+  getSmoothStepPath,
 } from '@xyflow/react';
 import css from './ChoiceEdge.module.scss';
 import { AppContext } from '../../../../../stores/AppContext.ts';
@@ -27,13 +27,17 @@ export const ChoiceEdge: FC<
   }) => {
     const { ApplicationStore } = useContext(AppContext);
 
-    const [edgePath, labelX, labelY] = getBezierPath({
+    const offset = Math.min(Math.abs(targetX - sourceX) * 0.2, 65);
+
+    const [edgePath] = getSmoothStepPath({
       sourceX,
       sourceY,
       sourcePosition,
       targetX,
       targetY,
       targetPosition,
+      borderRadius: 16,
+      offset,
     });
 
     function handleDeleteChoice(
@@ -48,12 +52,54 @@ export const ChoiceEdge: FC<
 
     return (
       <>
-        <BaseEdge id={id} path={edgePath} style={{ strokeWidth: 3 }} />
+        <defs>
+          <linearGradient
+            id={`gradient-${id}`}
+            gradientUnits="userSpaceOnUse"
+            x1={sourceX}
+            y1={sourceY}
+            x2={targetX}
+            y2={targetY}
+          >
+            <stop offset="0%" stopColor="#4a90e2" />
+            <stop offset="100%" stopColor="#858f64" />
+          </linearGradient>
+          <marker
+            id="arrow"
+            viewBox="0 0 10 10"
+            refX="10"
+            refY="5"
+            markerWidth="4"
+            markerHeight="4"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#858f64" />
+          </marker>
+        </defs>
+        <BaseEdge
+          path={edgePath}
+          style={{
+            stroke: 'rgba(0,0,0,0.2)',
+            strokeWidth: 4,
+          }}
+          markerEnd="url(#arrow)"
+        />
+        <BaseEdge
+          path={edgePath}
+          style={{
+            stroke: `url(#gradient-${id})`,
+            strokeWidth: 3,
+          }}
+          markerEnd="url(#arrow)"
+        />
         <EdgeLabelRenderer>
           <div
             className={css.choiceEdge}
             style={{
-              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+              position: 'absolute',
+              left: targetX,
+              top: targetY,
+              transform: 'translate(-50%, calc(-100% - 5px))',
             }}
           >
             {label}

@@ -39,7 +39,7 @@ function PanelContextMenu({
         id: sceneId,
         type: 'scene',
         metadata: {
-          note: `New scene: ${sceneId}`,
+          note: `Scene ${currentApplication.scenes.length + 1}`,
         },
         frames: [],
         position: {

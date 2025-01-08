@@ -139,6 +139,9 @@ function FlowCanvas() {
     const current = ApplicationStore.current;
     if (current) {
       const nodes = current.scenes.map(scene => {
+        const incomingConnections = current.scenes.flatMap(s =>
+          s.choices.filter(choice => choice.target === scene.id),
+        );
         return {
           id: scene.id,
           type: 'scene',
@@ -146,6 +149,7 @@ function FlowCanvas() {
           data: {
             label: scene.metadata.note || scene.id,
             scene,
+            incomingConnections,
           },
         };
       });
@@ -155,7 +159,9 @@ function FlowCanvas() {
           edges.push({
             id: choice.id,
             source: scene.id,
+            sourceHandle: choice.id,
             target: choice.target,
+            targetHandle: choice.id,
             label: choice.label,
             data: {
               label: choice.label,

@@ -3,20 +3,29 @@
   border: var(--border);
   border-radius: var(--border-radius-md);
   padding: var(--gap-xs);
-  min-width: 150px;
   width: max-content;
   max-width: 300px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-xs);
 
   &.selected {
     border-color: var(--colour-primary);
   }
 
-  .metadata {
-    font-size: var(--font-size-xs);
+  &.ending{
+    background-color: var(--colour-secondary-80);
+    color: var(--colour-gray-60);
+  }
+
+  .metadata,.ending {
+    font-size: var(--font-size-2xs);
+    color: var(--colour-gray-50);
   }
 
   .note {
     word-break: break-word;
+    font-size: var(--font-size-xs);
   }
 }

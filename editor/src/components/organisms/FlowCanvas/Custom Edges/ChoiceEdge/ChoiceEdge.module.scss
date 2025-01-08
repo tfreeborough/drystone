@@ -1,9 +1,9 @@
 .choiceEdge{
   background-color: var(--colour-secondary-80);
   box-shadow: var(--box-shadow);
-  padding: var(--gap-xs) var(--gap-sm);
+  padding: var(--gap-xs) var(--gap-xs);
   border-radius: var(--border-radius-sm);
-  width: 140px;
+  width: 130px;
   font-size: var(--font-size-2xs);
   text-align: center;
   pointer-events: all;
@@ -11,8 +11,8 @@
 
   .delete{
     position: absolute;
-    left: calc(100% + 0.25rem);
-    top: 0;
+    right: 5px;
+    top: 2px;
     width: fit-content;
     cursor: pointer;
     pointer-events: all;
