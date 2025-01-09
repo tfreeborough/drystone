@@ -12,13 +12,7 @@ class ApplicationStore {
       this,
       {
         name: "ApplicationStore",
-        properties: [
-          {
-            key: "application",
-            serialize: (value) => JSON.stringify(value),
-            deserialize: (value) => JSON.parse(value),
-          },
-        ],
+        properties: [],
         storage: window.localStorage,
         removeOnExpiration: true,
       },

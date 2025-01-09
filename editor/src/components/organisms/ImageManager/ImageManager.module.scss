@@ -27,6 +27,8 @@
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: var(--gap-sm);
+      max-height: 40dvh;
+      overflow-y: auto;
 
       .image{
         display: flex;

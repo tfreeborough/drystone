@@ -1,0 +1,28 @@
+.remoteLoader{
+  width: min(100%, 500px);
+
+  .loading{
+    progress{
+      width: 100%;
+      height: 1.5rem;
+      -webkit-appearance: none;
+      appearance: none;
+      border: none;
+      border-radius: 10px;
+
+      /* The progress bar itself (value) */
+      &::-webkit-progress-value {
+        background-color: #4CAF50;
+        border-radius: 10px;
+        transition: all 0.1s linear;
+      }
+
+      /* Background track */
+      &::-webkit-progress-bar {
+        background-color: var(--colour-primary-70);
+        border:1px solid var(--colour-primary-50);
+        border-radius: 10px;
+      }
+    }
+  }
+}

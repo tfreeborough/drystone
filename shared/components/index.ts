@@ -5,5 +5,6 @@ export * from './CustomImageLoader/CustomImageLoader';
 export * from './DeleteIcon/DeleteIcon';
 export * from './Flex/Flex';
 export * from './IconButton/IconButton';
+export * from './Notice/Notice';
 export * from './RenderingErrorBoundary/RenderingErrorBoundary';
 export * from './Tiptap2React/Tiptap2React';
