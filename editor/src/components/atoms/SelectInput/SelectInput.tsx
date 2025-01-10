@@ -2,21 +2,21 @@ import { SelectOption } from '@shared/types';
 import Label from '../Label/Label.tsx';
 import css from './SelectInput.module.scss';
 
-interface SelectInputProps {
+interface SelectInputProps<T = string> {
   value: string;
-  values: SelectOption[];
-  onSelect: (option: SelectOption | null) => void;
+  values: SelectOption<T>[];
+  onSelect: (option: SelectOption<T> | null) => void;
   label?: string;
   fullWidth?: boolean;
 }
 
-function SelectInput({
+function SelectInput<T>({
   value,
   values,
   onSelect,
   label,
   fullWidth,
-}: SelectInputProps) {
+}: SelectInputProps<T>) {
   function handleSelect(event: any) {
     const option = values.find(v => v.value === event.target.value);
     if (option) {
@@ -36,7 +36,7 @@ function SelectInput({
       >
         {values.map((option, i) => {
           return (
-            <option key={i} value={option.value}>
+            <option key={i} value={option.value as string}>
               {option.text}
             </option>
           );

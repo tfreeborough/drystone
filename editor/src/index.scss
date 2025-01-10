@@ -19,7 +19,7 @@ html,
     var(--colour-secondary-90),
     var(--colour-white)
   );
-  font-family: 'EB Garamond', serif;
+  font-family: var(--font-family), serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;

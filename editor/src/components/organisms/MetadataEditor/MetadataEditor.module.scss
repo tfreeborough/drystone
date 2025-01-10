@@ -1,9 +1,22 @@
+@use "@shared/styles/breakpoints";
+
 .metadataEditor {
   .cardWrapper {
     padding: var(--gap-md);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: var(--gap-md);
+
+    @include breakpoints.at('desktop'){
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @include breakpoints.at('wide'){
+      grid-template-columns: 1fr 1fr 1fr;
+    }
 
     .card {
-      width: min(600px, 100%);
+      align-self: start;
     }
   }
 }

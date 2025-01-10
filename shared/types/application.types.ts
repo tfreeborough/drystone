@@ -16,6 +16,20 @@ export interface ApplicationAuthor {
   link: string;
 }
 
+export enum FontStyles {
+  SERIF = "serif",
+  SANS_SERIF = "sans-serif",
+  CURSIVE = "cursive",
+  FANTASY = "fantasy",
+  MONOSPACE = "monospace",
+}
+
+export interface ApplicationTheming {
+  fontStyle?: FontStyles;
+  primaryColor?: string;
+  secondaryColor?: string;
+}
+
 export interface Application {
   id: string;
   type: "application";
@@ -26,6 +40,7 @@ export interface Application {
   stagePosition?: { x: number; y: number };
   stageScale?: number;
   entrypoint: string;
+  theming?: ApplicationTheming;
 }
 
 export interface SceneMetadata {

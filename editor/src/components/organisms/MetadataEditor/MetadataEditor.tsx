@@ -9,6 +9,7 @@ import { AppContext } from '../../../stores/AppContext.ts';
 import TextInput from '../../atoms/TextInput/TextInput.tsx';
 import { Align, FlexDirection, Gap, SelectOption } from '@shared/types';
 import SelectInput from '../../atoms/SelectInput/SelectInput.tsx';
+import { ApplicationStylingForm } from '../ApplicationStylingForm/ApplicationStylingForm.tsx';
 
 function MetadataEditor(): ReactElement {
   const { ApplicationStore } = useContext(AppContext);
@@ -46,7 +47,7 @@ function MetadataEditor(): ReactElement {
   return (
     <div className={css.metadataEditor}>
       <Topper noNegativeMargin>Metadata</Topper>
-      <Flex className={css.cardWrapper} gap={Gap.MD}>
+      <div className={css.cardWrapper}>
         <Card className={css.card}>
           <Flex
             flexDirection={FlexDirection.COLUMN}
@@ -96,7 +97,17 @@ function MetadataEditor(): ReactElement {
             </div>
           </Flex>
         </Card>
-      </Flex>
+        <Card className={css.card}>
+          <Flex
+            flexDirection={FlexDirection.COLUMN}
+            gap={Gap.SM}
+            alignItems={Align.STRETCH}
+          >
+            <Heading>Styling</Heading>
+            <ApplicationStylingForm application={current} />
+          </Flex>
+        </Card>
+      </div>
     </div>
   );
 }

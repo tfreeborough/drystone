@@ -1,7 +1,14 @@
 import { computed, makeAutoObservable } from 'mobx';
 import { makePersistable } from 'mobx-persist-store';
-import { Application, ApplicationAuthor, Frame, Scene } from '@shared/types';
+import {
+  Application,
+  ApplicationAuthor,
+  FontStyles,
+  Frame,
+  Scene,
+} from '@shared/types';
 import { v4 } from 'uuid';
+import { setDocumentFontFamily } from '@shared/functions';
 
 class ApplicationStore {
   public current: Application | null = null;
@@ -54,6 +61,7 @@ class ApplicationStore {
 
   setCurrentApplication(application: Application | null) {
     this.current = application;
+    setDocumentFontFamily(application?.theming?.fontStyle ?? FontStyles.SERIF);
   }
 
   addApplication(application: Application) {
@@ -299,6 +307,40 @@ class ApplicationStore {
     const application = this.getApplication(id);
     if (application) {
       application.entrypoint = sceneId;
+      this.saveApplication(application);
+    }
+  }
+
+  updateThemeFont(id: string, fontStyle: FontStyles | null) {
+    const application = this.getApplication(id);
+    if (application) {
+      if (!application.theming) {
+        application.theming = {};
+      }
+      application.theming.fontStyle = fontStyle ?? undefined;
+      this.saveApplication(application);
+      setDocumentFontFamily(fontStyle ?? FontStyles.SERIF);
+    }
+  }
+
+  updateThemePrimaryColor(id: string, color: string) {
+    const application = this.getApplication(id);
+    if (application) {
+      if (!application.theming) {
+        application.theming = {};
+      }
+      application.theming.primaryColor = color ?? undefined;
+      this.saveApplication(application);
+    }
+  }
+
+  updateThemeSecondaryColor(id: string, color: string) {
+    const application = this.getApplication(id);
+    if (application) {
+      if (!application.theming) {
+        application.theming = {};
+      }
+      application.theming.secondaryColor = color ?? undefined;
       this.saveApplication(application);
     }
   }

@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { makePersistable } from "mobx-persist-store";
-import { Application } from "@shared/types";
+import { Application, FontStyles } from "@shared/types";
+import { setDocumentFontFamily } from "@shared/functions";
 
 class ApplicationStore {
   application: Application | null = null;
@@ -21,8 +22,8 @@ class ApplicationStore {
   }
 
   public setApplication(app: Application | null) {
-    console.log("setting application", app);
     this.application = app;
+    setDocumentFontFamily(app?.theming?.fontStyle ?? FontStyles.SERIF);
   }
 
   public getScene(id: string) {
