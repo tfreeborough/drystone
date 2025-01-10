@@ -1,7 +1,11 @@
 import { makeAutoObservable } from "mobx";
 import { makePersistable } from "mobx-persist-store";
 import { Application, FontStyles } from "@shared/types";
-import { setDocumentFontFamily } from "@shared/functions";
+import {
+  generateColourScale,
+  setDocumentFontFamily,
+  setDocumentProperty,
+} from "@shared/functions";
 
 class ApplicationStore {
   application: Application | null = null;
@@ -24,6 +28,12 @@ class ApplicationStore {
   public setApplication(app: Application | null) {
     this.application = app;
     setDocumentFontFamily(app?.theming?.fontStyle ?? FontStyles.SERIF);
+    generateColourScale(app?.theming?.elementsColor ?? "#858f64", "elements");
+    setDocumentProperty(
+      "colour-background",
+      app?.theming?.backgroundColor ?? "#f8f4f1",
+    );
+    setDocumentProperty("colour-text", app?.theming?.textColor ?? "#070708");
   }
 
   public getScene(id: string) {

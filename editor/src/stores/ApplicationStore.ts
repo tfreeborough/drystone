@@ -8,7 +8,11 @@ import {
   Scene,
 } from '@shared/types';
 import { v4 } from 'uuid';
-import { setDocumentFontFamily } from '@shared/functions';
+import {
+  generateColourScale,
+  setDocumentFontFamily,
+  setDocumentProperty,
+} from '@shared/functions';
 
 class ApplicationStore {
   public current: Application | null = null;
@@ -62,6 +66,18 @@ class ApplicationStore {
   setCurrentApplication(application: Application | null) {
     this.current = application;
     setDocumentFontFamily(application?.theming?.fontStyle ?? FontStyles.SERIF);
+    generateColourScale(
+      application?.theming?.elementsColor ?? '#858f64',
+      'elements',
+    );
+    setDocumentProperty(
+      'colour-background',
+      application?.theming?.backgroundColor ?? '#f8f4f1',
+    );
+    setDocumentProperty(
+      'colour-text',
+      application?.theming?.textColor ?? '#070708',
+    );
   }
 
   addApplication(application: Application) {
@@ -323,25 +339,39 @@ class ApplicationStore {
     }
   }
 
-  updateThemePrimaryColor(id: string, color: string) {
+  updateThemeElementsColor(id: string, color: string) {
     const application = this.getApplication(id);
     if (application) {
       if (!application.theming) {
         application.theming = {};
       }
-      application.theming.primaryColor = color ?? undefined;
+      application.theming.elementsColor = color ?? undefined;
       this.saveApplication(application);
+      generateColourScale(color ?? '#b99470', 'elements');
     }
   }
 
-  updateThemeSecondaryColor(id: string, color: string) {
+  updateThemeBackgroundColor(id: string, color: string) {
     const application = this.getApplication(id);
     if (application) {
       if (!application.theming) {
         application.theming = {};
       }
-      application.theming.secondaryColor = color ?? undefined;
+      application.theming.backgroundColor = color ?? undefined;
       this.saveApplication(application);
+      setDocumentProperty('colour-background', color ?? '#858f64');
+    }
+  }
+
+  updateThemeTextColor(id: string, color: string) {
+    const application = this.getApplication(id);
+    if (application) {
+      if (!application.theming) {
+        application.theming = {};
+      }
+      application.theming.textColor = color ?? undefined;
+      this.saveApplication(application);
+      setDocumentProperty('colour-text', color ?? '#070708');
     }
   }
 }

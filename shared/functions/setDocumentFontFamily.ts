@@ -1,33 +1,22 @@
 import { FontStyles } from "../types";
+import { setDocumentProperty } from "./setDocumentProperty";
 
 export function setDocumentFontFamily(fontStyle: FontStyles) {
   switch (fontStyle) {
     case FontStyles.SERIF:
-      document.documentElement.style.setProperty(
-        "--font-family",
-        "'EB Garamond', serif",
-      );
+      setDocumentProperty("font-family", "'EB Garamond', serif");
       break;
     case FontStyles.SANS_SERIF:
-      document.documentElement.style.setProperty(
-        "--font-family",
-        "'Noto Sans'",
-      );
+      setDocumentProperty("font-family", "'Noto Sans'");
       break;
     case FontStyles.MONOSPACE:
-      document.documentElement.style.setProperty(
-        "--font-family",
-        "'JetBrains Mono'",
-      );
+      setDocumentProperty("font-family", "'JetBrains Mono'");
       break;
     case FontStyles.CURSIVE:
-      document.documentElement.style.setProperty(
-        "--font-family",
-        "'Coming Soon'",
-      );
+      setDocumentProperty("font-family", "'Coming Soon'");
       break;
     case FontStyles.FANTASY:
-      document.documentElement.style.setProperty("--font-family", "'Grenze'");
+      setDocumentProperty("font-family", "'Grenze'");
       break;
   }
 }

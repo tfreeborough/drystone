@@ -1,7 +1,7 @@
 .button {
   outline: none;
-  background-color: var(--colour-primary);
-  color: var(--colour-primary-90);
+  background-color: var(--colour-elements);
+  color: var(--colour-elements-text);
   border: none;
   border-radius: var(--border-radius-sm);
   padding: var(--gap-xs) var(--gap-md);
@@ -12,8 +12,8 @@
 
   &:hover {
     cursor: pointer;
-    background-color: var(--colour-primary-10);
-    color: var(--colour-primary-90);
+    background-color: var(--colour-elements-10);
+    color: var(--colour-elements-text);
   }
 
   &.disabled {

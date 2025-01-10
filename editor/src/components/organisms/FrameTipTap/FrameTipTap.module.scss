@@ -1,7 +1,8 @@
 .editor {
   border: var(--border);
   padding: var(--gap-sm);
-  background-color: var(--colour-white);
+  background-color: var(--colour-background);
+  color: var(--colour-text);
   border-radius: var(--border-radius-md);
 
   > div {

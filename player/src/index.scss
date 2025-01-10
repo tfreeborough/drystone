@@ -1,6 +1,9 @@
 :root{
   --anchor-colour: var(--colour-secondary);
   --anchor-colour-hover: var(--colour-secondary-20);
+  --colour-background: var(--colour-primary-90);
+  --colour-elements: var(--colour-secondary);
+  --colour-text: var(--colour-gray);
 }
 
 body,
@@ -12,8 +15,8 @@ html,
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-colour);
-  background-color: var(--colour-primary-90);
+  color: var(--colour-text);
+  background-color: var(--colour-background);
   font-family: var(--font-family);
   font-optical-sizing: auto;
   font-weight: 400;
@@ -21,7 +24,7 @@ html,
 }
 
 a {
-  color: var(--anchor-colour);
+  color: var(--colour-elements);
 }
 
 h1{

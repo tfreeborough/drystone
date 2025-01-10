@@ -26,8 +26,9 @@ export enum FontStyles {
 
 export interface ApplicationTheming {
   fontStyle?: FontStyles;
-  primaryColor?: string;
-  secondaryColor?: string;
+  elementsColor?: string;
+  backgroundColor?: string;
+  textColor?: string;
 }
 
 export interface Application {

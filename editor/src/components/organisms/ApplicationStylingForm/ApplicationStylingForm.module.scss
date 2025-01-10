@@ -1,3 +1,53 @@
 .applicationStylingForm{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--gap-sm);
 
+  .textColors{
+    display: grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .colors{
+    display: grid;
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .preview{
+    padding: var(--gap-sm);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--gap-xs);
+    background-color: var(--colour-background);
+    color: var(--colour-text);
+
+    h1{
+      font-size: var(--font-size-xl);
+    }
+
+    .choices{
+      margin: var(--gap-sm) 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      color: var(--colour-elements);
+      gap: var(--gap-xs);
+
+      .choice{
+        &:hover{
+          cursor: pointer;
+          color: var(--colour-elements-20);
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .button{
+      align-self: start;
+    }
+  }
 }
