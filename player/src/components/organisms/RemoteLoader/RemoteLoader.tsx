@@ -8,6 +8,11 @@ import { getErrorMessage } from "@shared/functions";
 import { AssetDB } from "@shared/services";
 import { Flex, Notice, NoticeType } from "@shared/components";
 
+/**
+ * This is a list of origins that have been requested for a special integration.
+ */
+const PARENT_ORIGINS = ["https://kinkbase.com", "http://localhost:3000"];
+
 interface RemoteLoaderProps {
   remote: string;
 }
@@ -67,6 +72,20 @@ function RemoteLoader({ remote }: RemoteLoaderProps) {
       }
       ApplicationStore.setApplication(appDataJson);
       PlayerStore.initializeGameState(appDataJson.entrypoint);
+
+      /**
+       * Send the app loaded message to every approved origin, we don't specify * because
+       * that's bad security practice.
+       */
+      PARENT_ORIGINS.forEach((origin) => {
+        window.parent.postMessage(
+          {
+            type: "APP_LOADED",
+            data: {},
+          },
+          origin,
+        );
+      });
     } catch (error) {
       console.error("Error:", error);
       setLoadingError(getErrorMessage(error));
