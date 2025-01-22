@@ -13,6 +13,7 @@ import { AppContext } from '../../../stores/AppContext.ts';
 import Muted from '../../atoms/Muted/Muted.tsx';
 import { VariableDisplay } from '../../atoms/VariableDisplay/VariableDisplay.tsx';
 import CreateVariableModal from '../CreateVariableModal/CreateVariableModal.tsx';
+import Card from '../../atoms/Card/Card.tsx';
 
 function Variables() {
   const { ApplicationStore } = useContext(AppContext);
@@ -127,6 +128,61 @@ function Variables() {
           </Button>
         </div>
       </div>
+      <Card className={css.explainer}>
+        <Topper noNegativeMargin>What are variables?</Topper>
+        <div className={css.content}>
+          <p>
+            Variables are a way to add some interactivity and dynamicism to your
+            applications! Variables can be Public or Private, the differences
+            are explained below.
+          </p>
+
+          <div className={css.visibilityDefinitions}>
+            <div className={css.block}>
+              <strong>Public Variables</strong>
+              <hr />
+              <p>
+                Public variables will always be visible to players whilst they
+                use your application. These are useful for things you want the
+                player to know about such as stats and locations. Public
+                variables can be used as follows:
+              </p>
+              <ul>
+                <li>
+                  Used as conditional values in choices to determine if a choice
+                  should be made available to a player.
+                </li>
+                <li>Modified when a player clicks on a choice.</li>
+                <li>
+                  Used inside of frame text using templates (i.e. I'm glad
+                  you've returned back safe, &nbsp;
+                  {'{{'}name{'}}'}!)
+                </li>
+                <li>Used to conditionally render text inside of a frame.</li>
+              </ul>
+            </div>
+            <div className={css.block}>
+              <strong>Private Variables</strong>
+              <hr />
+              <p>
+                Private variables will never be shown to players whilst they use
+                your application, and cannot be included using templates.
+                Private variables should be used for things that are meant to be
+                a secret such as if the player has performed a certain action.
+                Private variables can be used as follows:
+              </p>
+              <ul>
+                <li>
+                  Used as conditional values in choices to determine if a choice
+                  should be made available to a player.
+                </li>
+                <li>Modified when a player clicks on a choice.</li>
+                <li>Used to conditionally render text inside of a frame.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </Card>
     </Flex>
   );
 }
