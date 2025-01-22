@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Muted from '../../atoms/Muted/Muted.tsx';
 import ExportManager from '../../organisms/ExportManager/ExportManager.tsx';
 import { Align, FlexDirection, Gap, Justify } from '@shared/types';
+import Variables from '../../organisms/Variables/Variables.tsx';
 
 function ApplicationEditor(): ReactElement {
   const { ApplicationStore } = useContext(AppContext);
@@ -49,15 +50,29 @@ function ApplicationEditor(): ReactElement {
           </Link>
         </Flex>
         <Flex
-          className={css.block}
+          className={`${css.block}`}
           flexDirection={FlexDirection.COLUMN}
           gap={Gap.SM}
           alignItems={Align.STRETCH}
         >
-          <Topper>Navigator</Topper>
+          <Topper>Application</Topper>
           <Link to="/" className={active => (active ? css.active : '')}>
-            Scene Editor
+            Editor
           </Link>
+          <Link
+            to="/variables"
+            className={active => (active ? css.active : '')}
+          >
+            Variables
+          </Link>
+        </Flex>
+        <Flex
+          className={`${css.block}`}
+          flexDirection={FlexDirection.COLUMN}
+          gap={Gap.SM}
+          alignItems={Align.STRETCH}
+        >
+          <Topper>Exporting/Meta</Topper>
           <Link to="/metadata" className={active => (active ? css.active : '')}>
             Metadata
           </Link>
@@ -93,6 +108,7 @@ function ApplicationEditor(): ReactElement {
       <div className={css.editor}>
         <Route path="/" component={CanvasEditor} />
         <Route path="/metadata" component={MetadataEditor} />
+        <Route path="/variables" component={Variables} />
         <Route path="/export" component={ExportManager} />
       </div>
     </Card>

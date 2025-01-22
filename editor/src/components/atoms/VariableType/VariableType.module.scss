@@ -1,0 +1,11 @@
+.variableType{
+  font-weight: 600;
+  background-color: var(--colour-gray-10);
+  color: var(--colour-white);
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-md);
+}

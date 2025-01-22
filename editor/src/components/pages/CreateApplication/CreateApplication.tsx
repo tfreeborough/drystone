@@ -32,6 +32,7 @@ function CreateApplication(): ReactElement {
         link: authorLink,
       },
       entrypoint: '',
+      variables: [],
     };
     ApplicationStore.setCurrentApplication(application);
     ApplicationStore.addApplication(application);

@@ -31,6 +31,25 @@ export interface ApplicationTheming {
   textColor?: string;
 }
 
+export enum ApplicationVariableVisibility {
+  PRIVATE = "private",
+  PUBLIC = "public",
+}
+
+export enum ApplicationVariableType {
+  STRING = "text",
+  NUMBER = "number",
+  BOOLEAN = "boolean",
+}
+
+export interface ApplicationVariable {
+  id: string;
+  name: string;
+  type: ApplicationVariableType;
+  visibility: ApplicationVariableVisibility;
+  defaultValue: string | number | boolean | null;
+}
+
 export interface Application {
   id: string;
   type: "application";
@@ -42,6 +61,7 @@ export interface Application {
   stageScale?: number;
   entrypoint: string;
   theming?: ApplicationTheming;
+  variables: ApplicationVariable[];
 }
 
 export interface SceneMetadata {

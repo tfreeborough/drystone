@@ -3,6 +3,7 @@ import { makePersistable } from 'mobx-persist-store';
 import {
   Application,
   ApplicationAuthor,
+  ApplicationVariable,
   FontStyles,
   Frame,
   Scene,
@@ -64,7 +65,12 @@ class ApplicationStore {
   }
 
   setCurrentApplication(application: Application | null) {
+    if (application && !application?.variables) {
+      application.variables = [];
+    }
+
     this.current = application;
+
     setDocumentFontFamily(application?.theming?.fontStyle ?? FontStyles.SERIF);
     generateColourScale(
       application?.theming?.elementsColor ?? '#858f64',
@@ -372,6 +378,47 @@ class ApplicationStore {
       application.theming.textColor = color ?? undefined;
       this.saveApplication(application);
       setDocumentProperty('colour-text', color ?? '#070708');
+    }
+  }
+
+  addVariable(id: string, variable: ApplicationVariable) {
+    const application = this.getApplication(id);
+    if (application) {
+      application.variables.push(variable);
+      this.saveApplication(application);
+    }
+  }
+
+  editVariable(id: string, variable: ApplicationVariable) {
+    const application = this.getApplication(id);
+    if (application) {
+      const variableIndex = application.variables.findIndex(
+        v => v.id === variable.id,
+      );
+      if (variableIndex > -1) {
+        application.variables = [
+          ...application.variables.slice(0, variableIndex),
+          variable,
+          ...application.variables.slice(variableIndex + 1),
+        ];
+        this.saveApplication(application);
+      }
+    }
+  }
+
+  deleteVariable(id: string, variableId: string) {
+    const application = this.getApplication(id);
+    if (application) {
+      const variableIndex = application.variables.findIndex(
+        v => v.id === variableId,
+      );
+      if (variableIndex > -1) {
+        application.variables = [
+          ...application.variables.slice(0, variableIndex),
+          ...application.variables.slice(variableIndex + 1),
+        ];
+      }
+      this.saveApplication(application);
     }
   }
 }

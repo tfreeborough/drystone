@@ -85,7 +85,9 @@ function MetadataEditor(): ReactElement {
                 fullWidth
                 label="The first scene of your application"
                 value={
-                  current.entrypoint ? current.entrypoint : current.scenes[0].id
+                  current.entrypoint
+                    ? current.entrypoint
+                    : current.scenes[0]?.id
                 }
                 values={current.scenes.map(s => {
                   return { text: s.metadata.note ?? '', value: s.id };

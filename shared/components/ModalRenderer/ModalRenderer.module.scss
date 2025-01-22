@@ -1,0 +1,105 @@
+.modal{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: stretch;
+
+  &.full{
+    padding: var(--gap-xs);
+
+    .card{
+      flex-grow: 1;
+      padding: var(--gap-md);
+      padding-top: var(--gap-2xl);
+      overflow-y: auto;
+    }
+
+    .close{
+      position: absolute;
+      top: 0.5rem;
+      right: 0.75rem;
+      width: 1rem;
+      height: 1rem;
+      background-color: var(--colour-gray-100);
+      border-radius: 5rem;
+      padding: 0.5rem;
+
+      &:hover{
+        background-color: var(--colour-gray-200);
+        cursor: pointer;
+      }
+    }
+  }
+
+  &.normal{
+    .card{
+      align-self: start;
+      margin: auto;
+      padding: var(--gap-md);
+      width: min(100%, 600px);
+
+      .close{
+        position: absolute;
+        top: 0.5rem;
+        right: 0.75rem;
+        width: 1rem;
+        height: 1rem;
+        background-color: var(--colour-gray-100);
+        border-radius: 5rem;
+        padding: 0.5rem;
+
+        &:hover{
+          background-color: var(--colour-gray-200);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &.draw{
+      .card{
+        flex-grow: 1;
+        align-self: end;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        padding: var(--gap-md);
+      }
+  }
+
+  &.frameless{
+    .card{
+      padding: 0;
+    }
+  }
+
+  .background{
+    background-color: rgba(0,0,0,0.4);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 21;
+  }
+
+  .card {
+    position: relative;
+    background-color: var(--colour-white);
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius-sm);
+    padding: var(--gap-xs);
+    border: 1px solid var(--colour-gray-200);
+
+    box-sizing: border-box;
+    z-index: 22;
+  }
+
+  .close{
+
+  }
+}
+

@@ -1,0 +1,35 @@
+.variables{
+  padding: 0 var(--gap-md);
+  height: 100%;
+
+  .list{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--gap-md);
+
+    .public,.private{
+      border: 1px solid var(--colour-gray-50);
+      background-color: var(--colour-white);
+      padding: 0 var(--gap-md);
+      padding-bottom: var(--gap-md);
+      border-radius: var(--border-radius-sm);
+      overflow: hidden;
+
+      .noVariables{
+        padding-top: var(--gap-md);
+      }
+
+      .table{
+        margin-top: var(--gap-md);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap-sm);
+        align-items: stretch;
+      }
+
+      .add{
+        margin-top: var(--gap-sm);
+      }
+    }
+  }
+}

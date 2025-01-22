@@ -1,0 +1,18 @@
+.variableDisplay {
+  padding: var(--gap-xs) var(--gap-sm);
+  background-color: var(--colour-background);
+  border: var(--border);
+
+  .defaultValue{
+    font-size: var(--font-size-sm);
+    opacity: 0.5;
+  }
+
+  .edit{
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.7;
+    }
+  }
+}

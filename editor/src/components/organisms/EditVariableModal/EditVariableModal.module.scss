@@ -1,0 +1,10 @@
+.editVariableModal {
+  padding-top: var(--gap-md);
+
+  .buttons{
+    .delete{
+      background-color: var(--colour-error-20);
+      color: var(--colour-white);
+    }
+  }
+}
