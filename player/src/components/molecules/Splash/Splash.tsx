@@ -40,7 +40,7 @@ function Splash({ application }: SplashProps) {
       >
         <FadeIn
           onAnimationComplete={() => setShowDescription(true)}
-          duration={3}
+          duration={2}
         >
           <h1>{application.name}</h1>
         </FadeIn>
@@ -48,7 +48,7 @@ function Splash({ application }: SplashProps) {
           <FadeIn duration={1}>
             <div className={css.description}>
               <Container>
-                <Paragraph typingSpeed={40} onEnd={handleFinishType}>
+                <Paragraph typingSpeed={10} onEnd={handleFinishType}>
                   {application.description}
                 </Paragraph>
               </Container>
@@ -56,7 +56,7 @@ function Splash({ application }: SplashProps) {
           </FadeIn>
         )}
         {showButton && (
-          <FadeIn duration={1} delay={2}>
+          <FadeIn duration={1} delay={1}>
             <Button onClick={handleStart}>Begin</Button>
           </FadeIn>
         )}

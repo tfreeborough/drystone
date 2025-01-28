@@ -13,7 +13,10 @@ export const ApplicationEnding = observer(() => {
 
   function handleResetApplication() {
     if (application) {
-      PlayerStore.initializeGameState(application.entrypoint);
+      PlayerStore.initializeGameState(
+        application.entrypoint,
+        application.variables,
+      );
     }
   }
 

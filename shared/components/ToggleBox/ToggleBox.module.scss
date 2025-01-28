@@ -1,0 +1,38 @@
+.toggleBox{
+
+  .topper{
+    color: var(--colour-primary-10);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--colour-primary-90);
+    padding: var(--gap-sm) var(--gap-sm);
+    border-radius: var(--border-radius-md);
+    border:1px solid var(--border-color);
+
+    &:hover{
+      cursor: pointer;
+      background-color: var(--colour-primary-80);
+      color: var(--colour-primary);
+    }
+  }
+
+  .content{
+    padding: var(--gap-sm) var(--gap-sm);
+  }
+
+  &.open{
+    .topper{
+      border-bottom: none;
+      border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+    }
+
+    .content{
+      border:1px solid var(--border-color);
+      border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
+    }
+  }
+}

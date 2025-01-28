@@ -1,6 +1,7 @@
 .choicesRender{
   .choice{
     color: var(--anchor-colour);
+    user-select: none;
 
     &:hover{
       cursor: pointer;

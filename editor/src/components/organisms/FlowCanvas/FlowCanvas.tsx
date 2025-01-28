@@ -23,6 +23,7 @@ import PanelContextMenu from '../PanelContextMenu/PanelContextMenu.tsx';
 import SceneContextMenu from '../SceneContextMenu/SceneContextMenu.tsx';
 import NewChoiceModal from '../NewChoiceModal/NewChoiceModal.tsx';
 import { ChoiceEdge } from './Custom Edges/ChoiceEdge/ChoiceEdge.tsx';
+import { ModalContext, ModalType } from '@shared/components';
 
 const nodeTypes: any = { scene: SceneNode };
 const edgeTypes: EdgeTypes = {
@@ -31,13 +32,12 @@ const edgeTypes: EdgeTypes = {
 const isValidNumber = (num: any) => typeof num === 'number' && isFinite(num);
 
 function FlowCanvas() {
+  const { addModal } = useContext(ModalContext);
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [menu, setMenu] = useState<null | any>(null);
   const [sceneMenu, setSceneMenu] = useState<null | any>(null);
   const [, setChoiceMenu] = useState<null | any>(null);
-  const [newChoiceModalOpen, setNewChoiceModalOpen] = useState(false);
-  const [pendingEdge, setPendingEdge] = useState<Connection | null>(null);
 
   const panelRef = useRef<any>();
   const reactFlowInstance = useReactFlow();
@@ -246,8 +246,15 @@ function FlowCanvas() {
   const closeSceneMenu = () => setSceneMenu(null);
 
   const onConnect = useCallback((params: Connection) => {
-    setPendingEdge(params);
-    setNewChoiceModalOpen(true);
+    //setPendingEdge(params);
+    console.log(params);
+    // setNewChoiceModalOpen(true);
+    addModal({
+      id: 'new-choice-modal',
+      type: ModalType.NORMAL,
+      content: <NewChoiceModal />,
+      extra: { edgeInfo: params },
+    });
   }, []);
 
   const onChoiceContextMenu = useCallback(
@@ -320,11 +327,6 @@ function FlowCanvas() {
           onClose={closeSceneMenu}
         />
       )}
-      <NewChoiceModal
-        isOpen={newChoiceModalOpen}
-        onClose={() => setNewChoiceModalOpen(false)}
-        edgeInfo={pendingEdge}
-      />
     </ReactFlow>
   );
 }

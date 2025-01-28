@@ -1,7 +1,13 @@
 import { makeAutoObservable } from "mobx";
 import { makePersistable } from "mobx-persist-store";
 import { SerializableProperty } from "mobx-persist-store/lib/esm2017/serializableProperty";
-import { PlayerState } from "@shared/types";
+import {
+  ApplicationVariable,
+  ApplicationVariableVisibility,
+  PlayerState,
+  Trigger,
+} from "@shared/types";
+import { modifyVariableWithTrigger } from "@shared/functions";
 
 class PlayerStore {
   state: PlayerState | null = null;
@@ -39,11 +45,15 @@ class PlayerStore {
     }
   }
 
-  initializeGameState(entrypoint: string) {
+  initializeGameState(
+    entrypoint: string,
+    variables: ApplicationVariable[] = [],
+  ) {
     this.state = {
       started: false,
       position: entrypoint,
       history: [entrypoint],
+      variables,
     };
   }
 
@@ -64,6 +74,56 @@ class PlayerStore {
       }
     }
   }
+
+  public getVariable(id: string) {
+    if (!this.state) return null;
+    const found = this.state.variables.find((s) => s.id === id);
+    return found ?? null;
+  }
+
+  public getPublicVariables() {
+    if (!this.state) return [];
+    return this.state.variables.filter(
+      (v) => v.visibility === ApplicationVariableVisibility.PUBLIC,
+    );
+  }
+
+  public getPrivateVariables() {
+    if (!this.state) return [];
+    return this.state.variables.filter(
+      (v) => v.visibility === ApplicationVariableVisibility.PRIVATE,
+    );
+  }
+
+  public setVariable(id: string, value: string | boolean | number) {
+    if (!this.state) return;
+    const index = this.state.variables.findIndex((s) => s.id === id);
+    if (index > -1) {
+      this.state.variables = [
+        ...this.state.variables.slice(0, index),
+        { ...this.state.variables[index], value },
+        ...this.state.variables.slice(index + 1),
+      ];
+    }
+    return;
+  }
+
+  public applyTriggers(triggers: Trigger[]) {
+    if (!this.state) return;
+    triggers.forEach((trigger) => {
+      let variable = this.getVariable(trigger.variableId);
+      if (!variable) {
+        console.warn(
+          `Attempted to apply trigger to non-existant variable ${trigger.variableId}`,
+        );
+        return;
+      }
+      variable = modifyVariableWithTrigger(variable, trigger);
+      this.setVariable(variable.id, variable.value);
+    });
+  }
+
+  public resetAllVariables() {}
 }
 
 const singleton = new PlayerStore();

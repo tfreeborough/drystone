@@ -71,7 +71,10 @@ function RemoteLoader({ remote }: RemoteLoaderProps) {
         throw new Error("This application has no entrypoint.");
       }
       ApplicationStore.setApplication(appDataJson);
-      PlayerStore.initializeGameState(appDataJson.entrypoint);
+      PlayerStore.initializeGameState(
+        appDataJson.entrypoint,
+        appDataJson.variables,
+      );
 
       /**
        * Send the app loaded message to every approved origin, we don't specify * because

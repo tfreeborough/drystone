@@ -1,16 +1,19 @@
 import css from './TextInput.module.scss';
 import { ReactElement } from 'react';
 import Label from '../Label/Label.tsx';
+import { Flex } from '@shared/components';
+import { Align, FlexDirection } from '@shared/types';
 
 interface TextInputProps {
   className?: string;
-  value: string;
+  value: string | number;
   inline?: boolean;
   onChange: (value: string) => void;
   label?: string;
   fullWidth?: boolean;
   autoFocus?: boolean;
   placeholder?: string;
+  type?: 'text' | 'password' | 'email' | 'number';
 }
 
 function TextInput({
@@ -22,6 +25,7 @@ function TextInput({
   fullWidth = false,
   autoFocus = false,
   placeholder,
+  type = 'text',
 }: TextInputProps): ReactElement {
   function handleChange(e: any) {
     onChange(e.target.value);
@@ -46,17 +50,21 @@ function TextInput({
     );
   }
   return (
-    <>
+    <Flex
+      flexDirection={FlexDirection.COLUMN}
+      alignItems={Align.STRETCH}
+      className={`${fullWidth ? css.fullWidth : ''}`}
+    >
       {label && <Label>{label}</Label>}
       <input
         autoFocus={autoFocus}
-        className={`${css.textInput} ${fullWidth ? css.fullWidth : ''} ${css.block} ${className}`}
-        type="text"
+        className={`${css.textInput} ${css.block} ${className}`}
+        type={type}
         placeholder={placeholder}
         value={value}
         onChange={handleChange}
       />
-    </>
+    </Flex>
   );
 }
 

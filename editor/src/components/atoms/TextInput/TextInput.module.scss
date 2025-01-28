@@ -1,6 +1,14 @@
+.fullWidth{
+  width: 100%;
+
+  .textInput{
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
 .textInput {
   font-family: var(--font-family);
-
 
   &.inline {
     border: none;
@@ -14,10 +22,5 @@
 
   &.block{
     height: 1.5rem;
-  }
-
-  &.fullWidth {
-    width: 100%;
-    box-sizing: border-box;
   }
 }

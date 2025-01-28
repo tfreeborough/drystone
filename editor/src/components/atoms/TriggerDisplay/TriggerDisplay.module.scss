@@ -1,0 +1,13 @@
+.triggerDisplay{
+  border: var(--border);
+  padding: var(--gap-xs) var(--gap-sm);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--colour-background);
+  .variable{
+    font-weight: bold;
+  }
+
+  .triggerValue{
+    font-weight: bold;
+  }
+}

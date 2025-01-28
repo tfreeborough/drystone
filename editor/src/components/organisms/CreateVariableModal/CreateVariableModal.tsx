@@ -16,7 +16,7 @@ import {
   Notice,
   NoticeType,
 } from '@shared/components';
-import css from '../EditVariableModal/EditVariableModal.module.scss';
+import css from '../CreateVariableModal/CreateVariableModal.module.scss';
 import TextInput from '../../atoms/TextInput/TextInput.tsx';
 import SelectInput from '../../atoms/SelectInput/SelectInput.tsx';
 import { v4 } from 'uuid';
@@ -67,19 +67,33 @@ function CreateVariableModal({
   const [visibility, setVisibility] = useState<ApplicationVariableVisibility>(
     extra?.visibility ?? ApplicationVariableVisibility.PUBLIC,
   );
-  const [showDefaultValue, setShowDefaultValue] = useState<boolean>(false);
-  const [defaultValue, setDefaultValue] = useState<
-    string | boolean | number | null
-  >(null);
+  const [value, setValue] = useState<string | boolean | number>('');
 
   function handleChangeVariableName(value: string) {
     setName(value);
+  }
+
+  function resetVariableValue(type: ApplicationVariableType) {
+    switch (type) {
+      case ApplicationVariableType.STRING:
+        setValue('');
+        break;
+      case ApplicationVariableType.NUMBER:
+        setValue(0);
+        break;
+      case ApplicationVariableType.BOOLEAN:
+        setValue(false);
+        break;
+    }
   }
 
   function handleChangeVariableType(
     option: SelectOption<ApplicationVariableType> | null,
   ) {
     if (option) {
+      if (option.value !== type) {
+        resetVariableValue(option.value);
+      }
       setType(option.value);
     }
   }
@@ -92,29 +106,11 @@ function CreateVariableModal({
     }
   }
 
-  function handleChangeVariableDefaultValue(
-    value: string | boolean | number | null,
-  ) {
-    setDefaultValue(value);
-    if (
-      type === ApplicationVariableType.STRING &&
-      typeof value === 'string' &&
-      value.length === 0
-    ) {
-      setDefaultValue(null);
-    }
-  }
-
-  function handleChangeShowDefaultValue(
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) {
-    setShowDefaultValue(e.target.checked);
-    if (e.target.checked) {
-      if (type === ApplicationVariableType.BOOLEAN && defaultValue === null) {
-        setDefaultValue(false);
-      }
+  function handleChangeVariableValue(value: string | boolean | number) {
+    if (value.toString().length === 0) {
+      resetVariableValue(type);
     } else {
-      setDefaultValue(null);
+      setValue(value);
     }
   }
 
@@ -125,7 +121,7 @@ function CreateVariableModal({
         name,
         type,
         visibility,
-        defaultValue: showDefaultValue ? defaultValue : null,
+        value,
       };
       console.log(variable);
       ApplicationStore.addVariable(extra.applicationId, variable);
@@ -138,30 +134,35 @@ function CreateVariableModal({
       case ApplicationVariableType.STRING:
         return (
           <TextInput
-            value={defaultValue ? (defaultValue as string) : ''}
-            onChange={handleChangeVariableDefaultValue}
+            label="Default value on new play through"
+            value={value as string}
+            onChange={handleChangeVariableValue}
             placeholder="Enter a default value for this variable"
           />
         );
       case ApplicationVariableType.NUMBER:
         return (
-          <input
-            type="number"
-            value={defaultValue ? (defaultValue as number) : ''}
-            onChange={e => handleChangeVariableDefaultValue(e.target.value)}
-          />
+          <Flex flexDirection={FlexDirection.COLUMN} alignItems={Align.STRETCH}>
+            <span className={css.label}>Default value on new play through</span>
+            <input
+              type="number"
+              value={value as number}
+              onChange={e => handleChangeVariableValue(e.target.value)}
+            />
+          </Flex>
         );
       case ApplicationVariableType.BOOLEAN:
         return (
           <SelectInput
-            value={defaultValue ? defaultValue.toString() : 'false'}
+            label="Default value on new play through"
+            value={value ? value.toString() : 'false'}
             values={[
               { text: 'TRUE', value: 'true' },
               { text: 'FALSE', value: 'false' },
             ]}
             onSelect={o => {
               if (o) {
-                handleChangeVariableDefaultValue(o?.value);
+                handleChangeVariableValue(o?.value);
               }
             }}
           />
@@ -207,15 +208,7 @@ function CreateVariableModal({
           onSelect={handleChangeVariableVisibility}
         />
       </div>
-      <Flex gap={Gap.XS}>
-        <input
-          type="checkbox"
-          checked={showDefaultValue}
-          onChange={handleChangeShowDefaultValue}
-        />{' '}
-        <span>should this variable have a default value?</span>
-      </Flex>
-      {showDefaultValue && <>{renderDefaultValueField()}</>}
+      {renderDefaultValueField()}
       <Button
         className={css.button}
         onClick={handleCreateVariable}

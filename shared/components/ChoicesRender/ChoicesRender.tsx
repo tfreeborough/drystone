@@ -4,6 +4,7 @@ import { Flex } from "../Flex/Flex";
 import { observer } from "mobx-react-lite";
 import { useContext } from "react";
 import { AppContext } from "../../../player/src/stores/AppContext";
+import { isConditionMet } from "../../functions";
 
 interface ChoicesRenderProps {
   choices: Choice[];
@@ -12,10 +13,27 @@ interface ChoicesRenderProps {
 
 export const ChoicesRender = observer(
   ({ choices, onSelectChoice }: ChoicesRenderProps) => {
-    const { ApplicationStore } = useContext(AppContext);
+    const { PlayerStore, ApplicationStore } = useContext(AppContext);
     function handleSelectChoice(choice: Choice) {
       onSelectChoice(choice);
     }
+
+    let filteredChoices: Choice[] = [...choices].filter((choice: Choice) => {
+      if (!choice.conditions) {
+        return true;
+      }
+      return choice.conditions.every((condition) => {
+        const variable = PlayerStore.getVariable(condition.variableId);
+        if (variable) {
+          return isConditionMet(
+            variable,
+            condition.operator,
+            condition.conditionValue,
+          );
+        }
+        return false;
+      });
+    });
 
     return (
       <Flex
@@ -24,7 +42,7 @@ export const ChoicesRender = observer(
         alignItems={Align.START}
         gap={Gap.XS}
       >
-        {choices.map((choice) => {
+        {filteredChoices.map((choice) => {
           const targetScene = ApplicationStore.getScene(choice.target);
           let choiceIsValid = false;
           if (targetScene) {

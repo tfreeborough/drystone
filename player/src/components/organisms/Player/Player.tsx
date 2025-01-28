@@ -9,6 +9,7 @@ import { Align, Justify } from "@shared/types";
 import { SceneRenderer } from "../../molecules/SceneRenderer/SceneRenderer.tsx";
 import { ErrorBoundary } from "react-error-boundary";
 import { useTitle } from "@shared/hooks";
+import { PublicVariableDisplay } from "../PublicVariableDisplay/PublicVariableDisplay.tsx";
 
 interface PlayerProps {
   application: Application;
@@ -39,6 +40,7 @@ function Player({ application }: PlayerProps) {
           onError={handleFatalError}
         >
           <SceneRenderer />
+          <PublicVariableDisplay />
         </ErrorBoundary>
       ) : (
         <Splash application={application} />

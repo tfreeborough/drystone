@@ -1,6 +1,6 @@
 import css from "./ApplicationLoader.module.scss";
 import { ZipReader, BlobReader, TextWriter, BlobWriter } from "@zip.js/zip.js";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { AppContext } from "../../../stores/AppContext.ts";
 import { observer } from "mobx-react-lite";
 import { Asset } from "@shared/types";
@@ -62,7 +62,10 @@ function ApplicationLoader() {
         throw new Error("This application has no entrypoint.");
       }
       ApplicationStore.setApplication(appDataJson);
-      PlayerStore.initializeGameState(appDataJson.entrypoint);
+      PlayerStore.initializeGameState(
+        appDataJson.entrypoint,
+        appDataJson.variables,
+      );
     } catch (error) {
       console.error("Error:", error);
       setLoadingError(getErrorMessage(error));
@@ -71,11 +74,18 @@ function ApplicationLoader() {
     }
   }
 
+  const fileInput = useRef<HTMLInputElement>(null);
+
+  const handleButtonClick = () => {
+    fileInput.current?.click();
+  };
+
   return (
     <div className={css.applicationLoader}>
-      <div className={css.box}>
+      <div className={css.box} onClick={handleButtonClick}>
         Click here to select a zip file
         <input
+          ref={fileInput}
           type="file"
           className={css.input}
           accept="application/zip"

@@ -28,43 +28,33 @@ function EditVariableModal({
   const { removeModal } = useContext(ModalContext);
   const { ApplicationStore } = useContext(AppContext);
   const [name, setName] = useState(extra?.variable.name || '');
-  const [showDefaultValue, setShowDefaultValue] = useState<boolean>(
-    !!extra?.variable.defaultValue,
+  const [value, setValue] = useState<string | boolean | number>(
+    extra?.variable.value ?? '',
   );
-  const [defaultValue, setDefaultValue] = useState<
-    string | boolean | number | null
-  >(extra?.variable.defaultValue ?? null);
 
   function handleChangeVariableName(value: string) {
     setName(value);
   }
 
-  function handleChangeVariableDefaultValue(
-    value: string | boolean | number | null,
-  ) {
-    setDefaultValue(value);
-    if (
-      extra?.variable.type === ApplicationVariableType.STRING &&
-      typeof value === 'string' &&
-      value.length === 0
-    ) {
-      setDefaultValue(null);
+  function resetVariableValue(type: ApplicationVariableType) {
+    switch (type) {
+      case ApplicationVariableType.STRING:
+        setValue('');
+        break;
+      case ApplicationVariableType.NUMBER:
+        setValue(0);
+        break;
+      case ApplicationVariableType.BOOLEAN:
+        setValue(false);
+        break;
     }
   }
 
-  function handleChangeShowDefaultValue(
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) {
-    setShowDefaultValue(e.target.checked);
-    if (e.target.checked) {
-      if (
-        extra?.variable.type === ApplicationVariableType.BOOLEAN &&
-        defaultValue === null
-      ) {
-        setDefaultValue(false);
-      }
+  function handleChangeVariableValue(value: string | boolean | number) {
+    if (value.toString().length === 0 && extra?.variable.type) {
+      resetVariableValue(extra.variable.type);
     } else {
-      setDefaultValue(null);
+      setValue(value);
     }
   }
 
@@ -73,7 +63,7 @@ function EditVariableModal({
       const editedVariable = {
         ...extra.variable,
         name,
-        defaultValue: showDefaultValue ? defaultValue : null,
+        value,
       };
       ApplicationStore.editVariable(extra.applicationId, editedVariable);
       removeModal('edit-variable-modal');
@@ -92,30 +82,37 @@ function EditVariableModal({
       case ApplicationVariableType.STRING:
         return (
           <TextInput
-            value={defaultValue ? (defaultValue as string) : ''}
-            onChange={handleChangeVariableDefaultValue}
+            label="Default value on new play through"
+            value={value ? (value as string) : ''}
+            onChange={handleChangeVariableValue}
             placeholder="Enter a default value for this variable"
           />
         );
       case ApplicationVariableType.NUMBER:
         return (
-          <input
-            type="number"
-            value={defaultValue ? (defaultValue as number) : 0}
-            onChange={e => handleChangeVariableDefaultValue(e.target.value)}
-          />
+          <Flex flexDirection={FlexDirection.COLUMN} alignItems={Align.STRETCH}>
+            <label className={css.label}>
+              Default value on new play through
+            </label>
+            <input
+              type="number"
+              value={value ? (value as number) : 0}
+              onChange={e => handleChangeVariableValue(e.target.value)}
+            />
+          </Flex>
         );
       case ApplicationVariableType.BOOLEAN:
         return (
           <SelectInput
-            value={defaultValue ? defaultValue.toString() : 'false'}
+            label="Default value on new play through"
+            value={value ? value.toString() : 'false'}
             values={[
               { text: 'TRUE', value: 'true' },
               { text: 'FALSE', value: 'false' },
             ]}
             onSelect={o => {
               if (o) {
-                handleChangeVariableDefaultValue(o?.value);
+                handleChangeVariableValue(o?.value);
               }
             }}
           />
@@ -146,15 +143,7 @@ function EditVariableModal({
           onChange={handleChangeVariableName}
         />
       </div>
-      <Flex gap={Gap.XS}>
-        <input
-          type="checkbox"
-          checked={showDefaultValue}
-          onChange={handleChangeShowDefaultValue}
-        />{' '}
-        <span>should this variable have a default value?</span>
-      </Flex>
-      {showDefaultValue && <>{renderDefaultValueField()}</>}
+      {renderDefaultValueField()}
       <Flex className={css.buttons} justifyContent={Justify.SPACE_BETWEEN}>
         <Button onClick={handleUpdateVariable}>Update & Close</Button>
         <Button className={css.delete} onClick={handleDeleteVariable}>

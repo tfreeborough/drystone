@@ -51,7 +51,7 @@ function useModal() {
     id?: string;
     type: ModalType;
     content: ReactNode;
-    event: MouseEvent<HTMLElement | SVGSVGElement>;
+    event?: MouseEvent<HTMLElement | SVGSVGElement>;
     onClose?: () => void;
     frameless?: boolean;
     extra?: Record<string, any>;
@@ -64,7 +64,7 @@ function useModal() {
           id: config.id ?? self.crypto.randomUUID(),
           type: config.type,
           content: config.content,
-          triggerElement: config.event.currentTarget,
+          triggerElement: config.event ? config.event.currentTarget : undefined,
           onClose: config.onClose,
           frameless: config.frameless ?? false,
           extra: config.extra,

@@ -78,6 +78,9 @@ export const Scene = observer(({ scene }: SceneProps) => {
   }
 
   function handleSelectChoice(choice: Choice) {
+    if (choice.triggers) {
+      PlayerStore.applyTriggers(choice.triggers);
+    }
     PlayerStore.navigateToScene(choice.target);
   }
 

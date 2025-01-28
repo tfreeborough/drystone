@@ -31,6 +31,11 @@ interface SceneEditorProps {
 function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
   const { ApplicationStore } = useContext(AppContext);
 
+  const currentApplication = ApplicationStore.current;
+  if (!currentApplication) {
+    return null;
+  }
+
   function handleUpdateNote(value: string) {
     onUpdate({
       ...scene,
@@ -166,6 +171,8 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
                   <Choice
                     key={choice.id}
                     onSelect={handleSelectChoice}
+                    applicationId={currentApplication.id}
+                    sceneId={scene.id}
                     choice={choice}
                   />
                 );

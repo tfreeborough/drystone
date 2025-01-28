@@ -30,10 +30,14 @@ function ContextEditor() {
     }
   }, [editorContext]);
 
-  useClickOutsideRef(contextEditorRef, () => {
-    ApplicationStore.setEditorContext(null);
-    setSelectedFrame(null);
-  });
+  useClickOutsideRef(
+    contextEditorRef,
+    () => {
+      ApplicationStore.setEditorContext(null);
+      setSelectedFrame(null);
+    },
+    true,
+  );
 
   function handleUpdateScene(scene: Scene) {
     if (application && editorContext) {

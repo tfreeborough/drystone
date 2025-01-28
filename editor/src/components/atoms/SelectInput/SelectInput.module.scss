@@ -1,3 +1,11 @@
+.fullWidth{
+  width: 100%;
+
+  .selectInput {
+    width: 100%;
+  }
+}
+
 .selectInput {
   font-family: var(--font-family);
   height: 1.5rem;
@@ -6,3 +14,4 @@
     width: 100%;
   }
 }
+

@@ -5,6 +5,7 @@ interface ButtonProps {
   className?: string;
   onClick: (evt: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
+  negative?: boolean;
 }
 
 export function Button({
@@ -12,6 +13,7 @@ export function Button({
   className = "",
   onClick,
   disabled = false,
+  negative = false,
 }: PropsWithChildren<ButtonProps>) {
   function handleClick(evt: React.MouseEvent<HTMLButtonElement>) {
     if (!disabled) {
@@ -21,7 +23,7 @@ export function Button({
 
   return (
     <button
-      className={`${css.button} ${className} ${disabled ? css.disabled : ""}`}
+      className={`${css.button} ${className} ${negative ? css.negative : ""} ${disabled ? css.disabled : ""}`}
       onClick={handleClick}
       tabIndex={0}
     >

@@ -1,3 +1,5 @@
+import { SelectOption } from "./form.types";
+
 export type JSONContent = {
   type?: string;
   attrs?: Record<string, any>;
@@ -47,7 +49,7 @@ export interface ApplicationVariable {
   name: string;
   type: ApplicationVariableType;
   visibility: ApplicationVariableVisibility;
-  defaultValue: string | number | boolean | null;
+  value: string | number | boolean;
 }
 
 export interface Application {
@@ -88,6 +90,8 @@ export interface Choice {
   type: "choice";
   label: string;
   target: string;
+  conditions?: Condition[];
+  triggers?: Trigger[];
 }
 
 export interface Node {
@@ -101,3 +105,29 @@ export interface Asset {
   data: Blob;
   applicationId: string;
 }
+
+export interface Condition {
+  id: string;
+  variableId: string;
+  operator: ConditionOperator;
+  conditionValue: string | number | boolean;
+}
+
+export interface Trigger {
+  id: string;
+  variableId: string;
+  operator: TriggerOperator;
+  triggerValue: string | number | boolean;
+}
+
+export type ConditionOperator = "==" | "<" | ">" | "<=" | ">=" | "!=";
+export type TriggerOperator = "=" | "+" | "-" | "/" | "*";
+
+export const ConditionOperatorOptions: SelectOption[] = [
+  { text: "== (is equal to)", value: "==" },
+  { text: "!= (is NOT equal to)", value: "!=" },
+  { text: "< (is less than)", value: "<" },
+  { text: "<= (is less than or equal to)", value: "<=" },
+  { text: "> (is greater than)", value: ">" },
+  { text: ">= (is greater than or equal to)", value: ">=" },
+];

@@ -3,17 +3,26 @@ import css from './NewChoiceModal.module.scss';
 import TextInput from '../../atoms/TextInput/TextInput.tsx';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { Connection } from '@xyflow/react';
-import { Button, Flex } from '@shared/components';
+import { Button, Flex, ModalContext } from '@shared/components';
 import { Align, FlexDirection, Gap, Justify } from '@shared/types';
 
 interface NewChoiceModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  edgeInfo: Connection | null;
+  extra?: { edgeInfo: Connection };
 }
 
-const NewChoiceModal = ({ isOpen, onClose, edgeInfo }: NewChoiceModalProps) => {
+const NewChoiceModal = ({ extra }: NewChoiceModalProps) => {
+  const { removeModal } = useContext(ModalContext);
   const { ApplicationStore } = useContext(AppContext);
+
+  if (!extra) {
+    return null;
+  }
+
+  const edgeInfo = extra.edgeInfo;
+
+  function handleClose() {
+    removeModal('new-choice-modal');
+  }
 
   function handleSubmit() {
     const current = ApplicationStore.current;
@@ -25,21 +34,23 @@ const NewChoiceModal = ({ isOpen, onClose, edgeInfo }: NewChoiceModalProps) => {
         label,
       );
       setLabel('');
-      onClose();
+      handleClose();
     }
   }
 
   const [label, setLabel] = useState('');
 
-  if (!isOpen) return null;
-
   return (
-    <div className={css.backdrop}>
+    <Flex
+      className={css.newChoiceModal}
+      gap={Gap.MD}
+      alignItems={Align.STRETCH}
+      flexDirection={FlexDirection.COLUMN}
+    >
       <Flex
-        className={css.card}
+        flexDirection={FlexDirection.COLUMN}
         gap={Gap.XS}
         alignItems={Align.STRETCH}
-        flexDirection={FlexDirection.COLUMN}
       >
         <TextInput
           autoFocus
@@ -48,12 +59,14 @@ const NewChoiceModal = ({ isOpen, onClose, edgeInfo }: NewChoiceModalProps) => {
           value={label}
           onChange={value => setLabel(value)}
         />
-        <Flex gap={Gap.SM} justifyContent={Justify.SPACE_BETWEEN}>
-          <Button onClick={handleSubmit}>Create link</Button>
-          <Button onClick={onClose}>Cancel</Button>
-        </Flex>
       </Flex>
-    </div>
+      <Flex gap={Gap.SM} justifyContent={Justify.SPACE_BETWEEN}>
+        <Button onClick={handleSubmit}>Create link</Button>
+        <Button onClick={handleClose} negative>
+          Cancel
+        </Button>
+      </Flex>
+    </Flex>
   );
 };
 

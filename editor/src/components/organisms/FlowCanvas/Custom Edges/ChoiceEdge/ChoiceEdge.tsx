@@ -9,7 +9,10 @@ import {
 import css from './ChoiceEdge.module.scss';
 import { AppContext } from '../../../../../stores/AppContext.ts';
 import { observer } from 'mobx-react-lite';
-import { DeleteIcon } from '@shared/components';
+import { DeleteIcon, Flex, ModalContext, ModalType } from '@shared/components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ConditionalLogicModal } from '../../../ConditionalLogicModal/ConditionalLogicModal.tsx';
+import { TriggerLogicModal } from '../../../TriggerLogicModal/TriggerLogicModal.tsx';
 
 export const ChoiceEdge: FC<
   EdgeProps<Edge<{ label: string; scene: string; application: string }>>
@@ -25,7 +28,14 @@ export const ChoiceEdge: FC<
     label,
     data,
   }) => {
+    const { addModal } = useContext(ModalContext);
     const { ApplicationStore } = useContext(AppContext);
+
+    const current = ApplicationStore.current;
+    if (!current) {
+      return null;
+    }
+    const choice = ApplicationStore.getChoice(current.id, id);
 
     const offset = Math.min(Math.abs(targetX - sourceX) * 0.2, 65);
 
@@ -49,6 +59,49 @@ export const ChoiceEdge: FC<
         ApplicationStore.removeChoice(data.application, data.scene, id);
       }
     }
+
+    function handleOpenConditionalLogicModal(
+      event: React.MouseEvent<SVGSVGElement>,
+    ) {
+      if (choice && current) {
+        addModal({
+          id: 'conditional-logic-modal',
+          event,
+          type: ModalType.NORMAL,
+          content: <ConditionalLogicModal />,
+          extra: {
+            choiceId: choice.id,
+            applicationId: current.id,
+            sceneId: data?.scene,
+          },
+        });
+      }
+    }
+
+    function handleOpenTriggerLogicModal(
+      event: React.MouseEvent<SVGSVGElement>,
+    ) {
+      if (choice && current) {
+        addModal({
+          id: 'trigger-logic-modal',
+          event,
+          type: ModalType.NORMAL,
+          content: <TriggerLogicModal />,
+          extra: {
+            choiceId: choice.id,
+            applicationId: current.id,
+            sceneId: data?.scene,
+          },
+        });
+      }
+    }
+
+    if (!choice) {
+      return null;
+    }
+
+    const hasConditions = choice.conditions && choice.conditions.length > 0;
+    const hasTriggers = choice.triggers && choice.triggers.length > 0;
 
     return (
       <>
@@ -94,7 +147,7 @@ export const ChoiceEdge: FC<
         />
         <EdgeLabelRenderer>
           <div
-            className={css.choiceEdge}
+            className={`${css.choiceEdge} ${hasConditions ? css.hasConditionalLogic : ''} ${hasTriggers ? css.hasTriggerLogic : ''}`}
             style={{
               position: 'absolute',
               left: targetX,
@@ -102,6 +155,20 @@ export const ChoiceEdge: FC<
               transform: 'translate(-50%, calc(-100% - 5px))',
             }}
           >
+            <Flex className={css.choiceConfig}>
+              <FontAwesomeIcon
+                onClick={handleOpenConditionalLogicModal}
+                title="Edit conditional logic"
+                className={css.conditionIcon}
+                icon={['fas', 'filter']}
+              />
+              <FontAwesomeIcon
+                onClick={handleOpenTriggerLogicModal}
+                title="Edit trigger logic"
+                className={css.triggerIcon}
+                icon={['fas', 'code']}
+              />
+            </Flex>
             {label}
             <DeleteIcon
               className={css.delete}

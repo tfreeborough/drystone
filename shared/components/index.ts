@@ -10,3 +10,4 @@ export * from './ModalRenderer/ModalRenderer';
 export * from './Notice/Notice';
 export * from './RenderingErrorBoundary/RenderingErrorBoundary';
 export * from './Tiptap2React/Tiptap2React';
+export * from './ToggleBox/ToggleBox';

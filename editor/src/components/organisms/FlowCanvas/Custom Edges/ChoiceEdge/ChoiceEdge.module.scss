@@ -5,16 +5,68 @@
   border-radius: var(--border-radius-sm);
   width: 130px;
   font-size: var(--font-size-2xs);
+  padding-top: var(--gap-md);
   text-align: center;
   pointer-events: all;
   box-sizing: border-box;
 
-  .delete{
+  &.hasConditionalLogic{
+    background-color: var(--conditional-colour-light);
+    .choiceConfig{
+      .conditionIcon{
+        color: var(--conditional-colour);
+        border:1px solid var(--conditional-colour);
+      }
+    }
+  }
+
+  &.hasTriggerLogic{
+    background-color: var(--triggers-colour-light);
+    .choiceConfig{
+      .triggerIcon{
+        color: var(--triggers-colour);
+        border:1px solid var(--triggers-colour);
+      }
+    }
+  }
+
+  &.hasConditionalLogic.hasTriggerLogic{
+    background: linear-gradient(to right, var(--conditional-colour-light), var(--triggers-colour-light));
+  }
+
+  .choiceConfig{
     position: absolute;
-    right: 5px;
+    top:2px;
+    left: 2px;
+    color: var(--colour-gray-30);
+    gap: 2px;
+
+    .conditionIcon,.triggerIcon{
+      width: 0.4rem;
+      height: 0.4rem;
+      border-radius: 50%;
+      padding: 2px;
+      border:1px solid var(--colour-gray-60);
+      color: var(--colour-gray-60);
+
+      &:hover{
+        opacity: 0.7;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .delete{
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    padding: 2px;
+    border:1px solid var(--colour-error-40);
+    position: absolute;
+    right: 2px;
     top: 2px;
-    width: fit-content;
     cursor: pointer;
     pointer-events: all;
+
   }
 }

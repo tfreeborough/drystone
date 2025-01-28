@@ -1,6 +1,11 @@
 .editVariableModal {
   padding-top: var(--gap-md);
 
+  .label{
+    font-size: var(--font-size-sm);
+    font-weight: bold;
+  }
+
   .buttons{
     .delete{
       background-color: var(--colour-error-20);

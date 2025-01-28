@@ -1,6 +1,7 @@
-import { SelectOption } from '@shared/types';
+import { Align, FlexDirection, SelectOption } from '@shared/types';
 import Label from '../Label/Label.tsx';
 import css from './SelectInput.module.scss';
+import { Flex } from '@shared/components';
 
 interface SelectInputProps<T = string> {
   value: string;
@@ -18,7 +19,12 @@ function SelectInput<T>({
   fullWidth,
 }: SelectInputProps<T>) {
   function handleSelect(event: any) {
-    const option = values.find(v => v.value === event.target.value);
+    const option = values.find(v => {
+      if (typeof v.value === 'boolean') {
+        return v.value.toString() === event.target.value;
+      }
+      return v.value === event.target.value;
+    });
     if (option) {
       onSelect(option);
     } else {
@@ -27,12 +33,16 @@ function SelectInput<T>({
   }
 
   return (
-    <>
+    <Flex
+      flexDirection={FlexDirection.COLUMN}
+      alignItems={Align.STRETCH}
+      className={`${fullWidth ? css.fullWidth : ''}`}
+    >
       {label && <Label>{label}</Label>}
       <select
         onChange={handleSelect}
         defaultValue={value}
-        className={`${css.selectInput} ${fullWidth ? css.fullWidth : ''}`}
+        className={`${css.selectInput}`}
       >
         {values.map((option, i) => {
           return (
@@ -42,7 +52,7 @@ function SelectInput<T>({
           );
         })}
       </select>
-    </>
+    </Flex>
   );
 }
 

@@ -4,9 +4,12 @@ import {
   Application,
   ApplicationAuthor,
   ApplicationVariable,
+  Choice,
+  Condition,
   FontStyles,
   Frame,
   Scene,
+  Trigger,
 } from '@shared/types';
 import { v4 } from 'uuid';
 import {
@@ -211,6 +214,8 @@ class ApplicationStore {
               type: 'choice',
               label,
               target: destination,
+              conditions: [],
+              triggers: [],
             },
           ],
         };
@@ -272,6 +277,41 @@ class ApplicationStore {
       });
     }
     return found;
+  }
+
+  getChoice(id: string, choiceId: string): null | Choice {
+    const application = this.getApplication(id);
+    let found: null | Choice = null;
+    if (application) {
+      const scenes = application.scenes;
+      scenes.forEach(scene => {
+        const choice = scene.choices.find(c => c.id === choiceId);
+        if (choice !== undefined) {
+          found = choice;
+        }
+      });
+    }
+    return found;
+  }
+
+  updateChoice(id: string, sceneId: string, choice: Choice) {
+    const application = this.getApplication(id);
+    if (application) {
+      const scene = application.scenes.find(s => s.id === sceneId);
+      if (scene) {
+        const choiceIndex = scene.choices.findIndex(c => c.id === choice.id);
+        const updatedScene: Scene = {
+          ...scene,
+          choices: [
+            ...scene.choices.slice(0, choiceIndex),
+            choice,
+            ...scene.choices.slice(choiceIndex + 1),
+          ],
+        };
+        this.updateScene(application.id, updatedScene);
+        this.saveApplication(application);
+      }
+    }
   }
 
   setEditorContext(context: Scene | null) {
@@ -419,6 +459,100 @@ class ApplicationStore {
         ];
       }
       this.saveApplication(application);
+    }
+  }
+
+  addChoiceCondition(
+    id: string,
+    sceneId: string,
+    choiceId: string,
+    condition: Condition,
+  ) {
+    const application = this.getApplication(id);
+    if (application) {
+      const choice = this.getChoice(id, choiceId);
+      if (choice) {
+        const conditions = choice.conditions ?? [];
+        conditions.push(condition);
+        const updatedChoice: Choice = {
+          ...choice,
+          conditions: [...conditions],
+        };
+        this.updateChoice(id, sceneId, updatedChoice);
+      }
+    }
+  }
+
+  removeCondition(
+    id: string,
+    sceneId: string,
+    choiceId: string,
+    conditionId: string,
+  ) {
+    const application = this.getApplication(id);
+    if (application) {
+      const choice = this.getChoice(id, choiceId);
+      if (choice && choice.conditions) {
+        const conditionIndex = choice.conditions.findIndex(
+          c => c.id === conditionId,
+        );
+        if (conditionIndex > -1) {
+          const updatedChoice = {
+            ...choice,
+            conditions: [
+              ...choice.conditions.slice(0, conditionIndex),
+              ...choice.conditions.slice(conditionIndex + 1),
+            ],
+          };
+          this.updateChoice(id, sceneId, updatedChoice);
+        }
+      }
+    }
+  }
+
+  addChoiceTrigger(
+    id: string,
+    sceneId: string,
+    choiceId: string,
+    trigger: Trigger,
+  ) {
+    const application = this.getApplication(id);
+    if (application) {
+      const choice = this.getChoice(id, choiceId);
+      if (choice) {
+        const triggers = choice.triggers ?? [];
+        triggers.push(trigger);
+        const updatedChoice: Choice = {
+          ...choice,
+          triggers: [...triggers],
+        };
+        this.updateChoice(id, sceneId, updatedChoice);
+      }
+    }
+  }
+
+  removeTrigger(
+    id: string,
+    sceneId: string,
+    choiceId: string,
+    triggerId: string,
+  ) {
+    const application = this.getApplication(id);
+    if (application) {
+      const choice = this.getChoice(id, choiceId);
+      if (choice && choice.triggers) {
+        const triggerIndex = choice.triggers.findIndex(c => c.id === triggerId);
+        if (triggerIndex > -1) {
+          const updatedChoice = {
+            ...choice,
+            triggers: [
+              ...choice.triggers.slice(0, triggerIndex),
+              ...choice.triggers.slice(triggerIndex + 1),
+            ],
+          };
+          this.updateChoice(id, sceneId, updatedChoice);
+        }
+      }
     }
   }
 }

@@ -1,5 +1,10 @@
 :root {
   --text-colour: var(--colour-gray-100);
+
+  --conditional-colour: #4a90e2;
+  --conditional-colour-light: #d0e8ff;
+  --triggers-colour: var(--colour-warning-30);
+  --triggers-colour-light: var(--colour-warning-70);
 }
 
 body,

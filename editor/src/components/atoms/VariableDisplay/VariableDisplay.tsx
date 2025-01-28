@@ -45,12 +45,14 @@ export function VariableDisplay({
         <VariableType type={variable.type} />
         <Flex flexDirection={FlexDirection.COLUMN}>
           <span>{variable.name}</span>
-          {variable.defaultValue !== undefined &&
-            variable.defaultValue !== null && (
-              <span className={css.defaultValue}>
-                Default value: {variable.defaultValue?.toString()}
-              </span>
+          <span className={css.defaultValue}>
+            Initial value:&nbsp;
+            {variable.value.toString().length === 0 ? (
+              <>&lt;empty&gt;</>
+            ) : (
+              variable.value?.toString()
             )}
+          </span>
         </Flex>
       </Flex>
       <FontAwesomeIcon

@@ -1,11 +1,23 @@
 .choice {
+  display: flex;
+  gap: var(--gap-xs);
   color: var(--colour-elements-20);
   margin-bottom: var(--gap-xs);
   font-weight: 500;
 
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-    color: var(--colour-elements-20)
+  .icon{
+    &:hover{
+      cursor: pointer;
+      opacity: 0.7;
+    }
   }
+
+  .text{
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+      color: var(--colour-elements-20)
+    }
+  }
+
 }
