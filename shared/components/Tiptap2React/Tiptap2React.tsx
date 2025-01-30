@@ -3,7 +3,7 @@ import css from "./Tiptap2React.module.scss";
 import { FadeIn } from "../../animations";
 import { CustomImageLoader } from "../CustomImageLoader/CustomImageLoader";
 
-const FADE_DELAY = 0.8;
+const FADE_DELAY = 0.3;
 
 const renderNode = (
   node: JSONContent,

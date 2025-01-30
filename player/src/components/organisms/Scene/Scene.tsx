@@ -132,7 +132,7 @@ export const Scene = observer(({ scene }: SceneProps) => {
                 </FadeIn>
               </>
             )}
-            {isEnd && <ApplicationEnding />}
+            {isEnd && animationsCompleted && <ApplicationEnding />}
           </Flex>
         </FadeIn>
       </AnimatePresence>
