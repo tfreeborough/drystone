@@ -66,6 +66,19 @@ class AssetDBService {
       request.onerror = () => reject(request.error);
     });
   }
+
+  async deleteAsset(applicationId: string, assetId: string): Promise<void> {
+    if (!this.db) await this.initialize();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction(["assets"], "readwrite");
+      const store = transaction.objectStore("assets");
+      const request = store.delete([applicationId, assetId]);
+
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+  }
 }
 
 export const AssetDB = new AssetDBService();

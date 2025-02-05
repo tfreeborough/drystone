@@ -10,9 +10,13 @@
 
 
   .image{
-    width: 100%;
+    max-width: 100%;
+    max-height: 450px;
     display: block;
     margin: auto;
     box-sizing: border-box;
+    border: 1px solid var(--colour-text);
+    border-radius:  var(--border-radius-md);
+    overflow: hidden;
   }
 }

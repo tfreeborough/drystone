@@ -136,7 +136,7 @@ export function Tiptap2React({
   if (nodes.content && nodes.content.length > 0) {
     const content = nodes.content;
     return (
-      <div>
+      <div className={css.content}>
         {content.map((node, index) => {
           const isLastNode = index + 1 === content.length;
           return renderNode(
@@ -150,5 +150,5 @@ export function Tiptap2React({
       </div>
     );
   }
-  return <div>{renderNode(nodes, 0)}</div>;
+  return <div className={css.content}>{renderNode(nodes, 0)}</div>;
 }

@@ -141,6 +141,7 @@ class ApplicationStore {
           scene,
           ...application.scenes.slice(sceneIndex + 1),
         ];
+        console.log('updating scene');
         this.saveApplication(application);
       }
     }
@@ -554,6 +555,55 @@ class ApplicationStore {
         }
       }
     }
+  }
+
+  /**
+   * Looks for all nodes that might be custom images with the same image id.
+   * We use this to show the user if an image is being used in the
+   * application.
+   * @param id
+   * @param imageId
+   */
+  calculateImageUsage(id: string, imageId: string) {
+    const application = this.getApplication(id);
+    let usages = 0;
+    if (!application) {
+      return usages;
+    }
+    application.scenes.forEach(scene => {
+      scene.frames.forEach(frame => {
+        frame.nodes.content?.forEach(content => {
+          if (content.type === 'customImage' && content.attrs?.id === imageId) {
+            usages += 1;
+          }
+        });
+      });
+    });
+    return usages;
+  }
+
+  scrubImageFromContent(id: string, imageId: string) {
+    const application = this.getApplication(id);
+    if (!application) {
+      return;
+    }
+    application.scenes.forEach(scene => {
+      scene.frames.forEach(frame => {
+        const content = frame.nodes.content?.filter(content => {
+          return (
+            content.type === 'customImage' && content.attrs?.id !== imageId
+          );
+        });
+        console.log({
+          ...frame,
+          nodes: { ...frame.nodes, content },
+        });
+        this.updateFrame(id, {
+          ...frame,
+          nodes: { ...frame.nodes, content },
+        });
+      });
+    });
   }
 }
 

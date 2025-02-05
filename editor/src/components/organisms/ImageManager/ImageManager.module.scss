@@ -40,6 +40,24 @@
         box-sizing: border-box;
         position: relative;
 
+        .name{
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background-color: rgba(0,0,0,0.7);
+          color: var(--colour-white);
+          text-align: center;
+          padding: 3px;
+          font-size: var(--font-size-sm);
+        }
+
+        .delete{
+          position: absolute;
+          top: 2px;
+          right: 2px;
+        }
+
         img{
           width: 100px;
           display: block;

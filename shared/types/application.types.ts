@@ -103,6 +103,7 @@ export interface Asset {
   id: string;
   type: string;
   data: Blob;
+  name: string;
   applicationId: string;
 }
 
