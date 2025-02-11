@@ -20,4 +20,36 @@
     }
   }
 
+  &.hasConditions{
+    padding: var(--gap-xs);
+    background-color: var(--conditional-colour-light);
+    color: var(--conditional-colour);
+    .text{
+      &:hover{
+        color: var(--conditional-colour);
+      }
+    }
+
+    &.hidden{
+      border: 1px dotted var(--colour-elements-20);
+    }
+  }
+
+  &.hasTriggers{
+    padding: var(--gap-xs);
+    background-color: var(--triggers-colour-light);
+    color: var(--triggers-colour);
+    .text{
+      &:hover{
+        color: var(--triggers-colour);
+      }
+    }
+  }
+
+  &.hasConditions.hasTriggers{
+    padding: var(--gap-xs);
+    background: linear-gradient(to right, var(--conditional-colour-light), var(--triggers-colour-light));
+    color: var(--colour-gray)
+  }
+
 }

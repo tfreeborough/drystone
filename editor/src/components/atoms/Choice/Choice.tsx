@@ -54,10 +54,11 @@ function Choice({ onSelect, choice, applicationId, sceneId }: ChoiceProps) {
 
   const hasConditions = choice.conditions && choice.conditions.length > 0;
   const hasTriggers = choice.triggers && choice.triggers.length > 0;
+  const isHidden = !choice.showAsDisabled;
 
   return (
     <div
-      className={`${css.choice} ${hasConditions ? css.hasConditions : ''} ${hasTriggers ? css.hasTriggers : ''}`}
+      className={`${css.choice} ${hasConditions ? css.hasConditions : ''} ${isHidden ? css.hidden : ''} ${hasTriggers ? css.hasTriggers : ''}`}
     >
       {hasConditions && (
         <FontAwesomeIcon
@@ -76,7 +77,9 @@ function Choice({ onSelect, choice, applicationId, sceneId }: ChoiceProps) {
         />
       )}
       <span className={css.text} onClick={handleClick}>
-        {choice.label}
+        {choice.label}{' '}
+        {choice.showAsDisabled && <span>({choice.showAsDisabledText})</span>}
+        {isHidden && <span>(HIDDEN)</span>}
       </span>
     </div>
   );

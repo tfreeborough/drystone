@@ -92,6 +92,8 @@ export interface Choice {
   target: string;
   conditions?: Condition[];
   triggers?: Trigger[];
+  showAsDisabled?: boolean;
+  showAsDisabledText?: string;
 }
 
 export interface Node {

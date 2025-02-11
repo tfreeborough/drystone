@@ -46,7 +46,9 @@ function TextInput({
         suppressContentEditableWarning
         onBlur={handleBlur}
         onInput={handleInput}
-      ></span>
+      >
+        {value}
+      </span>
     );
   }
   return (

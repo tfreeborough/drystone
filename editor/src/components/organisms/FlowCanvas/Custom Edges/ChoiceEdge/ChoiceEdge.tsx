@@ -13,6 +13,7 @@ import { DeleteIcon, Flex, ModalContext, ModalType } from '@shared/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ConditionalLogicModal } from '../../../ConditionalLogicModal/ConditionalLogicModal.tsx';
 import { TriggerLogicModal } from '../../../TriggerLogicModal/TriggerLogicModal.tsx';
+import { ChoiceEditModal } from '../../../ChoiceEditModal/ChoiceEditModal.tsx';
 
 export const ChoiceEdge: FC<
   EdgeProps<Edge<{ label: string; scene: string; application: string }>>
@@ -96,6 +97,22 @@ export const ChoiceEdge: FC<
       }
     }
 
+    function handleOpenChoiceEditModal(event: React.MouseEvent<SVGSVGElement>) {
+      if (choice && current) {
+        addModal({
+          id: 'choice-edit-modal',
+          event,
+          type: ModalType.NORMAL,
+          content: <ChoiceEditModal />,
+          extra: {
+            choiceId: choice.id,
+            applicationId: current.id,
+            sceneId: data?.scene,
+          },
+        });
+      }
+    }
+
     if (!choice) {
       return null;
     }
@@ -167,6 +184,12 @@ export const ChoiceEdge: FC<
                 title="Edit trigger logic"
                 className={css.triggerIcon}
                 icon={['fas', 'code']}
+              />
+              <FontAwesomeIcon
+                className={css.icon}
+                onClick={handleOpenChoiceEditModal}
+                title="Edit"
+                icon={['fas', 'pencil']}
               />
             </Flex>
             {label}

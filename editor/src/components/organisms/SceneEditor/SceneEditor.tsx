@@ -53,6 +53,13 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
     });
   }
 
+  function handleUpdateChoiceOrder(choices: ChoiceType[]) {
+    onUpdate({
+      ...scene,
+      choices,
+    });
+  }
+
   function handleSelectFrame(frame: Frame) {
     onSelectFrame(frame);
   }
@@ -165,19 +172,39 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
         {scene.choices.length > 0 && (
           <>
             <Heading>Choices</Heading>
-            <Flex className={css.choices} flexDirection={FlexDirection.COLUMN}>
-              {scene.choices.map(choice => {
-                return (
-                  <Choice
-                    key={choice.id}
-                    onSelect={handleSelectChoice}
-                    applicationId={currentApplication.id}
-                    sceneId={scene.id}
-                    choice={choice}
-                  />
-                );
-              })}
-            </Flex>
+            <Reorder.Group
+              axis="y"
+              values={scene.choices}
+              onReorder={handleUpdateChoiceOrder}
+            >
+              <Flex
+                className={css.choices}
+                flexDirection={FlexDirection.COLUMN}
+                alignItems={Align.STRETCH}
+              >
+                {scene.choices.map(choice => {
+                  return (
+                    <Reorder.Item key={choice.id} value={choice}>
+                      <Flex
+                        justifyContent={Justify.START}
+                        className={css.choice}
+                        alignItems={Align.CENTER}
+                        gap={Gap.MD}
+                      >
+                        <FontAwesomeIcon icon={['fas', 'bars']} />
+                        <Choice
+                          key={choice.id}
+                          onSelect={handleSelectChoice}
+                          applicationId={currentApplication.id}
+                          sceneId={scene.id}
+                          choice={choice}
+                        />
+                      </Flex>
+                    </Reorder.Item>
+                  );
+                })}
+              </Flex>
+            </Reorder.Group>
           </>
         )}
       </div>

@@ -18,23 +18,6 @@ export const ChoicesRender = observer(
       onSelectChoice(choice);
     }
 
-    let filteredChoices: Choice[] = [...choices].filter((choice: Choice) => {
-      if (!choice.conditions) {
-        return true;
-      }
-      return choice.conditions.every((condition) => {
-        const variable = PlayerStore.getVariable(condition.variableId);
-        if (variable) {
-          return isConditionMet(
-            variable,
-            condition.operator,
-            condition.conditionValue,
-          );
-        }
-        return false;
-      });
-    });
-
     return (
       <Flex
         className={css.choicesRender}
@@ -42,13 +25,32 @@ export const ChoicesRender = observer(
         alignItems={Align.START}
         gap={Gap.XS}
       >
-        {filteredChoices.map((choice) => {
+        {choices.map((choice) => {
           const targetScene = ApplicationStore.getScene(choice.target);
-          let choiceIsValid = false;
-          if (targetScene) {
-            choiceIsValid = targetScene.frames.length > 0;
-          }
+          const conditionsMet = choice.conditions
+            ? choice.conditions.every((condition) => {
+                const variable = PlayerStore.getVariable(condition.variableId);
+                if (variable) {
+                  return isConditionMet(
+                    variable,
+                    condition.operator,
+                    condition.conditionValue,
+                  );
+                }
+                return false;
+              })
+            : true;
+          const choiceIsValid =
+            (conditionsMet && targetScene && targetScene.frames.length > 0) ??
+            false;
 
+          const choiceShouldBeHidden =
+            !choiceIsValid &&
+            (choice.showAsDisabled === undefined ||
+              choice.showAsDisabled === false);
+          if (choiceShouldBeHidden) {
+            return null;
+          }
           return (
             <div
               key={choice.id}
@@ -60,7 +62,7 @@ export const ChoicesRender = observer(
               }}
             >
               {choice.label}&nbsp;
-              {!choiceIsValid && <>[You can't choose this option]</>}
+              {!choiceIsValid && <>[{choice.showAsDisabledText}]</>}
             </div>
           );
         })}

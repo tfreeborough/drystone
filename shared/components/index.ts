@@ -1,4 +1,5 @@
 export * from './Button/Button';
+export * from './CheckboxInput/CheckboxInput';
 export * from './ChoicesRender/ChoicesRender';
 export * from './CustomImage/CustomImage';
 export * from './CustomImageLoader/CustomImageLoader';

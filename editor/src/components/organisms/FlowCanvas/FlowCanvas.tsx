@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import venti from 'venti-js';
 import { observer } from 'mobx-react-lite';
 import {
   applyEdgeChanges,
@@ -24,6 +25,7 @@ import SceneContextMenu from '../SceneContextMenu/SceneContextMenu.tsx';
 import NewChoiceModal from '../NewChoiceModal/NewChoiceModal.tsx';
 import { ChoiceEdge } from './Custom Edges/ChoiceEdge/ChoiceEdge.tsx';
 import { ModalContext, ModalType } from '@shared/components';
+import { EditorEvents } from '@shared/types';
 
 const nodeTypes: any = { scene: SceneNode };
 const edgeTypes: EdgeTypes = {
@@ -289,6 +291,13 @@ function FlowCanvas() {
     ApplicationStore.current?.scenes.length,
     ApplicationStore.totalChoicesForCurrent,
   ]);
+
+  useEffect(() => {
+    venti.on(EditorEvents.RERENDER, reRenderNodes);
+    return () => {
+      venti.off(EditorEvents.RERENDER, reRenderNodes);
+    };
+  }, []);
 
   return (
     <ReactFlow

@@ -141,7 +141,6 @@ class ApplicationStore {
           scene,
           ...application.scenes.slice(sceneIndex + 1),
         ];
-        console.log('updating scene');
         this.saveApplication(application);
       }
     }

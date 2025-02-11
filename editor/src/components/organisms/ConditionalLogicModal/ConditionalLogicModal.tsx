@@ -3,13 +3,13 @@ import { Align, Condition, FlexDirection, Gap } from '@shared/types';
 
 import css from './ConditionalLogicModal.module.scss';
 import Muted from '../../atoms/Muted/Muted.tsx';
-import { ToggleBox } from '@shared/components/ToggleBox/ToggleBox.tsx';
-import { Flex } from '@shared/components';
+import { CheckboxInput, Flex, ToggleBox } from '@shared/components';
 import { Fragment, useContext, useState } from 'react';
 import { AddConditionForm } from '../../molecules/AddConditionForm/AddConditionForm.tsx';
 import { ConditionDisplay } from '../../atoms/ConditionDisplay/ConditionDisplay.tsx';
 import Label from '../../atoms/Label/Label.tsx';
 import { AppContext } from '../../../stores/AppContext.ts';
+import TextInput from '../../atoms/TextInput/TextInput.tsx';
 
 interface ConditionalLogicModalProps {
   extra?: { choiceId: string; applicationId: string; sceneId: string };
@@ -31,6 +31,36 @@ export const ConditionalLogicModal = observer(
     }
 
     const [addNewOpen, setAddNewOpen] = useState<boolean>(false);
+    const [showAsDisabled, setShowAsDisabled] = useState<boolean>(
+      choice.showAsDisabled ?? false,
+    );
+    const [showAsDisabledText, setShowAsDisabledText] = useState<string>(
+      choice.showAsDisabledText ?? 'Unavailable',
+    );
+
+    function handleChangeShowAsDisabled(showAsDisabled: boolean) {
+      if (extra && choice) {
+        setShowAsDisabled(showAsDisabled);
+        console.log('updated choice');
+        ApplicationStore.updateChoice(extra?.applicationId, extra?.sceneId, {
+          ...choice,
+          showAsDisabled,
+          showAsDisabledText,
+        });
+      }
+    }
+
+    function handleChangeShowAsDisabledText(showAsDisabledText: string) {
+      if (extra && choice) {
+        setShowAsDisabledText(showAsDisabledText);
+        console.log('updated choice disabled text');
+        ApplicationStore.updateChoice(extra?.applicationId, extra?.sceneId, {
+          ...choice,
+          showAsDisabled,
+          showAsDisabledText,
+        });
+      }
+    }
 
     function handleAddCondition(condition: Condition) {
       if (extra) {
@@ -96,6 +126,18 @@ export const ConditionalLogicModal = observer(
         >
           <AddConditionForm onAdd={handleAddCondition} />
         </ToggleBox>
+        <CheckboxInput
+          value={showAsDisabled}
+          onChange={handleChangeShowAsDisabled}
+          label="Show as disabled?"
+        />
+        {showAsDisabled && (
+          <TextInput
+            label="Text to show in brackets when disabled"
+            value={showAsDisabledText}
+            onChange={handleChangeShowAsDisabledText}
+          />
+        )}
       </Flex>
     );
   },
