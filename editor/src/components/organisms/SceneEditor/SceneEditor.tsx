@@ -181,6 +181,7 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
                 className={css.choices}
                 flexDirection={FlexDirection.COLUMN}
                 alignItems={Align.STRETCH}
+                gap={Gap.XS}
               >
                 {scene.choices.map(choice => {
                   return (

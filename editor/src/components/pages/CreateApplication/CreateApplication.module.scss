@@ -3,9 +3,18 @@
   box-sizing: border-box;
   margin: auto;
 
+  .description{
+    width: 100%;
+
+    .input{
+      width: 100%;
+      resize: none;
+      font-family: var(--font);
+    }
+  }
+
   .author {
     width: 100%;
-    margin-top: var(--gap-md);
 
     > div {
       flex-grow: 1;

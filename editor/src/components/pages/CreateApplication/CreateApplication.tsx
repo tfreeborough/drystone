@@ -7,8 +7,9 @@ import TextInput from '../../atoms/TextInput/TextInput.tsx';
 import { Flex } from '@shared/components';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { useLocation } from 'wouter';
-import { Application, FlexDirection, Gap, Justify } from '@shared/types';
+import { Align, Application, FlexDirection, Gap } from '@shared/types';
 import { Button } from '@shared/components';
+import Label from '../../atoms/Label/Label.tsx';
 
 function CreateApplication(): ReactElement {
   const [applicationName, setApplicationName] = useState('');
@@ -42,32 +43,36 @@ function CreateApplication(): ReactElement {
   return (
     <Card className={css.createApplication}>
       <Flex flexDirection={FlexDirection.COLUMN} gap={Gap.MD}>
-        <div>
-          My new application is called{' '}
-          <TextInput
-            inline
-            value={applicationName}
-            onChange={value => setApplicationName(value)}
-          />
+        <TextInput
+          placeholder="Enter application name"
+          label="Application Name (required)"
+          value={applicationName}
+          fullWidth
+          onChange={value => setApplicationName(value)}
+        />
+        <div className={css.description}>
+          <Label>Introduction Text (optional)</Label>
+          <textarea
+            placeholder="This is the text that will show before a user starts your application."
+            className={css.input}
+            rows={5}
+            onChange={e => setApplicationDescription(e.target.value)}
+          >
+            {applicationDescription}
+          </textarea>
         </div>
-        <div>
-          When new readers/player first load up my application, they will see
-          the following description: <br />
-          <TextInput
-            inline
-            value={applicationDescription}
-            onChange={value => setApplicationDescription(value)}
-          />
-        </div>
+
         <Flex
           className={css.author}
           gap={Gap.SM}
-          justifyContent={Justify.SPACE_BETWEEN}
+          alignItems={Align.STRETCH}
+          flexDirection={FlexDirection.COLUMN}
         >
           <div>
             <TextInput
               fullWidth
-              label="Author Name"
+              label="Author Name (optional)"
+              placeholder="Enter an author name, if you wish"
               value={authorName}
               onChange={value => setAuthorName(value)}
             />
@@ -75,16 +80,15 @@ function CreateApplication(): ReactElement {
           <div>
             <TextInput
               fullWidth
-              label="Author Website"
+              label="Author Website (optional)"
+              placeholder="Link users to where they can support you or learn more"
               value={authorLink}
               onChange={value => setAuthorLink(value)}
             />
           </div>
         </Flex>
         <Button
-          disabled={
-            applicationName.length === 0 || applicationDescription.length <= 10
-          }
+          disabled={applicationName.length === 0}
           onClick={handleCreateApplication}
         >
           Save

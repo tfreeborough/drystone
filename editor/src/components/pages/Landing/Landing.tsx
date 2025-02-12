@@ -1,10 +1,11 @@
-import { ReactElement, useContext } from 'react';
+import { ReactElement, useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import Heading from '../../atoms/Heading/Heading.tsx';
 import { AppContext } from '../../../stores/AppContext.ts';
 import { Link, useLocation } from 'wouter';
 import { Button, Flex } from '@shared/components';
 import { Align, FlexDirection, Gap } from '@shared/types';
+import { generateColourScale } from '@shared/functions';
 
 function Landing(): ReactElement {
   const { ApplicationStore } = useContext(AppContext);
@@ -14,6 +15,10 @@ function Landing(): ReactElement {
   function handleNavigateNewApplication() {
     setLocation('/new-application');
   }
+
+  useEffect(() => {
+    generateColourScale('#b99470', 'elements');
+  }, []);
 
   return (
     <>

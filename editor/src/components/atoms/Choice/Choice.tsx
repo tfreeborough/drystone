@@ -54,7 +54,8 @@ function Choice({ onSelect, choice, applicationId, sceneId }: ChoiceProps) {
 
   const hasConditions = choice.conditions && choice.conditions.length > 0;
   const hasTriggers = choice.triggers && choice.triggers.length > 0;
-  const isHidden = !choice.showAsDisabled;
+  const isHidden =
+    choice.showAsDisabled !== undefined && !choice.showAsDisabled;
 
   return (
     <div
