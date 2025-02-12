@@ -45,6 +45,7 @@ function ApplicationLoader() {
             if (name) {
               const asset: Asset = {
                 id: name.replace(".jpeg", ""),
+                name: name.replace(".jpeg", ""),
                 type: `${name.split(".").pop()}`,
                 data,
                 applicationId: appDataJson.id,
