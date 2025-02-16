@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 export const useClickOutsideRef = (
   ref: React.RefObject<any>,
-  onClickOutside: () => void,
+  onClickOutside: (e: MouseEvent) => void,
   ignoreModals: boolean = false,
 ): any => {
   useEffect(() => {
@@ -22,7 +22,7 @@ export const useClickOutsideRef = (
         }
       }
       if (ref.current && !ref.current.contains(event.target)) {
-        onClickOutside();
+        onClickOutside(event);
       }
     };
     // Bind the event listener

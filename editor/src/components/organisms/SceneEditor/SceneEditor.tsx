@@ -148,7 +148,11 @@ function SceneEditor({ scene, onUpdate, onSelectFrame }: SceneEditorProps) {
                     onClick={() => handleSelectFrame(frame)}
                   >
                     {frame.nodes && (
-                      <Tiptap2React nodes={frame.nodes} fadeDelay={0.1} />
+                      <Tiptap2React
+                        nodes={frame.nodes}
+                        fadeDelay={0.1}
+                        inEditor
+                      />
                     )}
                     <div className={css.whiteFade}></div>
                   </div>

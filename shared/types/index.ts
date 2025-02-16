@@ -1,4 +1,5 @@
 export * from './application.types';
+export * from './custom-tiptap.types';
 export * from './editor-event.types';
 export * from './flex.types';
 export * from './form.types';

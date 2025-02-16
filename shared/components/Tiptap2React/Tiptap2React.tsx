@@ -2,8 +2,32 @@ import { JSONContent } from "@tiptap/react";
 import css from "./Tiptap2React.module.scss";
 import { FadeIn } from "../../animations";
 import { CustomImageLoader } from "../CustomImageLoader/CustomImageLoader";
+import { Mark } from "../../types";
+import { ConditionalWrapperLoader } from "../../../player/src/components/organisms/ConditionalWrapperLoader/ConditionalWrapperLoader";
 
 const FADE_DELAY = 0.3;
+
+const applyMarks = (text: string | JSX.Element = "", marks?: Mark[]) => {
+  if (!marks?.length) return text;
+
+  const mark = marks[0];
+  const element = (() => {
+    switch (mark.type) {
+      case "bold":
+        return <strong>{text}</strong>;
+      case "italic":
+        return <em>{text}</em>;
+      case "strike":
+        return <s>{text}</s>;
+      case "underline":
+        return <u>{text}</u>;
+      default:
+        return text;
+    }
+  })();
+
+  return applyMarks(element, marks.slice(1));
+};
 
 const renderNode = (
   node: JSONContent,
@@ -11,6 +35,7 @@ const renderNode = (
   lastNode: boolean = false,
   onAnimationComplete?: () => void,
   fadeDelay: number = FADE_DELAY,
+  inEditor: boolean = false,
 ) => {
   function handleAnimationEnd() {
     if (lastNode && onAnimationComplete) {
@@ -45,22 +70,7 @@ const renderNode = (
         </FadeIn>
       );
     case "text":
-      const style = {
-        fontWeight: node.marks?.find((m) => m.type === "bold")
-          ? "bold"
-          : "normal",
-        fontStyle: node.marks?.find((m) => m.type === "italic")
-          ? "italic"
-          : "normal",
-        textDecoration: node.marks?.find((m) => m.type === "underline")
-          ? "underline"
-          : "none",
-      };
-      return (
-        <span key={index} style={style}>
-          {node.text}
-        </span>
-      );
+      return <span key={index}>{applyMarks(node.text, node.marks)}</span>;
     case "bulletList":
       return (
         <FadeIn
@@ -111,6 +121,24 @@ const renderNode = (
           <CustomImageLoader key={index} node={node} />
         </FadeIn>
       );
+    case "conditionalWrapper":
+      const { content, conditions } = node.attrs as any;
+      return (
+        <FadeIn
+          key={index}
+          delay={index * fadeDelay}
+          onAnimationComplete={handleAnimationEnd}
+        >
+          {inEditor ? (
+            <Tiptap2React nodes={node.attrs?.content} inEditor={inEditor} />
+          ) : (
+            <ConditionalWrapperLoader
+              content={content}
+              conditions={conditions}
+            />
+          )}
+        </FadeIn>
+      );
     default:
       return null;
   }
@@ -120,12 +148,14 @@ interface Tiptap2ReactProps {
   nodes: JSONContent;
   onAnimationComplete?: () => void;
   fadeDelay?: number;
+  inEditor?: boolean;
 }
 
 export function Tiptap2React({
   nodes,
   onAnimationComplete,
   fadeDelay = FADE_DELAY,
+  inEditor = false,
 }: Tiptap2ReactProps) {
   function handleAnimationEnd() {
     if (onAnimationComplete) {
@@ -145,6 +175,7 @@ export function Tiptap2React({
             isLastNode,
             handleAnimationEnd,
             fadeDelay,
+            inEditor,
           );
         })}
       </div>

@@ -40,10 +40,18 @@
       padding-left: var(--gap-sm);
       margin-left: var(--gap-sm);
     }
+
+    strong{
+      font-weight: bold;
+    }
+
+    em{
+      font-style: italic;
+    }
   }
 }
 
-.floatingMenu {
+.floatingMenu,.bubbleMenu {
   border: var(--border);
   background-color: var(--colour-white);
   box-shadow: var(--box-shadow);
@@ -51,5 +59,11 @@
 
   .flex{
     flex-wrap: wrap;
+  }
+}
+
+.bubbleMenu{
+  .conditions{
+    background-color: var(--conditional-colour-light);
   }
 }

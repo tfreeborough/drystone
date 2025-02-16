@@ -37,7 +37,7 @@ export const AddConditionForm = observer(({ onAdd }: AddConditionFormProps) => {
   const variables = current.variables;
 
   function handleAdd() {
-    if (variable && conditionValue) {
+    if (variable && conditionValue !== null) {
       const newCondition: Condition = {
         id: v4(),
         variableId: variable?.id,

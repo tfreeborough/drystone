@@ -1,25 +1,21 @@
-import { useState, useEffect, useContext, useRef } from 'react';
-
-import css from './ImageManager.module.scss';
-import Card from '../../atoms/Card/Card.tsx';
-import { FadeInWithScale } from '@shared/animations';
-import { useClickOutsideRef } from '../../../hooks/useClickOutsideRef.ts';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from '../../../stores/AppContext.ts';
-import { DeleteIcon, Flex } from '@shared/components';
 import { Align, Application, Asset, FlexDirection, Gap } from '@shared/types';
 import { AssetDB } from '@shared/services';
 import { v4 as uuidv4 } from 'uuid';
 import { base64ToBlob, replaceExtensionWithJpeg } from '@shared/functions';
+import { useClickOutsideRef } from '../../../hooks/useClickOutsideRef.ts';
+import css from './ImageManagerModal.module.scss';
+import { DeleteIcon, Flex } from '@shared/components';
 
-interface ImageManagerProps {
-  onImageSelect: (storedImage: Asset) => void;
-  application: Application;
+interface ImageManagerModalProps {
+  extra?: {
+    onImageSelect: (storedImage: Asset) => void;
+    application: Application;
+  };
 }
 
-export const ImageManager = ({
-  onImageSelect,
-  application,
-}: ImageManagerProps) => {
+export const ImageManagerModal = ({ extra }: ImageManagerModalProps) => {
   const { DrystoneStore, ApplicationStore } = useContext(AppContext);
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -27,18 +23,29 @@ export const ImageManager = ({
   const [images, setImages] = useState<Asset[]>([]);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  useClickOutsideRef(modalRef, (e: MouseEvent) => {
+    e.stopPropagation();
+    DrystoneStore.closeImageManager();
+  });
+
   useEffect(() => {
     loadImages();
   }, []);
 
+  if (!extra) {
+    return null;
+  }
+
   const loadImages = async () => {
-    const allImages = await AssetDB.getAllAssetsForApplication(application.id);
+    const allImages = await AssetDB.getAllAssetsForApplication(
+      extra.application.id,
+    );
     setImages(allImages);
   };
 
   const handleDeleteImage = async (e: React.MouseEvent, imageId: string) => {
     e.stopPropagation();
-    await AssetDB.deleteAsset(application.id, imageId);
+    await AssetDB.deleteAsset(extra.application.id, imageId);
     await loadImages();
   };
 
@@ -55,7 +62,7 @@ export const ImageManager = ({
         type: 'image/gif',
         data: file, // Use the original file
         name: file.name,
-        applicationId: application.id,
+        applicationId: extra.application.id,
       };
       await AssetDB.saveAsset(asset);
       loadImages();
@@ -106,7 +113,7 @@ export const ImageManager = ({
         type: 'image/jpeg',
         data: base64ToBlob(optimizedBase64),
         name: replaceExtensionWithJpeg(file.name),
-        applicationId: application.id,
+        applicationId: extra.application.id,
       };
       await AssetDB.saveAsset(asset);
       // await ImageDBService.saveImage(optimizedFile, optimizedBase64);
@@ -118,63 +125,49 @@ export const ImageManager = ({
     reader.readAsDataURL(file);
   };
 
-  useClickOutsideRef(modalRef, (e: MouseEvent) => {
-    e.stopPropagation();
-    DrystoneStore.closeImageManager();
-  });
-
   return (
-    <div className={css.imageManager}>
-      <div className={css.modal} ref={modalRef}>
-        <FadeInWithScale>
-          <Card>
-            <Flex
-              gap={Gap.SM}
-              flexDirection={FlexDirection.COLUMN}
-              alignItems={Align.STRETCH}
-            >
-              <div className={css.input}>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                />
+    <div className={css.imageManagerModal}>
+      <Flex
+        gap={Gap.SM}
+        flexDirection={FlexDirection.COLUMN}
+        alignItems={Align.STRETCH}
+      >
+        <div className={css.input}>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
+        </div>
+        <div className={css.gallery}>
+          {images.map(image => {
+            const usages = ApplicationStore.calculateImageUsage(
+              image.applicationId,
+              image.id,
+            );
+            return (
+              <div
+                className={css.image}
+                key={image.id}
+                onClick={() => {
+                  console.log('image selected');
+                  extra.onImageSelect(image);
+                }}
+              >
+                <img src={URL.createObjectURL(image.data)} alt={image.name} />
+                <span className={css.name}>{image.name}</span>
+                {usages === 0 && (
+                  <DeleteIcon
+                    className={css.delete}
+                    onClick={e => handleDeleteImage(e, image.id)}
+                  />
+                )}
               </div>
-              <div className={css.gallery}>
-                {images.map(image => {
-                  const usages = ApplicationStore.calculateImageUsage(
-                    image.applicationId,
-                    image.id,
-                  );
-                  return (
-                    <div
-                      className={css.image}
-                      key={image.id}
-                      onClick={() => {
-                        console.log('image selected');
-                        onImageSelect(image);
-                      }}
-                    >
-                      <img
-                        src={URL.createObjectURL(image.data)}
-                        alt={image.name}
-                      />
-                      <span className={css.name}>{image.name}</span>
-                      {usages === 0 && (
-                        <DeleteIcon
-                          className={css.delete}
-                          onClick={e => handleDeleteImage(e, image.id)}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </Flex>
-          </Card>
-        </FadeInWithScale>
-      </div>
+            );
+          })}
+        </div>
+      </Flex>
     </div>
   );
 };

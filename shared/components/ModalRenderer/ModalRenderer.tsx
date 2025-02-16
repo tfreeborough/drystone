@@ -26,8 +26,34 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export function ModalRenderer() {
   const { modals, removeModal } = useContext(ModalContext);
 
-  function handleClose(modal: ModalInterface) {
+  function handleClose(
+    modal: ModalInterface,
+    event: MouseEvent | React.MouseEvent<SVGSVGElement, MouseEvent>,
+  ) {
+    const nativeEvent = event instanceof MouseEvent ? event : event.nativeEvent;
+    nativeEvent.stopPropagation();
+
+    /**
+     * Sometimes we open the image manager modal on top of other modals, so to ensure we don't close all of them accidentally we
+     * do a check to see if the thing that was clicked on was the image manager and if it was we don't do anything, because
+     * the image manager modal is meant to close first.
+     *
+     */
+    if (modal.id !== "image-manager-modal") {
+      const path = nativeEvent.composedPath();
+      const imageManagerModalElement = document.getElementById(
+        "image-manager-modal",
+      );
+      if (imageManagerModalElement) {
+        const isInsideImageManager = path.includes(imageManagerModalElement);
+        if (isInsideImageManager) {
+          return;
+        }
+      }
+    }
+
     removeModal(modal.id);
+
     if (modal.onClose) {
       modal.onClose();
     }
@@ -38,8 +64,9 @@ export function ModalRenderer() {
       {modals.map((modal, index) => (
         <ModalPortal key={modal.id}>
           <Modal
-            onClose={() => handleClose(modal)}
-            style={{ zIndex: 1000 + index }}
+            id={modal.id}
+            onClose={(event) => handleClose(modal, event)}
+            style={{ zIndex: 10000 + index }}
             type={modal.type}
             frameless={modal.frameless}
             extra={modal.extra}
@@ -65,12 +92,15 @@ const ModalPortal = ({ children }: PropsWithChildren) => {
 };
 
 interface ModalProps {
-  onClose: () => void;
+  onClose: (
+    event: MouseEvent | React.MouseEvent<SVGSVGElement, MouseEvent>,
+  ) => void;
   children: ReactNode;
   style?: CSSProperties;
   type: ModalType;
   frameless?: boolean;
   extra?: Record<string, any>;
+  id: string;
 }
 
 /**
@@ -81,6 +111,7 @@ interface ModalProps {
  * @param type
  * @param frameless
  * @param extra
+ * @param id
  * @constructor
  */
 function Modal({
@@ -90,12 +121,14 @@ function Modal({
   type,
   frameless = false,
   extra,
+  id,
 }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   useClickOutsideRef(modalRef, onClose);
 
   return (
     <div
+      id={id}
       className={`${css.modal} ${css[type]} ${frameless ? css.frameless : css.framed}`}
       style={{
         zIndex: 20,
@@ -109,7 +142,7 @@ function Modal({
             <FontAwesomeIcon
               icon={["fas", "close"]}
               className={css.close}
-              onClick={onClose}
+              onClick={(e) => onClose(e)}
             />
             {cloneElement(children as ReactElement, {
               extra,

@@ -1,0 +1,15 @@
+.conditionalWrapper{
+  position: relative;
+  padding: var(--gap-sm);
+  background-color: var(--conditional-colour-light);
+  border-radius: var(--border-radius-md);
+  box-sizing: border-box;
+  margin-top: var(--gap-md);
+  margin-bottom: var(--gap-md);
+
+  .edit{
+    position: absolute;
+    top: var(--gap-sm);
+    right: var(--gap-sm);
+  }
+}

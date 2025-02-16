@@ -8,13 +8,11 @@ import css from './ConditionDisplay.module.scss';
 
 interface ConditionDisplayProps {
   condition: Condition;
-  applicationId: string;
-  sceneId: string;
-  choiceId: string;
+  onDelete: (id: string) => void;
 }
 
 export const ConditionDisplay = observer(
-  ({ condition, applicationId, sceneId, choiceId }: ConditionDisplayProps) => {
+  ({ condition, onDelete }: ConditionDisplayProps) => {
     const { ApplicationStore } = useContext(AppContext);
     const current = ApplicationStore.current;
     if (!current) {
@@ -28,12 +26,7 @@ export const ConditionDisplay = observer(
     }
 
     function handleDelete() {
-      ApplicationStore.removeCondition(
-        applicationId,
-        sceneId,
-        choiceId,
-        condition.id,
-      );
+      onDelete(condition.id);
     }
 
     return (

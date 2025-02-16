@@ -1,0 +1,60 @@
+.imageManagerModal{
+  padding-top: var(--gap-lg);
+
+  .input{
+    input{
+      width: 100%;
+      box-sizing: border-box;
+      border: var(--border);
+      padding: var(--gap-xs) var(--gap-sm);
+      border-radius: var(--border-radius-sm);
+    }
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--gap-sm);
+    max-height: 40dvh;
+    overflow-y: auto;
+
+    .image{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: var(--border);
+      padding: var(--gap-xs);
+      gap: var(--gap-sm);
+      box-sizing: border-box;
+      position: relative;
+
+      .name{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0,0,0,0.7);
+        color: var(--colour-white);
+        text-align: center;
+        padding: 3px;
+        font-size: var(--font-size-sm);
+      }
+
+      .delete{
+        position: absolute;
+        top: 2px;
+        right: 2px;
+      }
+
+      img{
+        width: 100px;
+        display: block;
+        border: var(--border);
+      }
+
+      &:hover{
+        background-color: var(--colour-gray-90);
+      }
+    }
+  }
+}

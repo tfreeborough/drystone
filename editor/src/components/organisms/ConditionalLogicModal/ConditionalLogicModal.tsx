@@ -75,6 +75,17 @@ export const ConditionalLogicModal = observer(
       setAddNewOpen(false);
     }
 
+    function handleDeleteCondition(id: string) {
+      if (extra) {
+        ApplicationStore.removeCondition(
+          extra.applicationId,
+          extra.sceneId,
+          extra.choiceId,
+          id,
+        );
+      }
+    }
+
     if (!choice) {
       return null;
     }
@@ -109,9 +120,7 @@ export const ConditionalLogicModal = observer(
               <Fragment key={condition.id}>
                 <ConditionDisplay
                   condition={condition}
-                  choiceId={extra.choiceId}
-                  applicationId={extra.applicationId}
-                  sceneId={extra.sceneId}
+                  onDelete={handleDeleteCondition}
                 />
                 {!isLast && <Muted>AND</Muted>}
               </Fragment>

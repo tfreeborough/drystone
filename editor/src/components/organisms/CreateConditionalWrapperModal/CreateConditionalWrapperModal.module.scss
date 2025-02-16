@@ -1,0 +1,75 @@
+.createConditionalWrapperModal {
+  .editor {
+    border: var(--border);
+    padding: var(--gap-sm);
+    background-color: var(--colour-background);
+    color: var(--colour-text);
+    border-radius: var(--border-radius-md);
+
+    > div {
+      flex-direction: column;
+      align-items: stretch;
+      outline: none;
+      display: flex;
+
+      p:first-child {
+        margin-top: 0;
+      }
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+
+
+      h1{
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--gap-md);
+      }
+
+      h2{
+        font-size: var(--font-size-xl);
+        margin-bottom: var(--gap-sm);
+      }
+
+      p{
+        margin-top: 0;
+        margin-bottom: var(--gap-sm);
+      }
+
+      ul{
+        list-style-type: circle;
+        padding-left: var(--gap-sm);
+        margin-left: var(--gap-sm);
+      }
+
+      strong{
+        font-weight: bold;
+      }
+
+      em{
+        font-style: italic;
+      }
+    }
+  }
+
+  .floatingMenu,.bubbleMenu {
+    border: var(--border);
+    background-color: var(--colour-white);
+    box-shadow: var(--box-shadow);
+
+
+    .flex{
+      flex-wrap: wrap;
+    }
+  }
+
+  .bubbleMenu{
+    .conditions{
+      background-color: var(--conditional-colour-light);
+    }
+  }
+
+  .save{
+    align-self: start;
+  }
+}
