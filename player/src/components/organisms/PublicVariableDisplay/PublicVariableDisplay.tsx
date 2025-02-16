@@ -17,6 +17,10 @@ export const PublicVariableDisplay = observer(() => {
     setStatsOpen(!statsOpen);
   }
 
+  if (variables.length === 0) {
+    return null;
+  }
+
   return (
     <FadeIn
       className={`${css.publicVariableDisplay} ${statsOpen ? css.open : css.closed}`}

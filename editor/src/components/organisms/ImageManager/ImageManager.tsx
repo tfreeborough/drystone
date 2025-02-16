@@ -152,7 +152,6 @@ export const ImageManager = ({
                       className={css.image}
                       key={image.id}
                       onClick={() => {
-                        console.log('image selected');
                         onImageSelect(image);
                       }}
                     >

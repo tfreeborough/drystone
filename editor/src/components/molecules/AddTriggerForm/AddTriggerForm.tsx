@@ -103,7 +103,6 @@ export const AddTriggerForm = observer(({ onAdd }: AddTriggerFormProps) => {
   }
 
   function handleChangeTriggerValue(value: string) {
-    console.log(value);
     if (variable?.type === ApplicationVariableType.NUMBER) {
       setTriggerValue(value.length > 0 ? parseFloat(value) : null);
       return;

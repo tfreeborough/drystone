@@ -123,7 +123,6 @@ function CreateVariableModal({
         visibility,
         value,
       };
-      console.log(variable);
       ApplicationStore.addVariable(extra.applicationId, variable);
       removeModal('create-variable-modal');
     }
@@ -162,7 +161,7 @@ function CreateVariableModal({
             ]}
             onSelect={o => {
               if (o) {
-                handleChangeVariableValue(o?.value);
+                handleChangeVariableValue(o?.value === 'true');
               }
             }}
           />

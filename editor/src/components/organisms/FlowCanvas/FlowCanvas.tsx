@@ -249,7 +249,6 @@ function FlowCanvas() {
 
   const onConnect = useCallback((params: Connection) => {
     //setPendingEdge(params);
-    console.log(params);
     // setNewChoiceModalOpen(true);
     addModal({
       id: 'new-choice-modal',

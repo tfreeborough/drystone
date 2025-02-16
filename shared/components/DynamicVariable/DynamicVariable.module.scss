@@ -1,0 +1,11 @@
+.dynamicVariable{
+  color: var(--colour-text);
+
+  &.inEditor{
+    color: var(--conditional-colour);
+  }
+}
+
+.error{
+  color: red;
+}

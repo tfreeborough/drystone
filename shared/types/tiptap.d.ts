@@ -15,5 +15,8 @@ declare module "@tiptap/core" {
         application: Application,
       ) => ReturnType;
     };
+    dynamicVariable: {
+      removeEntireVariable: () => ReturnType;
+    };
   }
 }

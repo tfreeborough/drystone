@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 export function useTitle() {
   const [documentTitle, setDocumentTitle] = useState<string | null>(null);
   useEffect(() => {
-    console.log(documentTitle);
     if (documentTitle) {
       document.title = `${documentTitle}`;
     } else {

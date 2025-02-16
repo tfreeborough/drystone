@@ -28,7 +28,6 @@ const ConditionalWrapperComponent = ({ node }: NodeViewProps) => {
   function handleEditConditionalWrapper(
     event: React.MouseEvent<HTMLButtonElement>,
   ) {
-    console.log('edit conditional wrapper');
     addModal({
       id: 'conditional-wrapper-modal',
       event,

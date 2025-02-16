@@ -112,7 +112,7 @@ function EditVariableModal({
             ]}
             onSelect={o => {
               if (o) {
-                handleChangeVariableValue(o?.value);
+                handleChangeVariableValue(o?.value === 'true');
               }
             }}
           />

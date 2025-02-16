@@ -5,6 +5,5 @@ interface ChoiceLabelProps {
 }
 
 export const ChoiceLabel = ({ label }: ChoiceLabelProps) => {
-  console.log(label);
   return <div className={css.choiceLabel}>{label}</div>;
 };

@@ -43,6 +43,8 @@ function compareBooleans(
   operator: ConditionOperator,
   comparison: boolean,
 ) {
+  console.log(value);
+  console.log(comparison);
   switch (operator) {
     case "==":
       return value == comparison;

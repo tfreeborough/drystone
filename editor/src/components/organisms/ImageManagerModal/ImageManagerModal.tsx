@@ -151,7 +151,6 @@ export const ImageManagerModal = ({ extra }: ImageManagerModalProps) => {
                 className={css.image}
                 key={image.id}
                 onClick={() => {
-                  console.log('image selected');
                   extra.onImageSelect(image);
                 }}
               >

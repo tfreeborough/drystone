@@ -8,6 +8,7 @@ import {
 import StarterKit from '@tiptap/starter-kit';
 import {
   Application,
+  ApplicationVariable,
   Asset,
   Condition,
   EditorEvents,
@@ -23,10 +24,16 @@ import { ConditionalWrapper } from '../../custom_tiptap_components/ConditionalWr
 import { CreateConditionalWrapperModal } from '../CreateConditionalWrapperModal/CreateConditionalWrapperModal.tsx';
 import { ImageManagerModal } from '../ImageManagerModal/ImageManagerModal.tsx';
 import venti from 'venti-js';
-import { Gapcursor } from '@tiptap/extension-gapcursor';
+import { DynamicVariable } from '../../custom_tiptap_marks/DynamicVariable/DynamicVariable.tsx';
+import { InsertDynamicVariableModal } from '../InsertDynamicVariableModal/InsertDynamicVariableModal.tsx';
 
 // define your extension array
-const extensions = [StarterKit, ConditionalWrapper, CustomImage, Gapcursor];
+const extensions = [
+  StarterKit,
+  ConditionalWrapper,
+  CustomImage,
+  DynamicVariable,
+];
 
 interface FrameTipTapProps {
   frame: Frame;
@@ -62,6 +69,11 @@ export const FrameTipTap = observer(
         handleUpdateConditionWrapper,
       );
 
+      venti.on(
+        EditorEvents.INSERT_DYNAMIC_VARIABLE,
+        handleInsertDynamicVariable,
+      );
+
       return () => {
         venti.off(
           EditorEvents.INSERT_CONDITIONAL_WRAPPER,
@@ -71,6 +83,11 @@ export const FrameTipTap = observer(
         venti.off(
           EditorEvents.UPDATE_CONDITIONAL_WRAPPER,
           handleUpdateConditionWrapper,
+        );
+
+        venti.off(
+          EditorEvents.INSERT_DYNAMIC_VARIABLE,
+          handleInsertDynamicVariable,
         );
       };
     }, [frame.id]);
@@ -95,6 +112,17 @@ export const FrameTipTap = observer(
         },
       });
     }
+
+    const handleShowDynamicVariableModal = (
+      event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+      addModal({
+        id: 'dynamic-variable-modal',
+        event,
+        type: ModalType.NORMAL,
+        content: <InsertDynamicVariableModal />,
+      });
+    };
 
     const handleOpenImageManager = (
       event: React.MouseEvent<HTMLButtonElement>,
@@ -138,7 +166,6 @@ export const FrameTipTap = observer(
       conditions: Condition[];
     }) => {
       if (editor) {
-        console.log('updating conditional wrapper', id);
         // @ts-ignore
         editor
           .chain()
@@ -146,6 +173,19 @@ export const FrameTipTap = observer(
           .updateConditionalWrapper(id, content, conditions, application)
           .run();
       }
+    };
+
+    const handleInsertDynamicVariable = ({
+      variable,
+    }: {
+      variable: ApplicationVariable;
+    }) => {
+      editor
+        ?.chain()
+        .focus()
+        .setMark('dynamicVariable', { name: variable.name, id: variable.id })
+        .insertContent(variable.name)
+        .run();
     };
 
     if (!editor) {
@@ -216,6 +256,15 @@ export const FrameTipTap = observer(
                 isActive={editor.isActive('strike')}
               >
                 <FontAwesomeIcon icon={['fas', 'strikethrough']} />
+              </IconButton>
+              <IconButton
+                onClick={handleShowDynamicVariableModal}
+                isActive={editor.isActive('dynamicVariable')}
+              >
+                <FontAwesomeIcon
+                  icon={['fas', 'hashtag']}
+                  title="Insert dynamic variable"
+                />
               </IconButton>
             </Flex>
           </div>

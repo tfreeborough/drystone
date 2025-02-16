@@ -35,6 +35,7 @@ import { AddConditionForm } from '../../molecules/AddConditionForm/AddConditionF
 import Label from '../../atoms/Label/Label.tsx';
 import { ConditionDisplay } from '../../atoms/ConditionDisplay/ConditionDisplay.tsx';
 import venti from 'venti-js';
+import { DynamicVariable } from '../../custom_tiptap_marks/DynamicVariable/DynamicVariable.tsx';
 
 interface CreateConditionalWrapperModalProps {
   extra?: {
@@ -45,7 +46,7 @@ interface CreateConditionalWrapperModalProps {
   };
 }
 
-const extensions = [StarterKit, CustomImage];
+const extensions = [StarterKit, CustomImage, DynamicVariable];
 
 export const CreateConditionalWrapperModal = observer(
   ({ extra }: CreateConditionalWrapperModalProps) => {
@@ -105,7 +106,6 @@ export const CreateConditionalWrapperModal = observer(
           conditions,
         });
       } else {
-        console.log(extra?.id);
         venti.trigger(EditorEvents.UPDATE_CONDITIONAL_WRAPPER, {
           id: extra?.id,
           content,

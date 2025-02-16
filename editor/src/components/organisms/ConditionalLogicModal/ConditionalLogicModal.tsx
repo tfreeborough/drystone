@@ -41,7 +41,6 @@ export const ConditionalLogicModal = observer(
     function handleChangeShowAsDisabled(showAsDisabled: boolean) {
       if (extra && choice) {
         setShowAsDisabled(showAsDisabled);
-        console.log('updated choice');
         ApplicationStore.updateChoice(extra?.applicationId, extra?.sceneId, {
           ...choice,
           showAsDisabled,
@@ -53,7 +52,6 @@ export const ConditionalLogicModal = observer(
     function handleChangeShowAsDisabledText(showAsDisabledText: string) {
       if (extra && choice) {
         setShowAsDisabledText(showAsDisabledText);
-        console.log('updated choice disabled text');
         ApplicationStore.updateChoice(extra?.applicationId, extra?.sceneId, {
           ...choice,
           showAsDisabled,
