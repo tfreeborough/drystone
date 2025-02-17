@@ -233,6 +233,7 @@ class ApplicationStore {
           ...scene,
           choices: scene.choices.filter(c => c.id !== choiceId),
         };
+        console.log('updated scene', updatedScene);
         this.updateScene(application.id, updatedScene);
       }
     }
@@ -337,6 +338,7 @@ class ApplicationStore {
     const current = this.current;
     if (current) {
       current.scenes.forEach(scene => {
+        console.log(scene.choices);
         scene.choices.forEach(choice => {
           const foundTarget = current.scenes.find(s => s.id === choice.target);
           if (!foundTarget) {
