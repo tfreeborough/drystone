@@ -77,5 +77,6 @@
   .editor {
     grid-area: editor;
     background-color: var(--colour-gray-90);
+    overflow-y: auto;
   }
 }

@@ -54,8 +54,8 @@ function SceneNode({ data, id }: SceneNodePropsType) {
   const connectedScenes = data.connectedScenes;
 
   const sortedChoices = data.scene.choices.slice().sort((a, b) => {
-    const aScene = connectedScenes.find(s => s.id === a.target);
-    const bScene = connectedScenes.find(s => s.id === b.target);
+    const aScene = connectedScenes.find(s => s?.id === a.target);
+    const bScene = connectedScenes.find(s => s?.id === b.target);
     if (aScene && bScene) {
       return aScene.position.x - bScene.position.x;
     }
