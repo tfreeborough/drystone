@@ -3,4 +3,5 @@ export enum EditorEvents {
   INSERT_CONDITIONAL_WRAPPER = "insert-conditional-wrapper",
   UPDATE_CONDITIONAL_WRAPPER = "update-conditional-wrapper",
   INSERT_DYNAMIC_VARIABLE = "insert-dynamic-variable",
+  INSERT_DYNAMIC_VARIABLE_IN_CONDITIONAL_WRAPPER = "insert-dynamic-variable-in-conditional-wrapper",
 }

@@ -52,6 +52,21 @@ export function ModalRenderer() {
       }
     }
 
+    if (modal.id !== "dynamic-variable-modal") {
+      const path = nativeEvent.composedPath();
+      const dynamicVariableModalElement = document.getElementById(
+        "dynamic-variable-modal",
+      );
+      if (dynamicVariableModalElement) {
+        const isInsideDynamicVariableModal = path.includes(
+          dynamicVariableModalElement,
+        );
+        if (isInsideDynamicVariableModal) {
+          return;
+        }
+      }
+    }
+
     removeModal(modal.id);
 
     if (modal.onClose) {

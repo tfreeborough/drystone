@@ -13,6 +13,7 @@ import { CustomImage } from '../../custom_tiptap_components/CustomImage/CustomIm
 import {
   Align,
   Application,
+  ApplicationVariable,
   Asset,
   Condition,
   EditorEvents,
@@ -36,6 +37,7 @@ import Label from '../../atoms/Label/Label.tsx';
 import { ConditionDisplay } from '../../atoms/ConditionDisplay/ConditionDisplay.tsx';
 import venti from 'venti-js';
 import { DynamicVariable } from '../../custom_tiptap_marks/DynamicVariable/DynamicVariable.tsx';
+import { InsertDynamicVariableModal } from '../InsertDynamicVariableModal/InsertDynamicVariableModal.tsx';
 
 interface CreateConditionalWrapperModalProps {
   extra?: {
@@ -63,6 +65,33 @@ export const CreateConditionalWrapperModal = observer(
       extensions,
       content: extra?.nodes,
     });
+
+    useEffect(() => {
+      venti.on(
+        EditorEvents.INSERT_DYNAMIC_VARIABLE_IN_CONDITIONAL_WRAPPER,
+        handleInsertDynamicVariable,
+      );
+
+      return () => {
+        venti.off(
+          EditorEvents.INSERT_DYNAMIC_VARIABLE_IN_CONDITIONAL_WRAPPER,
+          handleInsertDynamicVariable,
+        );
+      };
+    }, []);
+
+    const handleInsertDynamicVariable = ({
+      variable,
+    }: {
+      variable: ApplicationVariable;
+    }) => {
+      editor
+        ?.chain()
+        .focus()
+        .setMark('dynamicVariable', { name: variable.name, id: variable.id })
+        .insertContent(variable.name)
+        .run();
+    };
 
     useEffect(() => {
       setContent(editor?.getJSON());
@@ -98,6 +127,18 @@ export const CreateConditionalWrapperModal = observer(
     function handleDeleteCondition(id: string) {
       setConditions(conditions.filter(c => c.id !== id));
     }
+
+    const handleShowDynamicVariableModal = (
+      event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+      addModal({
+        id: 'dynamic-variable-modal',
+        event,
+        type: ModalType.NORMAL,
+        extra: { isConditionalWrapper: true },
+        content: <InsertDynamicVariableModal />,
+      });
+    };
 
     function handleSave() {
       if (isNew) {
@@ -178,6 +219,15 @@ export const CreateConditionalWrapperModal = observer(
                     isActive={editor.isActive('strike')}
                   >
                     <FontAwesomeIcon icon={['fas', 'strikethrough']} />
+                  </IconButton>
+                  <IconButton
+                    onClick={handleShowDynamicVariableModal}
+                    isActive={editor.isActive('dynamicVariable')}
+                  >
+                    <FontAwesomeIcon
+                      icon={['fas', 'hashtag']}
+                      title="Insert dynamic variable"
+                    />
                   </IconButton>
                 </Flex>
               </div>
