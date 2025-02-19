@@ -1,7 +1,6 @@
 import SelectInput from '../../atoms/SelectInput/SelectInput.tsx';
 import {
   Align,
-  ApplicationVariableVisibility,
   EditorEvents,
   FlexDirection,
   Gap,
@@ -24,9 +23,7 @@ export const InsertDynamicVariableModal = observer(() => {
     return null;
   }
 
-  const publicVariables = current.variables.filter(
-    v => v.visibility === ApplicationVariableVisibility.PUBLIC,
-  );
+  const variables = current.variables;
 
   function handleSelectVariable(value: SelectOption | null) {
     setVariable(value);
@@ -34,7 +31,7 @@ export const InsertDynamicVariableModal = observer(() => {
 
   function handleInsertVariable() {
     if (variable) {
-      const found = publicVariables.find(pv => pv.id === variable.value);
+      const found = variables.find(pv => pv.id === variable.value);
       if (found) {
         venti.trigger(EditorEvents.INSERT_DYNAMIC_VARIABLE, {
           variable: found,
@@ -50,7 +47,7 @@ export const InsertDynamicVariableModal = observer(() => {
     },
   ];
 
-  publicVariables.forEach(v => {
+  variables.forEach(v => {
     variableOptions.push({
       text: `${v.name} (${v.type}/${v.visibility})`,
       value: v.id,
@@ -66,7 +63,7 @@ export const InsertDynamicVariableModal = observer(() => {
       <Heading>Insert a dynamic variable</Heading>
       <SelectInput
         fullWidth
-        label="Public Variables"
+        label="Variables"
         value={variable ? variable.value : ''}
         values={variableOptions}
         onSelect={handleSelectVariable}
