@@ -12,7 +12,6 @@ import StarterKit from '@tiptap/starter-kit';
 import { CustomImage } from '../../custom_tiptap_components/CustomImage/CustomImage.tsx';
 import {
   Align,
-  Application,
   ApplicationVariable,
   Asset,
   Condition,
@@ -38,13 +37,13 @@ import { ConditionDisplay } from '../../atoms/ConditionDisplay/ConditionDisplay.
 import venti from 'venti-js';
 import { DynamicVariable } from '../../custom_tiptap_marks/DynamicVariable/DynamicVariable.tsx';
 import { InsertDynamicVariableModal } from '../InsertDynamicVariableModal/InsertDynamicVariableModal.tsx';
+import { AppContext } from '../../../stores/AppContext.ts';
 
 interface CreateConditionalWrapperModalProps {
   extra?: {
     id?: string;
     nodes?: JSONContent;
     conditions?: Condition[];
-    application: Application;
   };
 }
 
@@ -53,7 +52,9 @@ const extensions = [StarterKit, CustomImage, DynamicVariable];
 export const CreateConditionalWrapperModal = observer(
   ({ extra }: CreateConditionalWrapperModalProps) => {
     const { addModal } = useContext(ModalContext);
+    const { ApplicationStore } = useContext(AppContext);
 
+    const current = ApplicationStore.current;
     const [isNew] = useState<boolean>(extra?.id === undefined);
     const [addNewCondition, setAddNewCondition] = useState(false);
     const [conditions, setConditions] = useState<Condition[]>(
@@ -113,7 +114,7 @@ export const CreateConditionalWrapperModal = observer(
         type: ModalType.NORMAL,
         content: <ImageManagerModal />,
         extra: {
-          application: extra?.application,
+          application: current,
           onImageSelect: handleImageSelect,
         },
       });

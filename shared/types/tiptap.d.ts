@@ -6,13 +6,11 @@ declare module "@tiptap/core" {
       insertConditionalWrapper: (
         content: JSONContent,
         conditions: Condition[],
-        application: Application,
       ) => ReturnType;
       updateConditionalWrapper: (
         id: string,
         content: JSONContent,
         conditions: Condition[],
-        application: Application,
       ) => ReturnType;
     };
     dynamicVariable: {

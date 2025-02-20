@@ -8,7 +8,7 @@ import {
   ReactNodeViewRenderer,
 } from '@tiptap/react';
 import css from './ConditionalWrapper.module.scss';
-import { Application, Condition, JSONContent } from '@shared/types';
+import { Condition, JSONContent } from '@shared/types';
 import {
   IconButton,
   ModalContext,
@@ -23,7 +23,6 @@ const ConditionalWrapperComponent = ({ node }: NodeViewProps) => {
   const { addModal } = useContext(ModalContext);
   const conditions = node.attrs.conditions;
   const content = node.attrs.content;
-  const application = node.attrs.application;
 
   function handleEditConditionalWrapper(
     event: React.MouseEvent<HTMLButtonElement>,
@@ -35,7 +34,6 @@ const ConditionalWrapperComponent = ({ node }: NodeViewProps) => {
       content: <CreateConditionalWrapperModal />,
       extra: {
         id: node.attrs.id,
-        application,
         nodes: content,
         conditions,
       },
@@ -84,7 +82,6 @@ export const ConditionalWrapper = Node.create({
         default: [],
       },
       content: [],
-      application: null,
       id: {
         default: () => crypto.randomUUID(),
       },
@@ -110,24 +107,15 @@ export const ConditionalWrapper = Node.create({
   addCommands(): Partial<RawCommands> {
     return {
       insertConditionalWrapper:
-        (
-          content: JSONContent,
-          conditions: Condition[],
-          application: Application,
-        ): Command =>
+        (content: JSONContent, conditions: Condition[]): Command =>
         ({ commands }: CommandProps): boolean => {
           return commands.insertContent({
             type: this.name,
-            attrs: { conditions, content, application },
+            attrs: { conditions, content },
           });
         },
       updateConditionalWrapper:
-        (
-          id: string,
-          content: JSONContent,
-          conditions: Condition[],
-          application: Application,
-        ): Command =>
+        (id: string, content: JSONContent, conditions: Condition[]): Command =>
         ({ tr }: CommandProps): boolean => {
           let pos = null;
           tr.doc.descendants((node, position) => {
@@ -146,7 +134,6 @@ export const ConditionalWrapper = Node.create({
             ...node.attrs,
             content,
             conditions,
-            application,
           });
 
           return true;

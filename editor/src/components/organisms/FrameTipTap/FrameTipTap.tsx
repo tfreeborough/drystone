@@ -151,7 +151,7 @@ export const FrameTipTap = observer(
         editor
           .chain()
           .focus()
-          .insertConditionalWrapper(content, conditions, application)
+          .insertConditionalWrapper(content, conditions)
           .run();
       }
     };
@@ -170,7 +170,7 @@ export const FrameTipTap = observer(
         editor
           .chain()
           .focus()
-          .updateConditionalWrapper(id, content, conditions, application)
+          .updateConditionalWrapper(id, content, conditions)
           .run();
       }
     };
