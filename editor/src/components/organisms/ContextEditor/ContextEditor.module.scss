@@ -1,10 +1,9 @@
 .contextEditor {
   width: 30dvw;
   min-width: 800px;
-  background-color: var(--colour-background);
+  background-color: var(--colour-white);
   overflow-y: auto;
   box-shadow: var(--box-shadow);
   padding: var(--gap-md);
   box-sizing: border-box;
-  color: var(--colour-elements);
 }
