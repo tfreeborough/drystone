@@ -154,6 +154,16 @@ const renderNode = (
       );
     case "hardBreak":
       return <br key={index} />;
+    case "horizontalRule":
+      return (
+        <FadeIn
+          key={index}
+          delay={index * fadeDelay}
+          onAnimationComplete={handleAnimationEnd}
+        >
+          <hr />
+        </FadeIn>
+      );
     case "customImage":
       return (
         <FadeIn
@@ -224,7 +234,7 @@ export function Tiptap2React({
     );
   }
 
-  console.log("rendering node", nodes);
+  console.log("rendering node with no sub content", nodes);
 
   return (
     <div className={css.content}>
