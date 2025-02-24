@@ -59,6 +59,12 @@ const renderNode = (
   function handleAnimationEnd() {
     if (lastNode && onAnimationComplete) {
       onAnimationComplete();
+    } else {
+      console.log("went to end animation - last node", lastNode);
+      console.log(
+        "went to end animation - onAnimationComplete",
+        onAnimationComplete,
+      );
     }
   }
 
@@ -206,6 +212,7 @@ export function Tiptap2React({
       <div className={css.content}>
         {content.map((node, index) => {
           const isLastNode = index + 1 === content.length;
+          console.log("rendering node", node);
           return renderNode(node, index, {
             lastNode: isLastNode,
             onAnimationComplete: handleAnimationEnd,
@@ -217,11 +224,12 @@ export function Tiptap2React({
     );
   }
 
+  console.log("rendering node", nodes);
+
   return (
     <div className={css.content}>
       {renderNode(nodes, 0, {
         inEditor,
-        onAnimationComplete: handleAnimationEnd,
       })}
     </div>
   );
