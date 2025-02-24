@@ -36,3 +36,15 @@ ul{
   list-style-type: disc;
   padding-left: var(--gap-sm);
 }
+
+strong{
+  font-weight: bold;
+}
+
+hr{
+  border-color: var(--colour-text);
+  border-style: dashed;
+  border-width: 2px;
+  margin-block-start: var(--gap-lg);
+  margin-block-end: var(--gap-lg);
+}

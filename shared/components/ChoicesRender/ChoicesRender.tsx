@@ -61,8 +61,8 @@ export const ChoicesRender = observer(
                 }
               }}
             >
-              {choice.label}&nbsp;
-              {!choiceIsValid && <>[{choice.showAsDisabledText}]</>}
+              {choice.label}
+              {!choiceIsValid && <>&nbsp;[{choice.showAsDisabledText}]</>}
             </div>
           );
         })}
