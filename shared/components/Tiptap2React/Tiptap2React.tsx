@@ -218,6 +218,11 @@ export function Tiptap2React({
   }
 
   return (
-    <div className={css.content}>{renderNode(nodes, 0, { inEditor })}</div>
+    <div className={css.content}>
+      {renderNode(nodes, 0, {
+        inEditor,
+        onAnimationComplete: handleAnimationEnd,
+      })}
+    </div>
   );
 }

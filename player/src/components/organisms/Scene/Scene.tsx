@@ -103,6 +103,10 @@ export const Scene = observer(({ scene }: SceneProps) => {
    */
   const isEnd = isLastFrame && scene.choices.length === 0;
 
+  console.log("animations complete", animationsCompleted);
+  console.log("isLastFrame", isLastFrame);
+  console.log("isEnd", isEnd);
+
   return (
     <div className={css.scene}>
       <AnimatePresence mode="wait">
