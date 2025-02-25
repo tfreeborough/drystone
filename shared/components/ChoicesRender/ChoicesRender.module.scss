@@ -1,12 +1,12 @@
 .choicesRender{
   .choice{
-    color: var(--anchor-colour);
+    color: var(--colour-elements);
     user-select: none;
 
     &:hover{
       cursor: pointer;
       text-decoration: underline;
-      color: var(--anchor-colour-hover);
+      color: var(--colour-elements-40);
     }
 
     &.invalid{
