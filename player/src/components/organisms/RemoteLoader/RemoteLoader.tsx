@@ -5,7 +5,7 @@ import { AppContext } from "../../../stores/AppContext.ts";
 import { observer } from "mobx-react-lite";
 import { Align, Asset, FlexDirection, Gap } from "@shared/types";
 import { getErrorMessage } from "@shared/functions";
-import { AssetDB } from "@shared/services";
+// import { AssetDB } from "@shared/services";
 import { Flex, Loading, Notice, NoticeType } from "@shared/components";
 
 /**
