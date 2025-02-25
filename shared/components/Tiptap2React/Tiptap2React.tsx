@@ -165,7 +165,7 @@ const renderNode = (
           delay={index * fadeDelay}
           onAnimationComplete={handleAnimationEnd}
         >
-          <CustomImageLoader key={index} node={node} />
+          <CustomImageLoader key={index} node={node} inEditor={inEditor} />
         </FadeIn>
       );
     case "conditionalWrapper":

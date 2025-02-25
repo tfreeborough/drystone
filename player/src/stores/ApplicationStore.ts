@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { makePersistable } from "mobx-persist-store";
-import { Application, FontStyles } from "@shared/types";
+import { Application, Asset, FontStyles } from "@shared/types";
 import {
   generateColourScale,
   setDocumentFontFamily,
@@ -9,6 +9,7 @@ import {
 
 class ApplicationStore {
   application: Application | null = null;
+  assets: Map<string, Asset> = new Map();
 
   constructor() {
     makeAutoObservable(this);
@@ -40,6 +41,14 @@ class ApplicationStore {
     if (!this.application) return null;
     const found = this.application.scenes.find((s) => s.id === id);
     return found ?? null;
+  }
+
+  public addAsset(asset: Asset) {
+    this.assets.set(asset.id, asset);
+  }
+
+  public removeAsset(asset: Asset) {
+    this.assets.delete(asset.id);
   }
 }
 

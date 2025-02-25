@@ -6,7 +6,7 @@ import { observer } from "mobx-react-lite";
 import { Align, Asset, FlexDirection, Gap } from "@shared/types";
 import { getErrorMessage } from "@shared/functions";
 import { AssetDB } from "@shared/services";
-import { Flex, Notice, NoticeType } from "@shared/components";
+import { Flex, Loading, Notice, NoticeType } from "@shared/components";
 
 /**
  * This is a list of origins that have been requested for a special integration.
@@ -20,6 +20,7 @@ interface RemoteLoaderProps {
 function RemoteLoader({ remote }: RemoteLoaderProps) {
   const { ApplicationStore, PlayerStore } = useContext(AppContext);
 
+  const [extracting, setExtracting] = useState<boolean>(false);
   const [loadingError, setLoadingError] = useState<string | null>(null);
 
   async function handleExtractZip(fileBlob: Blob) {
@@ -59,7 +60,9 @@ function RemoteLoader({ remote }: RemoteLoaderProps) {
                 data,
                 applicationId: appDataJson.id,
               };
-              await AssetDB.saveAsset(asset);
+              console.log("saving asset");
+              ApplicationStore.addAsset(asset);
+              //await AssetDB.saveAsset(asset);
             }
           } catch (error) {
             console.error("Error processing asset:", entry.filename, error);
@@ -71,6 +74,7 @@ function RemoteLoader({ remote }: RemoteLoaderProps) {
       if (!appDataJson.entrypoint) {
         throw new Error("This application has no entrypoint.");
       }
+      setExtracting(false);
       ApplicationStore.setApplication(appDataJson);
       PlayerStore.initializeGameState(
         appDataJson.entrypoint,
@@ -134,6 +138,7 @@ function RemoteLoader({ remote }: RemoteLoaderProps) {
 
       // Convert to blob and process as zip
       const blob = new Blob([allChunks]);
+      setExtracting(true);
       await handleExtractZip(blob);
     }
   };
@@ -157,7 +162,13 @@ function RemoteLoader({ remote }: RemoteLoaderProps) {
       alignItems={Align.STRETCH}
       gap={Gap.MD}
     >
-      {!loadingError && (
+      {extracting && (
+        <Loading>
+          Hold tight while we extract assets into memory <br /> (this could take
+          a while on slow devices and on large apps)
+        </Loading>
+      )}
+      {!loadingError && !extracting && (
         <Flex
           flexDirection={FlexDirection.COLUMN}
           alignItems={Align.STRETCH}
