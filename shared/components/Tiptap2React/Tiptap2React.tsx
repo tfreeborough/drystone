@@ -6,7 +6,7 @@ import { Mark } from "../../types";
 import { ConditionalWrapperLoader } from "../../../player/src/components/organisms/ConditionalWrapperLoader/ConditionalWrapperLoader";
 import { DynamicVariable } from "../DynamicVariable/DynamicVariable";
 
-const FADE_DELAY = 0.3;
+const FADE_DELAY = 0;
 
 const applyMarks = (
   text: string | JSX.Element = "",

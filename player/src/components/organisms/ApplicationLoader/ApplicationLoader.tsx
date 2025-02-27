@@ -5,7 +5,7 @@ import { AppContext } from "../../../stores/AppContext.ts";
 import { observer } from "mobx-react-lite";
 import { Asset } from "@shared/types";
 import { getErrorMessage } from "@shared/functions";
-import { AssetDB } from "@shared/services";
+// import { AssetDB } from "@shared/services";
 
 function ApplicationLoader() {
   const { ApplicationStore, PlayerStore } = useContext(AppContext);
@@ -50,7 +50,8 @@ function ApplicationLoader() {
                 data,
                 applicationId: appDataJson.id,
               };
-              await AssetDB.saveAsset(asset);
+              ApplicationStore.addAsset(asset);
+              // await AssetDB.saveAsset(asset);
             }
           } catch (error) {
             console.error("Error processing asset:", entry.filename, error);

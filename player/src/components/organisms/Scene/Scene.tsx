@@ -1,13 +1,13 @@
 import {
   Choice,
   FlexDirection,
-  Frame,
+  Frame as FrameType,
   Gap,
   Scene as SceneType,
 } from "@shared/types";
-import { useContext, useEffect, useState, Fragment } from "react";
+import { useContext, useEffect, useState } from "react";
 import css from "./Scene.module.scss";
-import { Flex, Tiptap2React } from "@shared/components";
+import { Flex } from "@shared/components";
 import { ChoicesRender } from "@shared/components/ChoicesRender/ChoicesRender.tsx";
 import { FadeIn } from "@shared/animations";
 import { observer } from "mobx-react-lite";
@@ -15,6 +15,7 @@ import { AppContext } from "../../../stores/AppContext.ts";
 import { AnimatePresence } from "framer-motion";
 import { SceneUnderConstruction } from "../../molecules/SceneUnderConstruction/SceneUnderConstruction.tsx";
 import { ApplicationEnding } from "../../molecules/ApplicationEnding/ApplicationEnding.tsx";
+import { Frame } from "../../molecules/Frame/Frame.tsx";
 
 interface SceneProps {
   scene: SceneType;
@@ -22,7 +23,7 @@ interface SceneProps {
 
 export const Scene = observer(({ scene }: SceneProps) => {
   const { PlayerStore } = useContext(AppContext);
-  const [renderedFrames, setRenderedFrames] = useState<Frame[]>([]);
+  const [renderedFrames, setRenderedFrames] = useState<FrameType[]>([]);
   const [animationsCompleted, setAnimationsCompleted] = useState(false);
   const [noFrames, setNoFrames] = useState(false);
 
@@ -53,7 +54,7 @@ export const Scene = observer(({ scene }: SceneProps) => {
    * Adds a frame to the rendered frames, this will cause the new frame to be rendered into the screen.
    * @param frame
    */
-  function addRenderedFrame(frame: Frame) {
+  function addRenderedFrame(frame: FrameType) {
     setRenderedFrames([...renderedFrames, frame]);
   }
 
@@ -113,12 +114,11 @@ export const Scene = observer(({ scene }: SceneProps) => {
         <FadeIn key={scene.id} duration={0.6} hasExitAnimation>
           <Flex flexDirection={FlexDirection.COLUMN} gap={Gap.MD}>
             {renderedFrames.map((frame) => (
-              <Fragment key={frame.id}>
-                <Tiptap2React
-                  nodes={frame.nodes}
-                  onAnimationComplete={handleAnimationCompleted}
-                />
-              </Fragment>
+              <Frame
+                key={frame.id}
+                frame={frame}
+                onAnimationCompleted={handleAnimationCompleted}
+              />
             ))}
             {animationsCompleted && (
               <>

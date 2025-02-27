@@ -38,6 +38,20 @@ function MetadataEditor(): ReactElement {
     }
   }
 
+  function handleUpdateAppDescription(
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) {
+    if (current) {
+      ApplicationStore.updateDescription(current.id, e.target.value);
+    }
+  }
+
+  function handleUpdateAppName(value: string) {
+    if (current) {
+      ApplicationStore.updateName(current.id, value);
+    }
+  }
+
   function handleUpdateEntrypoint(value: SelectOption | null) {
     if (current && value) {
       ApplicationStore.updateEntrypoint(current.id, value.value);
@@ -48,31 +62,62 @@ function MetadataEditor(): ReactElement {
     <div className={css.metadataEditor}>
       <Topper noNegativeMargin>Metadata</Topper>
       <div className={css.cardWrapper}>
-        <Card className={css.card}>
-          <Flex
-            flexDirection={FlexDirection.COLUMN}
-            gap={Gap.SM}
-            alignItems={Align.STRETCH}
-          >
-            <Heading>Author Information</Heading>
-            <div>
-              <TextInput
-                fullWidth
-                label="Author Name"
-                value={current.author.name}
-                onChange={handleUpdateAuthorName}
-              />
-            </div>
-            <div>
-              <TextInput
-                fullWidth
-                label="Author Website"
-                value={current.author.link}
-                onChange={handleUpdateAuthorLink}
-              />
-            </div>
-          </Flex>
-        </Card>
+        <Flex
+          flexDirection={FlexDirection.COLUMN}
+          gap={Gap.LG}
+          alignItems={Align.STRETCH}
+        >
+          <Card className={css.card}>
+            <Flex
+              flexDirection={FlexDirection.COLUMN}
+              gap={Gap.SM}
+              alignItems={Align.STRETCH}
+            >
+              <Heading>Author Information</Heading>
+              <div>
+                <TextInput
+                  fullWidth
+                  label="Author Name"
+                  value={current.author.name}
+                  onChange={handleUpdateAuthorName}
+                />
+              </div>
+              <div>
+                <TextInput
+                  fullWidth
+                  label="Author Website"
+                  value={current.author.link}
+                  onChange={handleUpdateAuthorLink}
+                />
+              </div>
+            </Flex>
+          </Card>
+          <Card className={css.card}>
+            <Flex
+              flexDirection={FlexDirection.COLUMN}
+              gap={Gap.SM}
+              alignItems={Align.STRETCH}
+            >
+              <Heading>App Information</Heading>
+              <div>
+                <TextInput
+                  fullWidth
+                  label="App Name"
+                  value={current.name}
+                  onChange={handleUpdateAppName}
+                />
+              </div>
+              <div>
+                <textarea
+                  className={css.textarea}
+                  value={current.description}
+                  onChange={handleUpdateAppDescription}
+                  rows={6}
+                ></textarea>
+              </div>
+            </Flex>
+          </Card>
+        </Flex>
         <Card className={css.card}>
           <Flex
             flexDirection={FlexDirection.COLUMN}

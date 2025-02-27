@@ -362,6 +362,22 @@ class ApplicationStore {
     }
   }
 
+  updateDescription(id: string, description: string) {
+    const application = this.getApplication(id);
+    if (application) {
+      application.description = description;
+      this.saveApplication(application);
+    }
+  }
+
+  updateName(id: string, name: string) {
+    const application = this.getApplication(id);
+    if (application) {
+      application.name = name;
+      this.saveApplication(application);
+    }
+  }
+
   /**
    * Updates the entrypoint in the application, which is effectively the first page a player will land on.
    * @param id

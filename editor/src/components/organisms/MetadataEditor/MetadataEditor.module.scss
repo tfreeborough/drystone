@@ -17,6 +17,14 @@
 
     .card {
       align-self: start;
+      width: 100%;
+      box-sizing: border-box;
+
+      .textarea{
+        resize: none;
+        width: 100%;
+        font-family: var(--font-family);
+      }
     }
   }
 }

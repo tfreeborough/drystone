@@ -314,7 +314,7 @@ function FlowCanvas() {
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       onInit={handleInit}
-      defaultEdgeOptions={{ animated: true }}
+      defaultEdgeOptions={{ animated: false }}
       onNodeClick={handleNodeClicked}
       onNodeDragStop={handleNodeDrag}
       onEdgesDelete={handleDeleteChoice}
