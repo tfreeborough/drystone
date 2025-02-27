@@ -11,7 +11,7 @@ import { AppContext } from "../../../player/src/stores/AppContext";
 
 interface CustomImageLoaderProps {
   node: JSONContent;
-  inEditor: boolean;
+  inEditor?: boolean;
 }
 
 export const CustomImageLoader = observer(
