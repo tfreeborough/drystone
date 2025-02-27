@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import Spinner from "./loader.svg";
+import Spinner from "./loader.svg?react";
 import { Flex } from "../Flex/Flex";
 import { Align, FlexDirection, Gap } from "../../types";
 import css from "./Loading.module.scss";
