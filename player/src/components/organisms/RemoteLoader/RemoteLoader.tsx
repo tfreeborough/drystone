@@ -3,7 +3,7 @@ import { BlobReader, BlobWriter, TextWriter, ZipReader } from "@zip.js/zip.js";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../../stores/AppContext.ts";
 import { observer } from "mobx-react-lite";
-import { Align, Asset, FlexDirection, Gap } from "@shared/types";
+import { Align, Application, Asset, FlexDirection, Gap } from "@shared/types";
 import { getErrorMessage } from "@shared/functions";
 // import { AssetDB } from "@shared/services";
 import { Flex, Loading, Notice, NoticeType } from "@shared/components";
@@ -22,6 +22,34 @@ function RemoteLoader({ remote }: RemoteLoaderProps) {
 
   const [extracting, setExtracting] = useState<boolean>(false);
   const [loadingError, setLoadingError] = useState<string | null>(null);
+
+  const packed = ApplicationStore.packed;
+
+  async function initializeIntoState(appDataJson: Application) {
+    if (!appDataJson.entrypoint) {
+      throw new Error("This application has no entrypoint.");
+    }
+    setExtracting(false);
+    ApplicationStore.setApplication(appDataJson);
+    PlayerStore.initializeGameState(
+      appDataJson.entrypoint,
+      appDataJson.variables,
+    );
+
+    /**
+     * Send the app loaded message to every approved origin, we don't specify * because
+     * that's bad security practice.
+     */
+    PARENT_ORIGINS.forEach((origin) => {
+      window.parent.postMessage(
+        {
+          type: "APP_LOADED",
+          data: {},
+        },
+        origin,
+      );
+    });
+  }
 
   async function handleExtractZip(fileBlob: Blob) {
     setLoadingError(null);
@@ -71,29 +99,7 @@ function RemoteLoader({ remote }: RemoteLoaderProps) {
         }
       }
 
-      if (!appDataJson.entrypoint) {
-        throw new Error("This application has no entrypoint.");
-      }
-      setExtracting(false);
-      ApplicationStore.setApplication(appDataJson);
-      PlayerStore.initializeGameState(
-        appDataJson.entrypoint,
-        appDataJson.variables,
-      );
-
-      /**
-       * Send the app loaded message to every approved origin, we don't specify * because
-       * that's bad security practice.
-       */
-      PARENT_ORIGINS.forEach((origin) => {
-        window.parent.postMessage(
-          {
-            type: "APP_LOADED",
-            data: {},
-          },
-          origin,
-        );
-      });
+      await initializeIntoState(appDataJson);
     } catch (error) {
       console.error("Error:", error);
       setLoadingError(getErrorMessage(error));
@@ -103,6 +109,24 @@ function RemoteLoader({ remote }: RemoteLoaderProps) {
   }
 
   const [progress, setProgress] = useState(0);
+
+  const streamFile = async () => {
+    try {
+      const appData = `${remote}/app-data.json`;
+      const response = await fetch(appData, { mode: "cors" });
+      if (!response.ok) {
+        throw new Error(
+          "There was an error fetching this application from the remote URL provided.",
+        );
+      }
+      const appDataJson = await response.json();
+      setLoadingError(null);
+      await initializeIntoState(appDataJson);
+    } catch (error) {
+      console.error("Error:", error);
+      setLoadingError(getErrorMessage(error));
+    }
+  };
 
   const downloadFile = async () => {
     const response = await fetch(remote, { mode: "cors" });
@@ -146,7 +170,11 @@ function RemoteLoader({ remote }: RemoteLoaderProps) {
   useEffect(() => {
     const asyncDownload = async () => {
       try {
-        await downloadFile();
+        if (packed) {
+          await downloadFile();
+        } else {
+          await streamFile();
+        }
       } catch (e) {
         console.log(e);
         setLoadingError(getErrorMessage(e));

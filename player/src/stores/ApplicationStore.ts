@@ -10,6 +10,8 @@ import {
 class ApplicationStore {
   application: Application | null = null;
   assets: Map<string, Asset> = new Map();
+  packed: boolean = true;
+  remote: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -49,6 +51,21 @@ class ApplicationStore {
 
   public removeAsset(asset: Asset) {
     this.assets.delete(asset.id);
+  }
+
+  /**
+   * This setting is used to determine how the application should be loaded, if it is packed it will be pull down as a
+   * single zip file and loaded into memory, if it is set to false then we'll try to stream information like you'd
+   * use a file link in the browser. This can be used for applications that are very large and thus could use
+   * quite a lot of memory if packed.
+   * @param packed
+   */
+  public setPacked(packed: boolean) {
+    this.packed = packed;
+  }
+
+  public setRemote(remote: string | null) {
+    this.remote = remote;
   }
 }
 

@@ -21,6 +21,9 @@ function Initializer() {
     const params = Object.fromEntries(queryParams.entries());
     if (params.remote) {
       setRemote(params.remote);
+      const isPacked = params.packed === "true";
+      ApplicationStore.setPacked(isPacked);
+      ApplicationStore.setRemote(params.remote);
     }
   }, []);
 

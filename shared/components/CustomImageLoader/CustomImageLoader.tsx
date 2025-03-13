@@ -8,6 +8,7 @@ import { AssetDB } from "@shared/services";
 import { JSONContent } from "@tiptap/react";
 import { observer } from "mobx-react-lite";
 import { AppContext } from "../../../player/src/stores/AppContext";
+import { getErrorMessage } from "../../functions";
 
 interface CustomImageLoaderProps {
   node: JSONContent;
@@ -34,6 +35,7 @@ export const CustomImageLoader = observer(
               console.log(err);
               setImageError(err);
             });
+
             if (image) {
               const url = URL.createObjectURL(image.data);
               setImageData(url);
@@ -43,13 +45,40 @@ export const CustomImageLoader = observer(
           };
           void loadImage();
         } else {
-          const asset = ApplicationStore.assets.get(attrs.id);
-          if (asset) {
-            const url = URL.createObjectURL(asset.data);
-            setImageData(url);
-          } else {
-            setImageError("Image not found");
-          }
+          const loadAsset = async () => {
+            let asset = null;
+            if (ApplicationStore.packed) {
+              asset = ApplicationStore.assets.get(attrs.id);
+              if (asset) {
+                const url = URL.createObjectURL(asset.data);
+                setImageData(url);
+              } else {
+                setImageError("Image not found");
+              }
+            } else if (!ApplicationStore.packed && ApplicationStore.remote) {
+              console.log("attempting image load");
+              try {
+                const assetUrl = `${ApplicationStore.remote}/assets/${attrs.id}.jpeg`;
+                const response = await fetch(assetUrl, { mode: "cors" });
+
+                if (!response.ok) {
+                  throw new Error(
+                    `Failed to load image: ${response.status} ${response.statusText}`,
+                  );
+                }
+
+                // Get the image as a blob
+                const imageBlob = await response.blob();
+                const url = URL.createObjectURL(imageBlob);
+                setImageData(url);
+              } catch (err) {
+                console.log(err);
+                const error = getErrorMessage(err);
+                setImageError(error || "Failed to load image");
+              }
+            }
+          };
+          void loadAsset();
         }
       }
     }, [node]);
